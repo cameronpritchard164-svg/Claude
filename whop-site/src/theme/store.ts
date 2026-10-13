@@ -14,8 +14,9 @@ const FALLBACK = {
     title: 'ClauseGrab™ Inflatable Mrs. Claus Carry Costume',
     description: '',
     gallery_images: [
-      { id: 'file_C3M9zEqTHZlDb', url: 'https://img-v2-prod.whop.com/pm_xXT4ROQuf9Yh-fixkweJbX56o5wk2OHwSLfTYyWw/mb:180000/plain/https://assets-2-prod.whop.com/public/uploads/2026-10-13/411bd0db-95f6-4ab2-94f5-b2098628650e/image.jpg', content_type: 'image/png', width: 1121, height: 631 },
-      { id: 'file_iN3HTRj5wDKg1', url: 'https://img-v2-prod.whop.com/ohGAhGgIThG7LFqI3B0eh9MUBSPopbWKxHhNnvOpJO8/mb:180000/plain/https://assets-2-prod.whop.com/public/uploads/2026-10-13/d668beb0-0f8f-489f-b78b-62c10eca728f/image.png', content_type: 'image/png', width: 1099, height: 618 },
+      { id: 'file_eggIxdADN3ODo', url: 'https://assets-2-prod.whop.com/public/uploads/2026-10-13/9f2798c1-0279-4fac-939f-d492d2e0f375/image.jpg', content_type: 'image/jpeg', width: 1600, height: 1600 },
+      { id: 'file_SIlsZFfZ468nz', url: 'https://assets-2-prod.whop.com/public/uploads/2026-10-13/c2d6c1d8-bf42-458a-8ebf-45ad0b55c8d1/image.jpg', content_type: 'image/jpeg', width: 1280, height: 1280 },
+      { id: 'file_iN3HTRj5wDKg1', url: 'https://assets-2-prod.whop.com/public/uploads/2026-10-13/d668beb0-0f8f-489f-b78b-62c10eca728f/image.png', content_type: 'image/png', width: 1099, height: 618 },
     ],
   },
   plan: {
