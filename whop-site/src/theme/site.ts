@@ -3,6 +3,8 @@
 // the buy buttons send shoppers to the Whop checkout.
 import { createEngine } from './engine'
 import { buildStore, loadWhopData, PRODUCT_HANDLE } from './store'
+import bundleConfig from './bundle.json'
+import bundlePlans from './bundle-plans.json'
 
 const PRODUCT_PATH = `/products/${PRODUCT_HANDLE}`
 
@@ -27,7 +29,11 @@ const checkoutScript = (url) => `
       customElements.define('product-form', class extends HTMLElement {
         connectedCallback() {
           var form = this.querySelector('form');
-          if (form) form.addEventListener('submit', function (e) { e.preventDefault(); window.location.href = CHECKOUT_URL; });
+          if (form) form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            var bundleUrl = window.clausegrabCheckoutUrl && window.clausegrabCheckoutUrl();
+            window.location.href = bundleUrl || CHECKOUT_URL;
+          });
         }
       });
     }
@@ -78,6 +84,7 @@ export async function handleRequest(request: Request): Promise<Response> {
   const html = await engine.renderPage(template, {
     path,
     product: template === 'product' ? store.product : null,
+    bundle: { ...bundleConfig, plans: bundlePlans },
     page_title: title,
     page_description: store.product.title,
   })

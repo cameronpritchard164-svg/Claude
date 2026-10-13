@@ -115,6 +115,12 @@
             "heading": "What's In The Box And How Does It Inflate?",
             "content": "<p>The costume, the battery fan unit with its on/off switch, adjustable straps and the instructions. Load 4 AA batteries (not included), zip in, flick the switch and it stands up in about 60 seconds. One set of batteries runs it for roughly 4 hours.</p>"
           }
+        },
+        "bundle": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": "{% render 'clausegrab-bundle' %}"
+          }
         }
       },
       "block_order": [
@@ -125,6 +131,7 @@
         "salebox",
         "price",
         "variant_picker",
+        "bundle",
         "buy_buttons",
         "payments",
         "review_slider",
@@ -307,15 +314,6 @@
         "speed": 14,
         "colour": "accent"
       }
-    },
-    "preorder": {
-      "type": "mt-preorder",
-      "settings": {
-        "always_show": true,
-        "heading": "BEFORE YOU ORDER (please read)",
-        "extra": "",
-        "text": "<p>Orders are dispatched in 1 to 3 business days and delivery takes 2 to 3 weeks from dispatch, so order by December 1 to have it for Christmas.</p><p>Every costume is checked before it ships, and every order is covered by our 30-day money-back guarantee.</p>"
-      }
     }
   },
   "order": [
@@ -324,7 +322,6 @@
     "reviews",
     "faq",
     "wave",
-    "preorder",
     "newsletter"
   ]
 }

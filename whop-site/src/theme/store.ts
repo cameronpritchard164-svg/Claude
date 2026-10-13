@@ -13,7 +13,10 @@ const FALLBACK = {
   product: {
     title: 'ClauseGrab™ Inflatable Mrs. Claus Carry Costume',
     description: '',
-    gallery_images: [],
+    gallery_images: [
+      { id: 'file_C3M9zEqTHZlDb', url: 'https://img-v2-prod.whop.com/pm_xXT4ROQuf9Yh-fixkweJbX56o5wk2OHwSLfTYyWw/mb:180000/plain/https://assets-2-prod.whop.com/public/uploads/2026-10-13/411bd0db-95f6-4ab2-94f5-b2098628650e/image.jpg', content_type: 'image/png', width: 1121, height: 631 },
+      { id: 'file_iN3HTRj5wDKg1', url: 'https://img-v2-prod.whop.com/ohGAhGgIThG7LFqI3B0eh9MUBSPopbWKxHhNnvOpJO8/mb:180000/plain/https://assets-2-prod.whop.com/public/uploads/2026-10-13/d668beb0-0f8f-489f-b78b-62c10eca728f/image.png', content_type: 'image/png', width: 1099, height: 618 },
+    ],
   },
   plan: {
     initial_price: 99.99,
@@ -21,6 +24,49 @@ const FALLBACK = {
     currency: 'usd',
     purchase_url: `https://whop.com/checkout/${WHOP_PLAN_ID}`,
   },
+}
+
+// Reads width/height from the first bytes of a PNG or JPEG so the gallery
+// keeps each photo's real shape. Results are cached per URL.
+const sizeCache = new Map()
+async function imageSize(url) {
+  if (sizeCache.has(url)) return sizeCache.get(url)
+  let size = null
+  try {
+    const res = await fetch(url, { headers: { range: 'bytes=0-65535' } })
+    const b = new Uint8Array(await res.arrayBuffer())
+    if (b[0] === 0x89 && b[1] === 0x50) {
+      const v = new DataView(b.buffer)
+      size = { width: v.getUint32(16), height: v.getUint32(20) }
+    } else if (b[0] === 0xff && b[1] === 0xd8) {
+      let i = 2
+      while (i + 9 < b.length) {
+        if (b[i] !== 0xff) { i++; continue }
+        const marker = b[i + 1]
+        const len = (b[i + 2] << 8) | b[i + 3]
+        if (marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker)) {
+          size = { height: (b[i + 5] << 8) | b[i + 6], width: (b[i + 7] << 8) | b[i + 8] }
+          break
+        }
+        i += 2 + len
+      }
+    }
+  } catch (e) {
+    console.error('image size failed', url, e)
+  }
+  sizeCache.set(url, size)
+  return size
+}
+
+async function withSizes(product) {
+  const images = (product.gallery_images || []).map((g) => ({ ...g, url: originalOf(g.url) }))
+  await Promise.all(
+    images.map(async (g) => {
+      const size = g.url && (await imageSize(g.url))
+      if (size) Object.assign(g, size)
+    }),
+  )
+  return { ...product, gallery_images: images }
 }
 
 let cached = null
@@ -39,7 +85,7 @@ export async function loadWhopData() {
       getJson(`${API}/products/${WHOP_PRODUCT_ID}`),
       getJson(`${API}/plans/${WHOP_PLAN_ID}`),
     ])
-    cached = { product, plan }
+    cached = { product: await withSizes(product), plan }
     cachedAt = Date.now()
   } catch (e) {
     console.error('Whop fetch failed', e)
@@ -50,10 +96,14 @@ export async function loadWhopData() {
 
 const CURRENCY_SYMBOLS = { usd: '$', aud: 'A$', cad: 'C$', gbp: '£', eur: '€', nzd: 'NZ$' }
 
+// Whop's gallery URLs are size-capped previews wrapping the original upload
+// (".../plain/<original url>"); use the original for a sharp gallery and zoom.
+const originalOf = (url) => (url && url.match(/\/plain\/(https:\/\/.+)$/)?.[1]) || url
+
 function imageFrom(g, i, title) {
-  const src = g.url || g.source_url || g.optimized_url || g.image_url || ''
+  const src = originalOf(g.url || g.source_url || '')
   const width = g.width || 1200
-  const height = g.height || 1500
+  const height = g.height || 1200
   const image = {
     id: g.id || `img${i}`,
     src,
@@ -78,7 +128,9 @@ export function buildStore(data, origin) {
   const compare = toCents(plan.strike_through_initial_price)
   const url = `/products/${PRODUCT_HANDLE}`
 
-  let media = (wp.gallery_images || []).map((g, i) => imageFrom(g, i, wp.title)).filter((m) => m.src)
+  let media = (wp.gallery_images || [])
+    .filter((g) => !g.content_type || g.content_type.startsWith('image/'))
+    .map((g, i) => imageFrom(g, i, wp.title)).filter((m) => m.src)
   if (!media.length) media = [imageFrom({ url: '/images/placeholder.svg', width: 1200, height: 1500 }, 0, wp.title)]
 
   const variant = {

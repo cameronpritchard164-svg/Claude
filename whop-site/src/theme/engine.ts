@@ -340,8 +340,16 @@ export function createEngine(store) {
       block_order: data.block_order || [],
     }
     // Shopify exposes global objects (settings, shop, product…) inside snippets too.
-    const globals = ctx ? { ...ctx.getAll() } : baseScope()
-    delete globals.section
+    // `section` is visible to snippets rendered from the section, as on Shopify.
+    const globals = { ...(ctx ? ctx.getAll() : baseScope()), section }
+    // Settings of type "liquid" (Custom Liquid blocks) are themselves Liquid.
+    for (const block of blocks) {
+      const bdef = (schema.blocks || []).find((x) => x.type === block.type) || {}
+      for (const d of bdef.settings || []) {
+        if (d.type === 'liquid' && block.settings[d.id])
+          block.settings[d.id] = await liquid.parseAndRender(block.settings[d.id], { section, block }, { globals })
+      }
+    }
     const html = await liquid.parseAndRender(src, { section }, { globals })
     const tag = schema.tag || 'div'
     const cls = ['shopify-section', extraClass, schema.class].filter(Boolean).join(' ')
