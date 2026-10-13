@@ -40,6 +40,7 @@ for (const tier of bundle.tiers) {
       '--initial_price', String(price),
       '--unlimited_stock',
       '--visibility', 'quick_link',
+      '--adaptive_pricing_enabled=false',
       '--title', title,
       '--description', description,
       '--internal_notes', description,

@@ -270,7 +270,13 @@
             "text": "“Wore it to our street Christmas party. Your real hands are free so you can hold a drink and shake hands. Four hours on one set of batteries and it never sagged.”",
             "name": "Travis M.",
             "location": "Knoxville, TN",
-            "verified": true
+            "verified": true,
+            "image": {
+              "src": "/images/review-1.webp",
+              "width": 900,
+              "height": 900,
+              "alt": "Customer wearing the ClauseGrab costume outside a house lit for Christmas"
+            }
           }
         },
         "r2": {
@@ -280,7 +286,13 @@
             "text": "“Costume, fan, straps, instructions. Four batteries in and it stood up next to the tree in about a minute. The little husband in his Christmas pyjamas is way more detailed than I expected for an inflatable.”",
             "name": "Cody R.",
             "location": "Grand Rapids, MI",
-            "verified": true
+            "verified": true,
+            "image": {
+              "src": "/images/review-2.webp",
+              "width": 900,
+              "height": 900,
+              "alt": "ClauseGrab costume packed in its delivery box with the fan"
+            }
           }
         },
         "r3": {
@@ -290,7 +302,13 @@
             "text": "“Walked into Christmas lunch deadpan with Mrs. Claus carrying me and my wife had to hold on to the table to stay standing. The grandkids would not leave me alone all afternoon.”",
             "name": "Dale H.",
             "location": "Billings, MT",
-            "verified": true
+            "verified": true,
+            "image": {
+              "src": "/images/review-3.webp",
+              "width": 900,
+              "height": 900,
+              "alt": "Friends laughing at the ClauseGrab costume at a Christmas party"
+            }
           }
         }
       },
