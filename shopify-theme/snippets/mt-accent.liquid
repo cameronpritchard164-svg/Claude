@@ -1,0 +1,82 @@
+{%- comment -%} One accent colour plus a secondary. scheme-4 is the bottom slab, scheme-5 the secondary slab. {%- endcomment -%}
+{%- assign mt_a = settings.mt_accent -%}
+{%- assign mt_b = settings.mt_accent2 -%}
+{%- capture mt_rgb -%}{{ mt_a.red }},{{ mt_a.green }},{{ mt_a.blue }}{%- endcapture -%}
+{%- capture mt_rgb2 -%}{{ mt_b.red }},{{ mt_b.green }},{{ mt_b.blue }}{%- endcapture -%}
+
+{%- comment -%} Text colour on a coloured slab: auto by brightness, or forced. {%- endcomment -%}
+{%- assign mode = settings.mt_text_mode -%}
+{%- assign a_bright = mt_a | color_brightness -%}
+{%- assign b_bright = mt_b | color_brightness -%}
+{%- if mode == 'white' -%}
+  {%- assign a_fg = '255,255,255' -%}{%- assign a_fg_hex = '#FFFFFF' -%}
+  {%- assign b_fg = '255,255,255' -%}{%- assign b_fg_hex = '#FFFFFF' -%}
+{%- elsif mode == 'dark' -%}
+  {%- assign a_fg = '18,18,18' -%}{%- assign a_fg_hex = '#121212' -%}
+  {%- assign b_fg = '18,18,18' -%}{%- assign b_fg_hex = '#121212' -%}
+{%- else -%}
+  {%- if a_bright > 150 -%}{%- assign a_fg = '18,18,18' -%}{%- assign a_fg_hex = '#121212' -%}
+  {%- else -%}{%- assign a_fg = '255,255,255' -%}{%- assign a_fg_hex = '#FFFFFF' -%}{%- endif -%}
+  {%- if b_bright > 150 -%}{%- assign b_fg = '18,18,18' -%}{%- assign b_fg_hex = '#121212' -%}
+  {%- else -%}{%- assign b_fg = '255,255,255' -%}{%- assign b_fg_hex = '#FFFFFF' -%}{%- endif -%}
+{%- endif -%}
+
+{%- comment -%} Which colour the bottom slab (scheme-4) uses. {%- endcomment -%}
+{%- if settings.mt_slab_colour == 'secondary' -%}
+  {%- assign slab = mt_b -%}{%- assign slab_rgb = mt_rgb2 -%}{%- assign slab_fg = b_fg -%}
+{%- else -%}
+  {%- assign slab = mt_a -%}{%- assign slab_rgb = mt_rgb -%}{%- assign slab_fg = a_fg -%}
+{%- endif -%}
+
+{%- style -%}
+  :root {
+    --mt-accent: {{ mt_a }};
+    --mt-accent-text: {{ a_fg_hex }};
+    --mt-accent-rgb: {{ mt_rgb }};
+    --mt-accent-2: {{ mt_b }};
+    --mt-accent-2-text: {{ b_fg_hex }};
+    --mt-accent-2-rgb: {{ mt_rgb2 }};
+    --mt-star: {{ settings.mt_star }};
+  }
+  :root, .color-scheme-1, .color-scheme-2, .color-scheme-3 {
+    --color-button: {{ mt_rgb }};
+    --color-button-text: {{ a_fg }};
+    --color-badge-background: {{ mt_rgb }};
+    --color-badge-foreground: {{ a_fg }};
+    --color-badge-border: {{ mt_rgb }};
+  }
+  .color-scheme-5 {
+    --color-background: {{ mt_rgb2 }};
+    --gradient-background: {{ mt_b }};
+    --color-foreground: {{ b_fg }};
+    --color-button: {{ b_fg }};
+    --color-button-text: {{ mt_rgb2 }};
+    --color-secondary-button: {{ mt_rgb2 }};
+    --color-secondary-button-text: {{ b_fg }};
+    --color-link: {{ b_fg }};
+    --color-badge-background: {{ mt_rgb2 }};
+    --color-badge-foreground: {{ b_fg }};
+    --color-badge-border: {{ mt_rgb2 }};
+    --payment-terms-background-color: {{ mt_b }};
+  }
+  .color-scheme-4 {
+    --color-background: {{ slab_rgb }};
+    --gradient-background: {{ slab }};
+    --color-foreground: {{ slab_fg }};
+    --color-button: {{ slab_fg }};
+    --color-button-text: {{ slab_rgb }};
+    --color-secondary-button: {{ slab_rgb }};
+    --color-secondary-button-text: {{ slab_fg }};
+    --color-link: {{ slab_fg }};
+    --color-badge-background: {{ slab_rgb }};
+    --color-badge-foreground: {{ slab_fg }};
+    --color-badge-border: {{ slab_rgb }};
+    --payment-terms-background-color: {{ slab }};
+  }
+  .mt-preorder__heading, .mt-preorder__text p { color: rgb({{ slab_fg }}); }
+  {%- if settings.mt_salebar_colour == 'secondary' -%}.mt-salebar { background: {{ mt_b }}; color: {{ b_fg_hex }}; }{%- endif -%}
+  {%- if settings.mt_serif -%}body, .button, .product__title h1, .mt-h, h1, h2, h3, .accordion__title, .mt-salebar, .mt-band { font-family: Georgia, 'Times New Roman', Times, serif; }{%- endif -%}
+  {%- if settings.mt_center_buybox -%}.product__title, .product__title h1 { text-align: center; }{%- endif -%}
+{%- endstyle -%}
+{{ 'mt-theme.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'mt-theme.js' | asset_url }}" defer="defer"></script>
