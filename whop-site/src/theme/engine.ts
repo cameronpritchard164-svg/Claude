@@ -72,6 +72,21 @@ const kwargs = (args) => {
   for (const a of args) if (Array.isArray(a) && a.length === 2 && typeof a[0] === 'string') o[a[0]] = a[1]
   return o
 }
+// HTML produced by tag filters (image_tag, stylesheet_tag…) is already safe:
+// Shopify's `escape` leaves it alone, so ours must too.
+class SafeHtml {
+  constructor(html) {
+    this.html = html
+  }
+  toString() {
+    return this.html
+  }
+  valueOf() {
+    return this.html
+  }
+}
+const safe = (html) => new SafeHtml(html)
+const escapeHtml = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;')
 const escapeAttr = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;')
 const lookup = (key) => key.split('.').reduce((o, k) => (o == null ? undefined : o[k]), locale)
 const shopifyUrl = (v) =>
@@ -232,8 +247,10 @@ export function createEngine(store) {
     for (const k of ['width', 'height', 'loading', 'class', 'sizes', 'id', 'fetchpriority']) {
       if (o[k] !== undefined && o[k] !== null && o[k] !== '') attrs.push(`${k}="${escapeAttr(o[k])}"`)
     }
-    return `<img ${attrs.join(' ')}>`
+    return safe(`<img ${attrs.join(' ')}>`)
   })
+  f('escape', (v) => (v instanceof SafeHtml ? v : escapeHtml(v)))
+  f('escape_once', (v) => (v instanceof SafeHtml ? v : escapeHtml(String(v ?? '').replace(/&(amp|lt|gt|quot|#39);/g, '&$1;'))))
   f('placeholder_svg_tag', (_n, cls) => {
     return `<svg class="${escapeAttr(cls || '')}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 525.5 525.5"><rect width="525.5" height="525.5" fill="#f3f3f3"/><path d="M200 330l50-60 40 45 30-30 50 45H200z" fill="#c9c9c9"/><circle cx="310" cy="220" r="22" fill="#c9c9c9"/></svg>`
   })
