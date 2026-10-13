@@ -10,7 +10,7 @@
             "background": "#FFFFFF",
             "background_gradient": "",
             "text": "#121212",
-            "button": "#F06A9F",
+            "button": "#C8102E",
             "button_label": "#FFFFFF",
             "secondary_button_label": "#121212",
             "shadow": "#121212"
@@ -40,11 +40,11 @@
         },
         "scheme-4": {
           "settings": {
-            "background": "#F06A9F",
+            "background": "#C8102E",
             "background_gradient": "",
             "text": "#FFFFFF",
             "button": "#FFFFFF",
-            "button_label": "#F06A9F",
+            "button_label": "#C8102E",
             "secondary_button_label": "#FFFFFF",
             "shadow": "#121212"
           }
@@ -191,10 +191,10 @@
           }
         }
       },
-      "mt_accent": "#F06A9F",
-      "mt_accent2": "#111111",
+      "mt_accent": "#C8102E",
+      "mt_accent2": "#0F5132",
       "mt_star": "#F5B82E",
-      "mt_store_name": "",
+      "mt_store_name": "ClauseGrab",
       "mt_product_noun": "costume",
       "mt_dispatch_time": "1 to 3 business days",
       "mt_delivery_time": "2 to 3 weeks",

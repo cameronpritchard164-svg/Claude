@@ -8,7 +8,7 @@
         "m1": {
           "type": "message",
           "settings": {
-            "text": "Halloween Sale: 50% Off Ends Soon!"
+            "text": "Christmas Sale: 50% Off Ends Soon!"
           }
         },
         "m2": {
@@ -30,7 +30,7 @@
         "m3"
       ],
       "settings": {
-        "title": "HALLOWEEN SALE!",
+        "title": "CHRISTMAS SALE!",
         "subtitle": "Sale ends in:",
         "end_date": "",
         "utc_offset": "+08:00",

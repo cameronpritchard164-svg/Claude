@@ -2,7 +2,7 @@
 // Renders the original Shopify theme (../../theme) with liquidjs so the site
 // keeps the theme's exact markup and CSS. Shopify-only tags and filters are
 // shimmed here; store data (product, settings, menus) comes from ./store.ts.
-import { Liquid, Tag, Hash, Drop } from 'liquidjs'
+import { Liquid, Tag, Hash } from 'liquidjs'
 
 const themeFiles: Record<string, string> = import.meta.glob(
   ['../../theme/**/*.liquid', '../../theme/**/*.json'],
@@ -19,9 +19,8 @@ const locale = JSON.parse(file('locales/en.default.json'))
 
 // ---------- Colours ----------
 
-export class Color extends Drop {
+export class Color {
   constructor(hex) {
-    super()
     this.hex = hex
     const h = hex.replace('#', '')
     this.red = parseInt(h.slice(0, 2), 16)
@@ -40,6 +39,7 @@ export class Color extends Drop {
 const toColor = (v) => (v instanceof Color ? v : typeof v === 'string' && /^#[0-9a-f]{6}$/i.test(v) ? new Color(v) : v)
 const brightness = (c) => {
   c = toColor(c)
+  if (!c) return 0
   return Math.round((c.red * 299 + c.green * 587 + c.blue * 114) / 1000)
 }
 const shift = (c, pct) => {
@@ -339,8 +339,10 @@ export function createEngine(store) {
       blocks,
       block_order: data.block_order || [],
     }
-    const scope = ctx ? { ...ctx.getAll(), section } : { ...baseScope(), section }
-    const html = await liquid.parseAndRender(src, scope)
+    // Shopify exposes global objects (settings, shop, product…) inside snippets too.
+    const globals = ctx ? { ...ctx.getAll() } : baseScope()
+    delete globals.section
+    const html = await liquid.parseAndRender(src, { section }, { globals })
     const tag = schema.tag || 'div'
     const cls = ['shopify-section', extraClass, schema.class].filter(Boolean).join(' ')
     return `<${tag} id="shopify-section-${id}" class="${cls}">${html}</${tag}>`
@@ -380,7 +382,7 @@ export function createEngine(store) {
       if (s.disabled) continue
       content += await renderSection(s.type, `template--${templateName}__${key}`, s, ctxLike)
     }
-    return liquid.parseAndRender(file('layout/theme.liquid'), { ...scope, content_for_layout: content })
+    return liquid.parseAndRender(file('layout/theme.liquid'), {}, { globals: { ...scope, content_for_layout: content } })
   }
 
   return { renderPage, settings }

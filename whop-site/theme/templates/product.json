@@ -44,13 +44,13 @@
         "salebox": {
           "type": "mt_salebox",
           "settings": {
-            "emoji": "🎃",
-            "title": "HALLOWEEN SALE",
+            "emoji": "🎄",
+            "title": "CHRISTMAS SALE",
             "badge": "50% OFF",
             "ends_label": "Ends in",
             "end_date": "",
             "utc_offset": "+08:00",
-            "text": "Order by October 8 to have it for Halloween. After that it still lands well before Christmas."
+            "text": "Order by December 1 to have it under the tree for Christmas."
           }
         },
         "price": {
@@ -76,11 +76,11 @@
         "review_slider": {
           "type": "mt_review_slider",
           "settings": {
-            "text_1": "“Wore it to our neighbours Halloween party and nobody could talk for a solid minute. The fan stands it up in about a minute and it stayed up all night. Your own legs are her legs so you can actually walk around, dance and get to the snack table in it.”",
+            "text_1": "“Wore it to the work Christmas party and nobody could talk for a solid minute. The fan stands it up in about a minute and it stayed up all night. Your own legs are her legs so you can actually walk around, dance and get to the eggnog in it.”",
             "name_1": "- OH, United States",
-            "text_2": "“Four hours on one set of batteries and it never sagged. My hands were free the whole night so I could hold a drink and shake hands.”",
+            "text_2": "“Four hours on one set of batteries and it never sagged. My hands were free the whole night so I could hold a drink and hand out presents.”",
             "name_2": "- TN, United States",
-            "text_3": "“Everything was in the box, fan, straps and instructions. Up on the kitchen floor in about a minute.”",
+            "text_3": "“Everything was in the box, fan, straps and instructions. Up next to the Christmas tree in about a minute.”",
             "name_3": "- MI, United States"
           }
         },
@@ -89,7 +89,7 @@
           "settings": {
             "icon": "gift",
             "heading": "How Does The Costume Work?",
-            "content": "<p>You step into the wife's legs, so your real legs are her legs, and the fan inflates her body around you. Your head comes out of the little husband's flannel collar and your hands come out of his sleeves, while his stuffed legs dangle in front. It looks like she is carrying you. You can walk, dance and sit down in it.</p>"
+            "content": "<p>You step into Mrs. Claus's legs, so your real legs are her legs, and the fan inflates her big festive body around you. Your head comes out of the little husband's Christmas pyjamas and your hands come out of his sleeves, while his stuffed legs dangle in front. It looks like Mrs. Claus is carrying you. You can walk, dance and sit down in it.</p>"
           }
         },
         "ship": {
@@ -97,7 +97,7 @@
           "settings": {
             "icon": "truck",
             "heading": "How Long Is Shipping?",
-            "content": "<p>Orders are dispatched in 1 to 3 business days and delivery is 2 to 3 weeks from dispatch (please allow up to 30 days), with tracking emailed the moment it ships. Order by October 8 to have it for Halloween. After that it still lands well before Christmas.</p>"
+            "content": "<p>Orders are dispatched in 1 to 3 business days and delivery is 2 to 3 weeks from dispatch (please allow up to 30 days), with tracking emailed the moment it ships. Order by December 1 to have it for Christmas.</p>"
           }
         },
         "fit": {
@@ -187,9 +187,9 @@
         "q1": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "Will it arrive in time for Halloween?",
+            "heading": "Will it arrive in time for Christmas?",
             "icon": "question_mark",
-            "row_content": "<p>Order by October 8. Orders are dispatched in 1 to 3 business days and delivery is 2 to 3 weeks from dispatch, with tracking emailed the moment it ships. After October 8 it still lands well before Christmas.</p>"
+            "row_content": "<p>Order by December 1. Orders are dispatched in 1 to 3 business days and delivery is 2 to 3 weeks from dispatch, with tracking emailed the moment it ships.</p>"
           }
         },
         "q2": {
@@ -197,7 +197,7 @@
           "settings": {
             "heading": "Can I actually move around in it?",
             "icon": "question_mark",
-            "row_content": "<p>Yes. Your real legs are her legs, so you can walk, dance, sit down and get to the snack table. Your hands come out of the husband's sleeves, so you can hold a drink.</p>"
+            "row_content": "<p>Yes. Your real legs are Mrs. Claus's legs, so you can walk, dance, sit down and get to the eggnog. Your hands come out of the husband's sleeves, so you can hold a drink or hand out presents.</p>"
           }
         },
         "q3": {
@@ -205,7 +205,7 @@
           "settings": {
             "heading": "How long do the batteries last?",
             "icon": "question_mark",
-            "row_content": "<p>One set of 4 AA batteries (not included) runs the fan for roughly 4 hours. Bring a spare set for a long night.</p>"
+            "row_content": "<p>One set of 4 AA batteries (not included) runs the fan for roughly 4 hours. Bring a spare set for a long Christmas party.</p>"
           }
         },
         "q4": {
@@ -260,7 +260,7 @@
           "type": "review",
           "settings": {
             "title": "\"Wore it for four hours straight\"",
-            "text": "“Wore it to the backyard Halloween party at ours. Your real hands are free so you can hold a drink and shake hands. Four hours on one set of batteries and it never sagged.”",
+            "text": "“Wore it to our street Christmas party. Your real hands are free so you can hold a drink and shake hands. Four hours on one set of batteries and it never sagged.”",
             "name": "Travis M.",
             "location": "Knoxville, TN",
             "verified": true
@@ -270,7 +270,7 @@
           "type": "review",
           "settings": {
             "title": "\"Everything was in the box, up in a minute\"",
-            "text": "“Costume, fan, straps, instructions. Four batteries in and it stood up on the kitchen floor in about a minute. The little flannel husband is way more detailed than I expected for an inflatable.”",
+            "text": "“Costume, fan, straps, instructions. Four batteries in and it stood up next to the tree in about a minute. The little husband in his Christmas pyjamas is way more detailed than I expected for an inflatable.”",
             "name": "Cody R.",
             "location": "Grand Rapids, MI",
             "verified": true
@@ -280,7 +280,7 @@
           "type": "review",
           "settings": {
             "title": "\"My actual wife could not breathe\"",
-            "text": "“Walked up to the trunk or treat deadpan and she had to hold on to me to stay standing. Kids were dragging their parents back across the car park to look at it.”",
+            "text": "“Walked into Christmas lunch deadpan with Mrs. Claus carrying me and my wife had to hold on to the table to stay standing. The grandkids would not leave me alone all afternoon.”",
             "name": "Dale H.",
             "location": "Billings, MT",
             "verified": true
@@ -314,7 +314,7 @@
         "always_show": true,
         "heading": "BEFORE YOU ORDER (please read)",
         "extra": "",
-        "text": "<p>Orders are dispatched in 1 to 3 business days and delivery takes 2 to 3 weeks from dispatch, so order by October 8 to have it for Halloween.</p><p>Every costume is checked before it ships, and every order is covered by our 30-day money-back guarantee.</p>"
+        "text": "<p>Orders are dispatched in 1 to 3 business days and delivery takes 2 to 3 weeks from dispatch, so order by December 1 to have it for Christmas.</p><p>Every costume is checked before it ships, and every order is covered by our 30-day money-back guarantee.</p>"
       }
     }
   },
