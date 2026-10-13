@@ -2,7 +2,7 @@
   "current": "Master Funnel",
   "presets": {
     "Master Funnel": {
-      "logo_width": 190,
+      "logo_width": 220,
       "customer_account_menu": "customer-account-main-menu",
       "color_schemes": {
         "scheme-1": {
@@ -207,7 +207,21 @@
       "mt_salebar_colour": "secondary",
       "mt_serif": true,
       "mt_center_buybox": true,
-      "mt_tab_x": true
+      "mt_tab_x": true,
+      "logo": {
+        "src": "/images/logo.webp",
+        "width": 1647,
+        "height": 493,
+        "aspect_ratio": 3.340770791075051,
+        "alt": "ClauseGrab"
+      },
+      "favicon": {
+        "src": "/images/favicon.png",
+        "width": 64,
+        "height": 64,
+        "aspect_ratio": 1.0,
+        "alt": "ClauseGrab"
+      }
     }
   }
 }
