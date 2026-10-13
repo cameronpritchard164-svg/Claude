@@ -12,18 +12,18 @@
     },
     {
       "qty": 2,
-      "price": 199.98,
-      "compare": 399.96
+      "price": 182,
+      "compare": 364
     },
     {
       "qty": 3,
-      "price": 299.97,
-      "compare": 599.94
+      "price": 252,
+      "compare": 504
     },
     {
       "qty": 4,
-      "price": 399.96,
-      "compare": 799.92
+      "price": 320,
+      "compare": 640
     }
   ],
   "addons": [
