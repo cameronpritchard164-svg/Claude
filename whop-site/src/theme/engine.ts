@@ -85,6 +85,7 @@ function parseSchema(src) {
 // ---------- Engine ----------
 
 export function createEngine(store) {
+  let posted = new Set()
   const money = (cents) => {
     const n = Number(cents || 0) / 100
     return store.currency_symbol + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
@@ -154,15 +155,19 @@ export function createEngine(store) {
     )
   wrapping('style', () => '<style>', '</style>')
   wrapping('paginate', () => '', '', () => ({ paginate: { pages: 1, current_page: 1, parts: [] } }))
+  // Forms post back to the site (see site.ts); `posted` marks which form
+  // types were just submitted so the theme shows its success message.
+  const formType = (args) => (args.match(/'([^']+)'/) || [])[1]
+  const FORM_ACTIONS = { product: '/cart/add', customer: '/contact', contact: '/contact' }
   wrapping(
     'form',
     (args, h) => {
-      const type = (args.match(/'([^']+)'/) || [])[1]
-      const action = type === 'product' ? '/cart/add' : type === 'customer' ? '/contact#newsletter' : '/'
-      return `<form method="post" action="${action}"${h.id ? ` id="${escapeAttr(h.id)}"` : ''}${h.class ? ` class="${escapeAttr(h.class)}"` : ''} accept-charset="UTF-8" enctype="multipart/form-data"${h.novalidate ? ' novalidate="novalidate"' : ''}>`
+      const type = formType(args)
+      const action = FORM_ACTIONS[type] || '/'
+      return `<form method="post" action="${action}"${h.id ? ` id="${escapeAttr(h.id)}"` : ''}${h.class ? ` class="${escapeAttr(h.class)}"` : ''} accept-charset="UTF-8" enctype="multipart/form-data"${h.novalidate ? ' novalidate="novalidate"' : ''}><input type="hidden" name="form_type" value="${escapeAttr(type)}">`
     },
     '</form>',
-    () => ({ form: { errors: null, 'posted_successfully?': false } }),
+    (args) => ({ form: { errors: null, 'posted_successfully?': posted.has(formType(args)) } }),
   )
 
   // {% section 'name' %} and {% sections 'group' %}
@@ -376,6 +381,7 @@ export function createEngine(store) {
 
   // Render a page template (e.g. 'product') inside layout/theme.liquid.
   async function renderPage(templateName, extra = {}) {
+    posted = new Set(extra.posted_forms || [])
     const tpl = store.applyOverrides(`templates/${templateName}.json`, JSON.parse(file(`templates/${templateName}.json`)))
     const scope = {
       ...baseScope(),
@@ -388,7 +394,7 @@ export function createEngine(store) {
     for (const key of tpl.order) {
       const s = tpl.sections[key]
       if (s.disabled) continue
-      content += await renderSection(s.type, `template--${templateName}__${key}`, s, ctxLike)
+      content += await renderSection(s.type, `template--${templateName.replace(/[^a-z0-9]/gi, "-")}__${key}`, s, ctxLike)
     }
     return liquid.parseAndRender(file('layout/theme.liquid'), {}, { globals: { ...scope, content_for_layout: content } })
   }

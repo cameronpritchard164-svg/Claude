@@ -8,7 +8,7 @@
 
 {%- if product -%}
 <style>
-  .bb{--bb-red:var(--mt-accent,#C8102E);--bb-navy:var(--mt-accent-2,#0F5132);--bb-ink:#121212;--bb-grey:#F4F4F6;--bb-row:#E4E6E3;--bb-line:#D7D7D7;font-family:inherit;margin:14px 0 18px}
+  .bb{--bb-red:var(--mt-accent,#C8102E);--bb-navy:var(--mt-accent-2,#0F5132);--bb-ink:#121212;--bb-grey:#F4F4F6;--bb-row:#EBEBEE;--bb-check:#3A3A3D;--bb-line:#D7D7D7;font-family:inherit;margin:14px 0 18px}
   .bb *{box-sizing:border-box}
   .bb-head{display:flex;align-items:center;gap:12px;margin:0 0 12px;font-family:Georgia,"Times New Roman",serif;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--bb-ink)}
   .bb-head:before,.bb-head:after{content:"";flex:1;height:1px;background:var(--bb-line)}
@@ -27,26 +27,27 @@
   .bb-body{display:none;border-top:1px solid #ececec;border-radius:0 0 8px 8px;overflow:hidden}
   .bb-tier.is-on .bb-body{display:block}
   .bb-prod{display:flex;align-items:center;gap:16px;padding:10px 16px 14px;background:#fff}
-  .bb-prod img{width:60px;height:72px;object-fit:contain}
+  .bb-prod img{width:72px;height:72px;object-fit:contain;flex:0 0 72px}
   .bb-prod-name{font-family:Georgia,"Times New Roman",serif;font-size:18px;color:var(--bb-ink)}
   .bb-prod-qty{font-size:13px;color:#555;margin-top:2px}
-  .bb-addon{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--bb-row);border-top:3px solid #fff;cursor:pointer}
-  .bb-check{display:flex !important;width:26px;height:26px;border-radius:4px;background:#fff;border:1px solid #bbb;flex:0 0 26px;align-items:center;justify-content:center}
-  .bb-check i{display:block;width:8px;height:13px;border:solid transparent;border-width:0 3px 3px 0;transform:rotate(45deg);margin-top:-3px}
-  .bb-addon.is-on .bb-check{background:var(--bb-navy);border-color:var(--bb-navy)}
+  .bb-addon{display:flex;align-items:center;gap:10px;padding:6px 12px;background:var(--bb-row);border-top:2px solid #fff;cursor:pointer}
+  .bb-check{display:flex !important;width:22px;height:22px;border-radius:4px;background:#fff;border:1px solid #bbb;flex:0 0 22px;align-items:center;justify-content:center}
+  .bb-check i{display:block;width:7px;height:11px;border:solid transparent;border-width:0 3px 3px 0;transform:rotate(45deg);margin-top:-3px}
+  .bb-addon.is-on .bb-check{background:var(--bb-check);border-color:var(--bb-check)}
   .bb-addon.is-on .bb-check i{border-color:#fff}
-  .bb-addon img{width:52px;height:52px;object-fit:contain;flex:0 0 52px}
-  .bb-addon-text{flex:1;font-family:Georgia,"Times New Roman",serif;font-size:16px;line-height:1.25;color:var(--bb-ink)}
-  .bb-pill{display:inline-block;margin-top:6px;background:var(--bb-red);color:#fff;font-family:inherit;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:4px 9px;border-radius:3px}
+  .bb-addon img{width:46px;height:46px;object-fit:contain;flex:0 0 46px}
+  .bb-addon-text{flex:1;font-family:Georgia,"Times New Roman",serif;font-size:14.5px;line-height:1.2;color:var(--bb-ink)}
+  .bb-pill{display:inline-block;margin-top:4px;background:var(--bb-red);color:#fff;font-family:inherit;font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:3px}
   .bb-addon-price{text-align:right}
-  .bb-addon-price .bb-price{font-size:17px;color:var(--bb-red)}
+  .bb-addon-price .bb-price{font-size:15px;color:var(--bb-red)}
+  .bb-addon-price .bb-compare{font-size:12px}
   .bb-pop{position:absolute;right:-6px;top:-13px;background:var(--bb-red);color:#fff;font-family:inherit;font-size:13px;line-height:1;padding:7px 12px;border-radius:4px;transform:rotate(-2deg);box-shadow:0 1px 4px rgba(0,0,0,.18);z-index:2;white-space:nowrap}
   .bb-best{position:relative;background:var(--bb-red);border-radius:14px;padding:26px;margin:0 0 12px}
   .bb-best .bb-tier{margin:0;border-radius:8px;border-color:transparent;position:relative;z-index:1}
   .bb-best .bb-tier.is-on{border-color:var(--bb-navy)}
   .bb-ribbon{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
   .bb-ribbon text{fill:#fff;font-family:Arial,Helvetica,sans-serif;font-weight:800;font-size:12px;letter-spacing:.14em}
-  @media (max-width:600px){.bb-tier-name{font-size:17px}.bb-price{font-size:18px}.bb-addon-text{font-size:15px}.bb-prod-name{font-size:16px}}
+  @media (max-width:600px){.bb-tier-name{font-size:17px}.bb-price{font-size:18px}.bb-addon-text{font-size:14px}.bb-prod-name{font-size:16px}}
 </style>
 
 <div class="bb" id="bb-{{ section.id }}" data-plans='{{ bundle.plans | json | escape }}'>
@@ -92,7 +93,7 @@
       {%- assign addon_compare = addon.compare | times: 100 | round -%}
       <div class="bb-addon" data-addon="{{ addon.key }}">
         <div class="bb-check"><i></i></div>
-        <img src="{{ addon.image }}" alt="{{ addon.title | escape }}" width="52" height="52" loading="lazy">
+        <img src="{{ addon.image }}" alt="{{ addon.title | escape }}" width="46" height="46" loading="lazy">
         <div class="bb-addon-text">+ Add {{ addon.title }}{% if addon.badge != blank %}<br><span class="bb-pill">{{ addon.badge }}</span>{% endif %}</div>
         <div class="bb-addon-price">
           <div class="bb-price">{{ addon_price | money }}</div>

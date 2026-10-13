@@ -34,7 +34,7 @@
       "price": 8,
       "compare": 12,
       "badge": "",
-      "image": "/images/addon-guarantee.svg"
+      "image": "/images/addon-guarantee.webp"
     },
     {
       "key": "protection",
@@ -43,7 +43,7 @@
       "price": 8,
       "compare": 12,
       "badge": "",
-      "image": "/images/addon-shipping.svg"
+      "image": "/images/addon-shipping.webp"
     },
     {
       "key": "mystery",
@@ -52,7 +52,7 @@
       "price": 48,
       "compare": 79,
       "badge": "US$79+ INSIDE",
-      "image": "/images/addon-mystery.svg"
+      "image": "/images/addon-mystery.webp"
     }
   ]
 }
