@@ -31,8 +31,8 @@
       "key": "guarantee",
       "title": "30-Day Money-Back Guarantee",
       "short": "MBG",
-      "price": 8,
-      "compare": 12,
+      "price": 4.99,
+      "compare": 7.99,
       "badge": "",
       "image": "/images/addon-guarantee.webp"
     },
@@ -40,8 +40,8 @@
       "key": "protection",
       "title": "Shipping Protection",
       "short": "Ship",
-      "price": 8,
-      "compare": 12,
+      "price": 4.99,
+      "compare": 7.99,
       "badge": "",
       "image": "/images/addon-shipping.webp"
     },
@@ -49,9 +49,9 @@
       "key": "mystery",
       "title": "Claus Mystery Box",
       "short": "Box",
-      "price": 48,
-      "compare": 79,
-      "badge": "US$79+ INSIDE",
+      "price": 32.99,
+      "compare": 54.99,
+      "badge": "US$55+ INSIDE",
       "image": "/images/addon-mystery.webp"
     }
   ]
