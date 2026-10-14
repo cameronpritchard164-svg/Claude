@@ -53,7 +53,7 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:16p
 .tip .r{display:flex;justify-content:space-between;gap:12px}.tip .r b{font-variant-numeric:tabular-nums}
 .tip .r i{display:inline-block;width:12px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle}
 .bars{display:grid;gap:8px}
-.bar{display:grid;grid-template-columns:minmax(90px,1.2fr) 4fr auto;gap:10px;align-items:center;font-size:.82rem}
+.bar{display:grid;grid-template-columns:minmax(130px,1.4fr) 3fr auto;gap:10px;align-items:center;font-size:.82rem}
 .bar .n{color:var(--text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .bar .t{height:14px;background:var(--surface-2);border-radius:4px;overflow:hidden}
 .bar .f{height:100%;border-radius:0 4px 4px 0;background:var(--seq)}
@@ -95,7 +95,7 @@ export function lineChart(id, labels, series, { fmt = num, height = 220 } = {}) 
   const yMax = niceMax(max)
   const x = (i) => (n <= 1 ? L + (W - L - R) / 2 : L + ((W - L - R) * i) / (n - 1))
   const y = (v) => T + (H - T - B) * (1 - v / yMax)
-  const ticks = [0, 0.25, 0.5, 0.75, 1].map((f) => f * yMax)
+  const ticks = tickVals(yMax)
   const grid = ticks.map((v) => `<line class="grid" x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}"/><text class="ax" x="${L - 6}" y="${y(v) + 4}" text-anchor="end">${compact(v)}</text>`).join('')
   const every = Math.max(1, Math.ceil(n / 8))
   const xl = labels.map((lb, i) => (i % every === 0 || i === n - 1 ? `<text class="ax" x="${x(i)}" y="${H - 8}" text-anchor="middle">${esc(lb)}</text>` : '')).join('')
@@ -122,7 +122,7 @@ export function columnChart(id, labels, series, { fmt = num, height = 220 } = {}
   const slot = (W - L - R) / Math.max(1, n)
   const bw = Math.min(24, (slot - 6) / k - 2)
   const y = (v) => T + (H - T - B) * (1 - v / yMax)
-  const ticks = [0, 0.25, 0.5, 0.75, 1].map((f) => f * yMax)
+  const ticks = tickVals(yMax)
   const grid = ticks.map((v) => `<line class="grid" x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}"/><text class="ax" x="${L - 6}" y="${y(v) + 4}" text-anchor="end">${compact(v)}</text>`).join('')
   const every = Math.max(1, Math.ceil(n / 8))
   const xl = labels.map((lb, i) => (i % every === 0 || i === n - 1 ? `<text class="ax" x="${L + slot * i + slot / 2}" y="${H - 8}" text-anchor="middle">${esc(lb)}</text>` : '')).join('')
@@ -144,6 +144,9 @@ export function columnChart(id, labels, series, { fmt = num, height = 220 } = {}
   const legend = series.length > 1 ? `<div class="legend">${series.map((s) => `<span><i class="sq" style="background:${s.color}"></i>${esc(s.name)}</span>`).join('')}</div>` : ''
   return `${legend}<div class="chart" data-chart='${esc(JSON.stringify(data))}'><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(series.map((s) => s.name).join(', '))}">${grid}${xl}${bars}<line class="xh" x1="0" x2="0" y1="${T}" y2="${H - B}" stroke="var(--text-2)" stroke-width="1" opacity="0"/>${hits}</svg><div class="tip"></div></div>${tableView(labels, series, fmt)}`
 }
+
+// Clean axis ticks: whole numbers when the range is small.
+const tickVals = (yMax) => (yMax <= 5 ? [...Array(Math.round(yMax) + 1)].map((_, i) => i) : [0, 0.25, 0.5, 0.75, 1].map((f) => f * yMax))
 
 const niceMax = (m) => {
   const p = Math.pow(10, Math.floor(Math.log10(m)))
