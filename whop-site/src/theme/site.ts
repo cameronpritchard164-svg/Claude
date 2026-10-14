@@ -6,6 +6,7 @@ import { buildStore, loadWhopData, PRODUCT_HANDLE } from './store'
 import bundleConfig from './bundle.json'
 import bundlePlans from './bundle-plans.json'
 import { checkoutPage, returnPage, CHECKOUT_PATH } from './checkout'
+import { policyPages } from './policies'
 import { env } from 'cloudflare:workers'
 
 const PRODUCT_PATH = `/products/${PRODUCT_HANDLE}`
@@ -63,10 +64,7 @@ const htmlResponse = (html, status = 200) =>
   })
 
 const CONTACT_PATH = '/pages/contact'
-const POLICY_PAGES = {
-  '/pages/refund-policy': { title: 'Refund policy', handle: 'refund-policy', url: '/pages/refund-policy', content: '<p>Every order is covered by our 30-day money-back guarantee. If you are not happy with your costume, contact us within 30 days of delivery and we will arrange a return for a refund.</p><p>If your costume or fan arrives damaged or develops a fault, send us a photo and we will replace it or refund you, whichever you prefer.</p><p>To start a return or claim, use the <a href="/pages/contact">contact page</a> with your order number.</p>' },
-  '/pages/shipping': { title: 'Shipping', handle: 'shipping', url: '/pages/shipping', content: '<p>Shipping is free worldwide. Orders are dispatched in 1 to 3 business days and delivery takes 2 to 3 weeks from dispatch (please allow up to 30 days). A tracking number is emailed the moment your order ships.</p><p>Every costume is checked before it leaves our warehouse. Questions about an order? Use the <a href="/pages/contact">contact page</a>.</p>' },
-}
+const POLICY_PAGES = policyPages({ store: 'ClauseGrab', product: 'ClauseGrab inflatable costume', season: 'Christmas' })
 const SHOP_PATHS = ['/', '/collections/all', '/collections', '/products', '/shop']
 
 // Contact and newsletter submissions are written to the site's server logs
