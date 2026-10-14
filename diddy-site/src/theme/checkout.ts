@@ -102,7 +102,6 @@ export function checkoutPage({ key, store, product, origin, accent, logo, protec
 <div class="wrap">
 <div class="left">
   <p class="crumbs"><a href="/products/${esc(product.handle)}">Cart</a> › <b>Information</b> › <b>Shipping</b> › <b>Payment</b></p>
-  <div class="sec" id="express"></div>
   <div class="sec"><h2>Shipping method</h2><div class="ship">${shipping
     .map(
       (s, i) => `<label class="${i === 0 ? 'on' : ''}${s.price == null ? ' off' : ''}"><input type="radio" name="ship" value="${esc(s.key)}" ${i === 0 ? 'checked' : ''} ${s.price == null ? 'disabled' : ''}><span><span class="t">${esc(s.label)}</span><span class="d">${esc(s.eta)}</span></span><span class="p">${s.price ? money(s.price) : 'FREE'}</span></label>`,
@@ -141,7 +140,6 @@ export function checkoutPage({ key, store, product, origin, accent, logo, protec
       attribution: { source: 'website' },
       onComplete: (r) => { if (r && r.result === 'payment') location.href = RETURN + '&payment=' + encodeURIComponent(r.paymentId) + '&status=succeeded'; },
     });
-    try { checkout.create('expressCheckout').mount('#express'); } catch (e) { console.log('no express element', e); }
     const el = checkout.create('checkout');
     el.mount('#whop-checkout');
   } catch (e) {
