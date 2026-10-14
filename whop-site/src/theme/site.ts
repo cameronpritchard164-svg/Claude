@@ -154,7 +154,8 @@ async function addressSuggest(url: URL): Promise<Response> {
       const street = p.street || (p.type === 'street' || p.type === 'house' ? p.name : '')
       if (!street) continue
       const line1 = [p.housenumber, street].filter(Boolean).join(' ')
-      const city = p.city || p.town || p.village || p.district || p.county || ''
+      const suburbFirst = cc === 'AU' || cc === 'NZ'
+      const city = (suburbFirst ? p.district || p.locality || p.suburb : '') || p.city || p.town || p.village || p.district || p.county || ''
       const item = { line1, city, state: p.state || '', postcode: p.postcode || '', label: [line1, city, p.state, p.postcode].filter(Boolean).join(', ') }
       if (seen.has(item.label)) continue
       seen.add(item.label)
