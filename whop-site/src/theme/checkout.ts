@@ -108,15 +108,10 @@ export function checkoutPage({ key, store, product, origin, accent, logo, protec
 <div class="wrap">
 <div class="left">
   <p class="crumbs"><a href="/products/${esc(product.handle)}">Cart</a> › <b>Information</b> › <b>Shipping</b> › <b>Payment</b></p>
-  <div class="sec"><h2>Shipping method</h2><div class="ship">${shipping
-    .map(
-      (s, i) => `<label class="${i === 0 ? 'on' : ''}${s.price == null ? ' off' : ''}"><input type="radio" name="ship" value="${esc(s.key)}" ${i === 0 ? 'checked' : ''} ${s.price == null ? 'disabled' : ''}><span><span class="t">${esc(s.label)}</span><span class="d">${esc(s.eta)}</span></span><span class="p">${s.price ? money(s.price) : 'FREE'}</span></label>`,
-    )
-    .join('')}</div><p class="note">Tracking number emailed the moment it ships.</p></div>
-  <div class="sec"><h2>Contact, delivery &amp; payment</h2><p class="note" style="margin:0 0 10px">All transactions are secure and encrypted.</p><div class="accept">${ICONS}</div><div class="loading" id="loading">Loading secure checkout…</div><div id="whop-checkout"></div></div>
+  <div class="sec"><p class="note" style="margin:0 0 8px">All transactions are secure and encrypted.</p><div class="accept">${ICONS}</div><div class="loading" id="loading">Loading secure checkout…</div><div id="whop-checkout"></div></div>
   <p class="links"><a href="/pages/refund-policy">Refund policy</a><a href="/pages/shipping">Shipping</a><a href="/pages/contact">Contact</a></p>
 </div>
-<div class="right"><details class="sum" open><summary class="msum"><span>Show order summary</span><b>${money(total)}</b></summary>
+<div class="right"><details class="sum" open><summary class="msum"><span>Order summary</span><b>${money(total)}</b></summary>
   <div class="item"><div class="img"><img src="${esc(img)}" alt=""><b>${tier.qty}</b></div><div><div class="n">${esc(product.title)}</div><div class="v">${tier.qty > 1 ? `${tier.qty} costumes · ` : ''}One adult size · Christmas Sale 50% off</div></div><div class="pr">${money(tier.price)}<span class="was">${money(tier.compare)}</span></div></div>
   ${protection ? `<div class="prot"><label class="top"><input type="checkbox" id="prot" ${hasProt ? 'checked' : ''} data-on="${esc(keyWith(protectionKey, true))}" data-off="${esc(keyWith(protectionKey, false))}">Yes, add package protection</label><div class="body"><img src="${esc(protection.image)}" alt=""><div><div class="k">${esc(store)} package protection</div><div class="pp">${money(protection.price)} <span class="was" style="display:inline;color:#9a9a9a;text-decoration:line-through;font-size:.8rem;font-weight:400">${money(protection.compare)}</span></div><div class="pd">Full coverage if your order is lost, stolen or damaged in transit.</div></div></div></div>` : ''}
   ${otherAddons.length ? `<div class="addons">${otherAddons.map((a) => { const on = addons.some((x) => x.key === a.key); return `<label><input type="checkbox" ${on ? 'checked' : ''} data-on="${esc(keyWith(a.key, true))}" data-off="${esc(keyWith(a.key, false))}">${esc(a.title)}<span class="ap">${money(a.price)}</span></label>` }).join('')}</div>` : ''}
@@ -139,7 +134,6 @@ export function checkoutPage({ key, store, product, origin, accent, logo, protec
   const go = (k) => { location.href = '${CHECKOUT_PATH}?key=' + encodeURIComponent(k); };
   if (matchMedia('(max-width:959px)').matches) document.querySelector('details.sum')?.removeAttribute('open');
   document.querySelectorAll('input[type=checkbox][data-on]').forEach((c) => c.addEventListener('change', () => go(c.checked ? c.dataset.on : c.dataset.off)));
-  document.querySelectorAll('.ship input').forEach((r) => r.addEventListener('change', () => { document.querySelectorAll('.ship label').forEach((l) => l.classList.toggle('on', l.querySelector('input').checked)); }));
   try {
     const whop = window.WhopElements({ appearance: {
       theme: { appearance: 'light', accentColor: ${JSON.stringify(accent)}, grayColor: 'slate' },
@@ -151,9 +145,15 @@ export function checkoutPage({ key, store, product, origin, accent, logo, protec
         'whop-CheckoutPrice': { display: 'none' },
         'whop-CheckoutPriceContext': { display: 'none' },
         'whop-CheckoutDetailsToggle': { display: 'none' },
+        'whop-CheckoutItemHeadline': { display: 'none' },
+        'whop-CheckoutItemDescription': { display: 'none' },
+        'whop-CheckoutCompanyPurchase': { display: 'none' },
+        'whop-CheckoutCompanyPurchaseCheckbox': { display: 'none' },
         'whop-CheckoutPayButton': { background: '#1773b0', borderRadius: '6px', fontWeight: '600', fontSize: '16px', minHeight: '52px' },
-        'whop-Label': { fontWeight: '500' },
-        'whop-Input': { borderRadius: '6px' },
+        'whop-Label': { fontSize: '19px', fontWeight: '600', color: '#111', marginTop: '6px' },
+        'whop-EmailLabel': { fontSize: '19px', fontWeight: '600', color: '#111' },
+        'whop-CardLabel': { fontSize: '15px', fontWeight: '500', color: '#333' },
+        'whop-Input': { borderRadius: '6px', minHeight: '48px' },
       },
     } });
     const checkout = whop.checkout.create({
