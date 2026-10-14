@@ -5,6 +5,7 @@ import { createEngine } from './engine'
 import { buildStore, loadWhopData, PRODUCT_HANDLE } from './store'
 import bundleConfig from './bundle.json'
 import bundlePlans from './bundle-plans.json'
+import { checkoutPage, returnPage, CHECKOUT_PATH } from './checkout'
 
 const PRODUCT_PATH = `/products/${PRODUCT_HANDLE}`
 
@@ -51,7 +52,7 @@ function finalize(html, store, title) {
     .replace(/<script src="\/assets\/product-form\.js" defer="defer"><\/script>/g, '')
     .replace(/<title>[\s\S]*?<\/title>/, `<title>${title}</title>`)
     .replace('<head>', '<head>' + HEAD_INJECT)
-    .replace('</body>', checkoutScript(store.checkoutUrl) + '</body>')
+    .replace('</body>', checkoutScript(CHECKOUT_PATH + '?key=1:') + '</body>')
 }
 
 const htmlResponse = (html, status = 200) =>
@@ -86,7 +87,14 @@ export async function handleRequest(request: Request): Promise<Response> {
   const store = buildStore(data, url.origin)
   for (const link of store.linklists['main-menu'].links) link.current = link.url === path
 
-  if (path === '/cart' || path === '/checkout') return Response.redirect(store.checkoutUrl, 302)
+  if (path === '/cart') return Response.redirect(new URL(CHECKOUT_PATH + '?key=1:', url.origin).toString(), 302)
+  if (path === CHECKOUT_PATH) {
+    const html = checkoutPage({ key: url.searchParams.get('key') || '1:', store: 'DiddyGrab', product: store.product, origin: url.origin, accent: 'pink', logo: '/images/logo.webp' })
+    if (!html) return Response.redirect(new URL(CHECKOUT_PATH + '?key=1:', url.origin).toString(), 302)
+    return htmlResponse(html)
+  }
+  if (path === CHECKOUT_PATH + '/return')
+    return htmlResponse(returnPage({ store: 'DiddyGrab', logo: '/images/logo.webp', status: url.searchParams.get('status') || '', paymentId: url.searchParams.get('payment') || '', key: url.searchParams.get('key') || '1:' }))
   // No separate home page: the shop is the product page.
   if (SHOP_PATHS.includes(path)) return Response.redirect(new URL(PRODUCT_PATH, url.origin).toString(), 302)
 

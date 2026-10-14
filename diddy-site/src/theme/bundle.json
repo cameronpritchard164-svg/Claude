@@ -54,5 +54,13 @@
       "badge": "",
       "image": "/images/addon-mystery.webp"
     }
+  ],
+  "shipping": [
+    {
+      "key": "free",
+      "label": "Free Shipping",
+      "eta": "Delivers in 2–3 weeks · tracking emailed",
+      "price": 0
+    }
   ]
 }
