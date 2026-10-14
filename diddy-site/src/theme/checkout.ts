@@ -96,6 +96,8 @@ h2{font-family:Georgia,"Times New Roman",serif;font-weight:700;font-size:1.25rem
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 @media(max-width:420px){.row3{grid-template-columns:1fr 1fr}.row3 .field:first-child{grid-column:1/-1}}
 h2{margin-bottom:14px}
+.express{display:none}.express.on{display:block}
+.or{display:flex;align-items:center;gap:12px;margin:18px 0 4px;color:#737373;font-size:.78rem}.or:before,.or:after{content:'';flex:1;height:1px;background:#e6e6e6}
 .paybox{position:relative}
 .bill{display:none;position:absolute;left:0;right:0;bottom:78px;height:98px;margin:0;z-index:2;background:#fff}
 .paybox.ready .bill{display:block}
@@ -221,6 +223,8 @@ const FORM_JS = String.raw`
           'whop-CheckoutDetails': { display: 'none' },
           'whop-CheckoutCollection': { padding: '0' },
           'whop-CheckoutTerms': { display: 'none' },
+          'whop-CheckoutExpress': { display: 'none' },
+          'whop-CheckoutExpressDivider': { display: 'none' },
           'whop-CheckoutTerms + div': { display: 'none' },
           'whop-PaymentBillingBlock': same ? { display: 'none' } : { marginTop: '12px' },
           'whop-CheckoutPayButton': { background: '#1773b0', borderRadius: '6px', fontWeight: '600', fontSize: '16px', minHeight: '52px', marginTop: (BILL_H + BILL_GAP * 2) + 'px' },
@@ -255,6 +259,14 @@ const FORM_JS = String.raw`
     }
   }
   mount();
+  // Apple Pay / Google Pay live in their own row above the form, like Shopify's
+  // express checkout. The wallet sheet collects the shipping address itself.
+  try {
+    const ex = window.WhopElements({ appearance: { theme: { appearance: 'light', accentColor: ACCENT, grayColor: 'slate' }, variables: { '--radius': '6px' }, classes: { 'whop-CheckoutExpressDivider': { display: 'none' }, 'whop-CheckoutExpress': { padding: '0' } } } });
+    const exco = ex.checkout.create({ plan: PLAN, returnUrl: RETURN, attribution: { source: 'website' }, onComplete: (r) => { if (r && r.result === 'payment') location.href = RETURN + '&payment=' + encodeURIComponent(r.paymentId) + '&status=succeeded'; } });
+    exco.create('expressCheckout', { layout: 'auto' }).mount('#express');
+    new ResizeObserver(() => $('expressbox').classList.toggle('on', $('express').offsetHeight > 30)).observe($('express'));
+  } catch (e) { console.error('express', e); }
   // Pressing Order now before the form is done makes Whop show an error in its
   // box (which changes its height); point the shopper at the fields instead.
   let lastH = 0;
@@ -265,22 +277,14 @@ const FORM_JS = String.raw`
   }).observe($('whop-checkout'));
 `
 
-export function checkoutPage({ key, store, product, origin, accent, logo, sale = '50% off', country = '', protectionKey = 'protection' }) {
+export function checkoutPage({ key, store, product, origin, accent, logo, sale = '50% off', country = '' }) {
   const sel = parseKey(key)
   if (!sel.plan) return null
   const { tier, addons, plan } = sel
   const addonTotal = addons.reduce((s, a) => s + a.price, 0)
   const total = round(tier.price + addonTotal)
   const compare = round(tier.compare + addons.reduce((s, a) => s + a.compare, 0))
-  const protection = bundle.addons.find((a) => a.key === protectionKey)
-  const hasProt = addons.some((a) => a.key === protectionKey)
-  const otherAddons = bundle.addons.filter((a) => a.key !== protectionKey)
   const img = product.featured_image?.src || '/images/placeholder.svg'
-  const keyWith = (toggleKey, on) => {
-    const keys = new Set(addons.map((a) => a.key))
-    on ? keys.add(toggleKey) : keys.delete(toggleKey)
-    return `${tier.qty}:${bundle.addons.filter((a) => keys.has(a.key)).map((a) => a.key).join(',')}`
-  }
   const defaultCountry = countries[String(country || '').toUpperCase()] ? String(country).toUpperCase() : 'US'
 
   const field = (id, label, extra = '') => `<div class="field" data-f="${id}"><input id="${id}" placeholder=" " ${extra}><label for="${id}">${esc(label)}</label><p class="ferr"></p></div>`
@@ -289,6 +293,7 @@ export function checkoutPage({ key, store, product, origin, accent, logo, sale =
 <div class="wrap">
 <div class="left">
   <p class="crumbs"><a href="/products/${esc(product.handle)}">Cart</a> › <b>Information</b> › <b>Shipping</b> › <b>Payment</b></p>
+  <div class="sec express" id="expressbox"><h2>Express checkout</h2><div id="express"></div><div class="or"><span>OR</span></div></div>
   <form id="info" novalidate autocomplete="on">
   <div class="sec"><h2>Contact</h2>${field('email', 'Email', 'type="email" autocomplete="email" inputmode="email"')}</div>
   <div class="sec"><h2>Delivery</h2>
@@ -311,8 +316,6 @@ export function checkoutPage({ key, store, product, origin, accent, logo, sale =
 </div>
 <div class="right"><details class="sum" open><summary class="msum"><span>Order summary</span><b>${money(total)}</b></summary>
   <div class="item"><div class="img"><img src="${esc(img)}" alt=""><b>${tier.qty}</b></div><div><div class="n">${esc(product.title)}</div><div class="v">${tier.qty > 1 ? `${tier.qty} costumes · ` : ''}One adult size · ${esc(sale)}</div></div><div class="pr">${money(tier.price)}<span class="was">${money(tier.compare)}</span></div></div>
-  ${protection ? `<div class="prot"><label class="top"><input type="checkbox" id="prot" ${hasProt ? 'checked' : ''} data-on="${esc(keyWith(protectionKey, true))}" data-off="${esc(keyWith(protectionKey, false))}">Yes, add package protection</label><div class="body"><img src="${esc(protection.image)}" alt=""><div><div class="k">${esc(store)} package protection</div><div class="pp">${money(protection.price)} <span class="was" style="display:inline;color:#9a9a9a;text-decoration:line-through;font-size:.8rem;font-weight:400">${money(protection.compare)}</span></div><div class="pd">Full coverage if your order is lost, stolen or damaged in transit.</div></div></div></div>` : ''}
-  ${otherAddons.length ? `<div class="addons">${otherAddons.map((a) => { const on = addons.some((x) => x.key === a.key); return `<label><input type="checkbox" ${on ? 'checked' : ''} data-on="${esc(keyWith(a.key, true))}" data-off="${esc(keyWith(a.key, false))}">${esc(a.title)}<span class="ap">${money(a.price)}</span></label>` }).join('')}</div>` : ''}
   <div class="tot">
     <div class="r"><span>Subtotal</span><span>${money(tier.price)}</span></div>
     ${addons.map((a) => `<div class="r"><span>${esc(a.title)}</span><span>${money(a.price)}</span></div>`).join('')}
@@ -333,9 +336,7 @@ export function checkoutPage({ key, store, product, origin, accent, logo, sale =
   const ACCENT = ${JSON.stringify(accent)};
   const DEFAULT_COUNTRY = ${JSON.stringify(defaultCountry)};
   const FALLBACK = ${JSON.stringify(plan.url)};
-  const go = (k) => { location.href = '${CHECKOUT_PATH}?key=' + encodeURIComponent(k); };
   if (matchMedia('(max-width:959px)').matches) document.querySelector('details.sum')?.removeAttribute('open');
-  document.querySelectorAll('input[type=checkbox][data-on]').forEach((c) => c.addEventListener('change', () => go(c.checked ? c.dataset.on : c.dataset.off)));
   ${FORM_JS}
 </script>`
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Checkout – ${esc(store)}</title><meta name="robots" content="noindex"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><style>:root{--accent:${esc(accentHex(accent))}}${CSS}</style></head><body>${body}</body></html>`
