@@ -86,6 +86,7 @@ export async function handleRequest(request: Request): Promise<Response> {
   const url = new URL(request.url)
   const path = url.pathname.replace(/\/+$/, '') || '/'
   if (request.method === 'POST' && path === '/contact') return handleForm(request, url)
+  if (path === '/api/address') return addressSuggest(url)
 
   const data = await loadWhopData()
   const store = buildStore(data, url.origin)
@@ -131,4 +132,38 @@ export async function handleRequest(request: Request): Promise<Response> {
   const res = htmlResponse(finalize(html, store, title))
   if (posted_forms.length) res.headers.set('cache-control', 'no-store')
   return res
+}
+
+// Address suggestions for the checkout, from the OpenStreetMap-based Photon
+// geocoder, limited to the country the shopper picked.
+async function addressSuggest(url: URL): Promise<Response> {
+  const q = (url.searchParams.get('q') || '').trim().slice(0, 120)
+  const cc = (url.searchParams.get('cc') || '').toUpperCase().slice(0, 2)
+  const json = (body: unknown, age = 86400) => new Response(JSON.stringify(body), { headers: { 'content-type': 'application/json', 'cache-control': `public, max-age=${age}` } })
+  if (q.length < 3) return json([])
+  try {
+    const r = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(q)}&limit=12&lang=en`, { headers: { 'user-agent': 'GrabCo checkout (contact@grabco.store)' } })
+    if (!r.ok) return json([], 60)
+    const data: any = await r.json()
+    const out: any[] = []
+    const seen = new Set<string>()
+    for (const f of data.features || []) {
+      const p = f.properties || {}
+      if (cc && String(p.countrycode || '').toUpperCase() !== cc) continue
+      if (!p.street && !p.name) continue
+      const street = p.street || (p.type === 'street' || p.type === 'house' ? p.name : '')
+      if (!street) continue
+      const line1 = [p.housenumber, street].filter(Boolean).join(' ')
+      const city = p.city || p.town || p.village || p.district || p.county || ''
+      const item = { line1, city, state: p.state || '', postcode: p.postcode || '', label: [line1, city, p.state, p.postcode].filter(Boolean).join(', ') }
+      if (seen.has(item.label)) continue
+      seen.add(item.label)
+      out.push(item)
+      if (out.length >= 6) break
+    }
+    return json(out)
+  } catch (e) {
+    console.error('address suggest failed', e)
+    return json([], 60)
+  }
 }

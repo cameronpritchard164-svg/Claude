@@ -57,6 +57,9 @@ h2{font-weight:700;font-size:1.3rem;margin:0 0 14px;color:#121212}
 .field input:focus+label,.field input:not(:placeholder-shown)+label,.field select+label{top:8px;font-size:12px}
 .field.bad input,.field.bad select{border-color:#d72c0d;box-shadow:0 0 0 1px #d72c0d}
 .ferr{display:none;margin:4px 0 0;font-size:.8rem;color:#d72c0d}.field.bad .ferr{display:block}
+.sugg{position:absolute;left:0;right:0;top:100%;z-index:5;background:#fff;border:1px solid #dedede;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.12);margin-top:4px;overflow:hidden}
+.sugg button{display:block;width:100%;text-align:left;background:none;border:0;border-top:1px solid #f0f0f0;padding:12px 14px;font:inherit;font-size:15px;color:#121212;cursor:pointer}.sugg button:first-child{border-top:0}.sugg button:hover,.sugg button.hi{background:#f0f5fd}
+.sugg small{display:block;color:#737373;font-size:12.5px;margin-top:2px}
 .field .ico{position:absolute;right:16px;top:17px;color:#555;pointer-events:none}
 .field.ico-in input{padding-right:48px}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.row3{display:grid;grid-template-columns:1fr 1fr;gap:10px}.row3 .field:first-child{grid-column:1/-1}
@@ -119,7 +122,8 @@ const FORM_JS = String.raw`
   sel.value = DEFAULT_COUNTRY;
   const STATE_LABEL = { state: 'State', province: 'Province', county: 'County', area: 'Area', emirate: 'Emirate', island: 'Island', parish: 'Parish', prefecture: 'Prefecture', oblast: 'Oblast', department: 'Department', do_si: 'Province' };
   const rec = () => C[sel.value] || ['', 'A', '', '', '', ''];
-  const fieldHtml = (id, label, extra) => '<div class="field" data-f="' + id + '"><input id="' + id + '" placeholder=" " ' + (extra || '') + '><label for="' + id + '">' + label + '</label><p class="ferr"></p></div>';
+  const NAMES2 = { city: 'city', state: 'province', postal: 'zip' };
+  const fieldHtml = (id, label, extra) => '<div class="field" data-f="' + id + '"><input id="' + id + '" name="' + (NAMES2[id] || id) + '" placeholder=" " ' + (extra || '') + '><label for="' + id + '">' + label + '</label><p class="ferr"></p></div>';
   const STATE_LABEL_AU = 'State/territory';
   function renderCSZ() {
     const r = rec(), cc = sel.value, keep = { city: $('city')?.value || '', state: $('state')?.value || '', postal: $('postal')?.value || '' };
@@ -128,7 +132,7 @@ const FORM_JS = String.raw`
       if (ch === 'C') parts.push(fieldHtml('city', cc === 'AU' || cc === 'NZ' ? 'Suburb' : 'City', 'autocomplete="shipping address-level2"'));
       if (ch === 'S') {
         const label = cc === 'AU' ? STATE_LABEL_AU : (STATE_LABEL[r[4]] || 'Region');
-        if (r[6]) parts.push('<div class="field sel" data-f="state"><select id="state" autocomplete="shipping address-level1"><option value=""></option>' + r[6].map((k, i) => '<option value="' + k.replace(/"/g, '&quot;') + '">' + String(r[7][i] || k).replace(/</g, '&lt;') + '</option>').join('') + '</select><label for="state">' + label + '</label><p class="ferr"></p></div>');
+        if (r[6]) parts.push('<div class="field sel" data-f="state"><select id="state" name="province" autocomplete="shipping address-level1"><option value=""></option>' + r[6].map((k, i) => '<option value="' + k.replace(/"/g, '&quot;') + '">' + String(r[7][i] || k).replace(/</g, '&lt;') + '</option>').join('') + '</select><label for="state">' + label + '</label><p class="ferr"></p></div>');
         else parts.push(fieldHtml('state', label, 'autocomplete="shipping address-level1"'));
       }
       if (ch === 'Z') parts.push(fieldHtml('postal', r[5] === 'zip' ? 'ZIP code' : r[5] === 'pin' ? 'PIN code' : r[5] === 'eircode' ? 'Eircode' : (cc === 'AU' || cc === 'GB' || cc === 'NZ') ? 'Postcode' : 'Postal code', 'autocomplete="shipping postal-code"'));
@@ -267,6 +271,54 @@ const FORM_JS = String.raw`
       host.innerHTML = '<div class="err">The secure checkout could not load. <a href="' + FALLBACK + '">Continue to checkout here</a>.</div>';
     }
   }
+
+  // ---- address suggestions (filtered to the chosen country) ------------------
+  const line1 = $('line1'), sugg = $('sugg');
+  let sTimer = null, sSeq = 0, sItems = [], sHi = -1;
+  const closeSugg = () => { sugg.hidden = true; sugg.innerHTML = ''; sItems = []; sHi = -1; };
+  const pick = (it) => {
+    line1.value = it.line1;
+    if ($('city') && it.city) $('city').value = it.city;
+    if ($('postal') && it.postcode) $('postal').value = it.postcode;
+    const st = $('state');
+    if (st && it.state) {
+      if (st.tagName === 'SELECT') { const r = rec(); const i = (r[7] || []).findIndex((n) => n.toLowerCase() === it.state.toLowerCase()); const j = (r[6] || []).findIndex((k) => k.toLowerCase() === it.state.toLowerCase()); st.value = i >= 0 ? r[6][i] : j >= 0 ? r[6][j] : st.value; }
+      else st.value = it.state;
+    }
+    closeSugg();
+    ['line1', 'city', 'state', 'postal'].forEach((id) => touched.add(id));
+    validate(touched);
+    schedule();
+    ($('line2') || line1).focus();
+  };
+  const render = () => {
+    if (!sItems.length) return closeSugg();
+    sugg.innerHTML = sItems.map((it, i) => '<button type="button" class="' + (i === sHi ? 'hi' : '') + '" data-i="' + i + '">' + it.line1.replace(/</g, '&lt;') + '<small>' + [it.city, it.state, it.postcode].filter(Boolean).join(', ').replace(/</g, '&lt;') + '</small></button>').join('');
+    sugg.hidden = false;
+  };
+  line1.addEventListener('input', () => {
+    clearTimeout(sTimer);
+    const q = line1.value.trim();
+    if (q.length < 3) return closeSugg();
+    sTimer = setTimeout(async () => {
+      const seq = ++sSeq;
+      try {
+        const r = await fetch('/api/address?q=' + encodeURIComponent(q) + '&cc=' + encodeURIComponent(sel.value));
+        const items = await r.json();
+        if (seq !== sSeq || document.activeElement !== line1) return;
+        sItems = Array.isArray(items) ? items : []; sHi = -1; render();
+      } catch (e) { closeSugg(); }
+    }, 250);
+  });
+  line1.addEventListener('keydown', (e) => {
+    if (sugg.hidden) return;
+    if (e.key === 'ArrowDown') { e.preventDefault(); sHi = Math.min(sItems.length - 1, sHi + 1); render(); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); sHi = Math.max(0, sHi - 1); render(); }
+    else if (e.key === 'Enter' && sHi >= 0) { e.preventDefault(); pick(sItems[sHi]); }
+    else if (e.key === 'Escape') closeSugg();
+  });
+  sugg.addEventListener('mousedown', (e) => { const b = e.target.closest('button'); if (b) { e.preventDefault(); pick(sItems[Number(b.dataset.i)]); } });
+  line1.addEventListener('blur', () => setTimeout(closeSugg, 150));
   mount();
   // Apple Pay / Google Pay live in their own row above the form, like Shopify's
   // express checkout. The wallet sheet collects the shipping address itself.
@@ -288,7 +340,8 @@ export function checkoutPage({ key, store, product, origin, accent, logo, sale =
   const img = product.featured_image?.src || '/images/placeholder.svg'
   const defaultCountry = countries[String(country || '').toUpperCase()] ? String(country).toUpperCase() : 'US'
 
-  const field = (id, label, extra = '') => `<div class="field" data-f="${id}"><input id="${id}" placeholder=" " ${extra}><label for="${id}">${esc(label)}</label><p class="ferr"></p></div>`
+  const NAMES = { email: 'email', first: 'first_name', last: 'last_name', line1: 'address1', line2: 'address2', phone: 'phone', city: 'city', state: 'province', postal: 'zip' }
+  const field = (id, label, extra = '') => `<div class="field" data-f="${id}"><input id="${id}" name="${NAMES[id] || id}" placeholder=" " ${extra}><label for="${id}">${esc(label)}</label><p class="ferr"></p></div>`
 
   const body = `<header class="hdr"><a class="logo" href="/"><img src="${esc(logo)}" alt="${esc(store)}"></a><a class="bag" href="/products/${esc(product.handle)}" aria-label="Cart">${BAG}</a></header>
 <div class="wrap">
@@ -307,13 +360,13 @@ export function checkoutPage({ key, store, product, origin, accent, logo, sale =
   <form id="info" novalidate autocomplete="on">
   <div class="sec"><h2>Contact</h2>${field('email', 'Email', 'type="email" autocomplete="email" inputmode="email"')}<label class="chk"><input type="checkbox" id="news">Email me with news and offers</label></div>
   <div class="sec"><h2>Delivery</h2>
-    <div class="field sel" data-f="country"><select id="country" autocomplete="shipping country"></select><label for="country">Country/Region</label><p class="ferr"></p></div>
+    <div class="field sel" data-f="country"><select id="country" name="country" autocomplete="shipping country"></select><label for="country">Country/Region</label><p class="ferr"></p></div>
     ${field('first', 'First name', 'autocomplete="shipping given-name"')}
     ${field('last', 'Last name', 'autocomplete="shipping family-name"')}
-    <div class="field ico-in" data-f="line1"><input id="line1" placeholder=" " autocomplete="shipping address-line1"><label for="line1">Address</label>${SEARCH}<p class="ferr"></p></div>
+    <div class="field ico-in" data-f="line1"><input id="line1" name="address1" placeholder=" " autocomplete="shipping address-line1" aria-autocomplete="list"><label for="line1">Address</label>${SEARCH}<div class="sugg" id="sugg" hidden></div><p class="ferr"></p></div>
     ${field('line2', 'Apartment, suite, etc. (optional)', 'autocomplete="shipping address-line2"')}
     <div class="row3" id="csz"></div>
-    <div class="field ico-in" data-f="phone"><input id="phone" placeholder=" " type="tel" autocomplete="shipping tel" inputmode="tel"><label for="phone">Phone (optional)</label>${HELP}<p class="ferr"></p></div>
+    <div class="field ico-in" data-f="phone"><input id="phone" name="phone" placeholder=" " type="tel" autocomplete="shipping tel" inputmode="tel"><label for="phone">Phone (optional)</label>${HELP}<p class="ferr"></p></div>
   </div>
   </form>
   <div class="sec"><h2>Shipping method</h2><div class="shipbox" id="shipbox"><p class="shipwait" style="margin:0">Enter your shipping address to view available shipping methods.</p><div class="shipopt"><span>Free shipping</span><b>FREE</b></div></div></div>
