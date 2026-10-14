@@ -41,13 +41,14 @@ h2{font-family:Georgia,"Times New Roman",serif;font-weight:700;font-size:1.25rem
 .ship label:first-child{border-top:0}
 .ship label.on{background:#fbf0f4;box-shadow:inset 0 0 0 1px var(--accent)}
 .ship input{width:18px;height:18px;accent-color:var(--accent);margin:0}
-.ship .t{font-size:.95rem}.ship .d{font-size:.82rem;color:#737373;margin-top:2px}
+.ship .t{display:block;font-size:.95rem}.ship .d{display:block;font-size:.82rem;color:#737373;margin-top:2px}
 .ship .p{font-weight:600;font-size:.95rem}
 .ship label.off{opacity:.45;cursor:not-allowed}
 .note{font-size:.82rem;color:#737373;margin:8px 0 0}
 #whop-checkout{min-height:420px}
 .loading{font-size:.85rem;color:#737373;padding:18px 0}
-.sum{position:sticky;top:20px}
+.sum{position:sticky;top:20px}.msum{display:none;list-style:none;cursor:pointer;justify-content:space-between;align-items:center;font-size:.92rem;padding:4px 0 14px}.msum::-webkit-details-marker{display:none}.msum span:after{content:' ▾';color:#737373}
+@media(max-width:959px){.wrap{display:flex;flex-direction:column}.right{order:-1;border-bottom:1px solid #e6e6e6;padding:14px 20px}.sum{position:static}.msum{display:flex}.sum:not([open]) .msum{padding-bottom:0}}
 .item{display:grid;grid-template-columns:72px 1fr auto;gap:14px;align-items:center;padding:0 0 18px;border-bottom:1px solid #e6e6e6;margin-bottom:18px}
 .item .img{position:relative;width:72px;height:72px;border:1px solid #e6e6e6;border-radius:8px;background:#fff;overflow:hidden}
 .item .img img{width:100%;height:100%;object-fit:contain}
@@ -107,9 +108,9 @@ export function checkoutPage({ key, store, product, origin, accent, logo, protec
       (s, i) => `<label class="${i === 0 ? 'on' : ''}${s.price == null ? ' off' : ''}"><input type="radio" name="ship" value="${esc(s.key)}" ${i === 0 ? 'checked' : ''} ${s.price == null ? 'disabled' : ''}><span><span class="t">${esc(s.label)}</span><span class="d">${esc(s.eta)}</span></span><span class="p">${s.price ? money(s.price) : 'FREE'}</span></label>`,
     )
     .join('')}</div><p class="note">Tracking number emailed the moment it ships.</p></div>
-  <div class="sec"><h2>Contact &amp; payment</h2><p class="note" style="margin:0 0 12px">All transactions are secure and encrypted. Shipping address is collected below.</p><div id="whop-checkout"><div class="loading">Loading secure checkout…</div></div></div>
+  <div class="sec"><h2>Contact &amp; payment</h2><p class="note" style="margin:0 0 12px">All transactions are secure and encrypted. Shipping address is collected below.</p><div class="loading" id="loading">Loading secure checkout…</div><div id="whop-checkout"></div></div>
 </div>
-<div class="right"><div class="sum">
+<div class="right"><details class="sum" open><summary class="msum"><span>Show order summary</span><b>${money(total)}</b></summary>
   <div class="item"><div class="img"><img src="${esc(img)}" alt=""><b>${tier.qty}</b></div><div><div class="n">${esc(product.title)}</div><div class="v">${tier.qty > 1 ? `${tier.qty} costumes · ` : ''}One adult size · Halloween Sale 50% off</div></div><div class="pr">${money(tier.price)}<span class="was">${money(tier.compare)}</span></div></div>
   ${protection ? `<div class="prot"><label class="top"><input type="checkbox" id="prot" ${hasProt ? 'checked' : ''} data-on="${esc(keyWith(protectionKey, true))}" data-off="${esc(keyWith(protectionKey, false))}">Yes, add package protection</label><div class="body"><img src="${esc(protection.image)}" alt=""><div><div class="k">${esc(store)} package protection</div><div class="pp">${money(protection.price)} <span class="was" style="display:inline;color:#9a9a9a;text-decoration:line-through;font-size:.8rem;font-weight:400">${money(protection.compare)}</span></div><div class="pd">Full coverage if your order is lost, stolen or damaged in transit.</div></div></div></div>` : ''}
   ${otherAddons.length ? `<div class="addons">${otherAddons.map((a) => { const on = addons.some((x) => x.key === a.key); return `<label><input type="checkbox" ${on ? 'checked' : ''} data-on="${esc(keyWith(a.key, true))}" data-off="${esc(keyWith(a.key, false))}">${esc(a.title)}<span class="ap">${money(a.price)}</span></label>` }).join('')}</div>` : ''}
@@ -123,13 +124,14 @@ export function checkoutPage({ key, store, product, origin, accent, logo, protec
   </div>
   <div class="trust"><span>30-day money-back guarantee</span><span>Secure checkout by Whop</span><span>Ships in 1–3 business days</span></div>
   <p class="foot">Prices in USD. Questions? <a href="/pages/contact">Contact us</a>.</p>
-</div></div>
+</details></div>
 </div>
 <script src="https://cdn.whop.com/elements/amber/elements.js" data-whop-elements></script>
 <script type="module">
   const PLAN = ${JSON.stringify(plan.id)};
   const RETURN = ${JSON.stringify(origin + CHECKOUT_PATH + '/return?key=' + encodeURIComponent(sel.key))};
   const go = (k) => { location.href = '${CHECKOUT_PATH}?key=' + encodeURIComponent(k); };
+  if (matchMedia('(max-width:959px)').matches) document.querySelector('details.sum')?.removeAttribute('open');
   document.querySelectorAll('input[type=checkbox][data-on]').forEach((c) => c.addEventListener('change', () => go(c.checked ? c.dataset.on : c.dataset.off)));
   document.querySelectorAll('.ship input').forEach((r) => r.addEventListener('change', () => { document.querySelectorAll('.ship label').forEach((l) => l.classList.toggle('on', l.querySelector('input').checked)); }));
   try {
@@ -140,8 +142,9 @@ export function checkoutPage({ key, store, product, origin, accent, logo, protec
       attribution: { source: 'website' },
       onComplete: (r) => { if (r && r.result === 'payment') location.href = RETURN + '&payment=' + encodeURIComponent(r.paymentId) + '&status=succeeded'; },
     });
-    const el = checkout.create('checkout');
+    const el = checkout.create('checkout', { onReady: () => document.getElementById('loading')?.remove() });
     el.mount('#whop-checkout');
+    setTimeout(() => document.getElementById('loading')?.remove(), 8000);
   } catch (e) {
     console.error(e);
     document.getElementById('whop-checkout').innerHTML = '<div class="err">The secure checkout could not load. <a href="' + ${JSON.stringify(plan.url)} + '">Continue to checkout here</a>.</div>';
