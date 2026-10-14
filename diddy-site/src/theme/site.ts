@@ -136,13 +136,24 @@ export async function handleRequest(request: Request): Promise<Response> {
 
 // Address suggestions for the checkout, from the OpenStreetMap-based Photon
 // geocoder, limited to the country the shopper picked.
+// Rough country bounding boxes (minLon,minLat,maxLon,maxLat) so the geocoder
+// only searches the shopper's country, which makes it answer fast.
+const BBOX: Record<string, string> = {
+  AU: '112.9,-43.8,153.7,-9.1', NZ: '166.4,-47.4,178.6,-34.3', US: '-125.0,24.4,-66.9,49.4', CA: '-141.0,41.7,-52.6,83.1',
+  GB: '-8.7,49.8,1.8,60.9', IE: '-10.6,51.4,-5.4,55.4', DE: '5.9,47.3,15.0,55.1', FR: '-5.2,41.3,9.6,51.1', ES: '-9.4,36.0,3.4,43.8',
+  IT: '6.6,36.6,18.5,47.1', NL: '3.3,50.7,7.2,53.6', BE: '2.5,49.5,6.4,51.5', SE: '11.0,55.3,24.2,69.1', NO: '4.5,57.9,31.1,71.2',
+  DK: '8.0,54.5,12.7,57.8', FI: '20.5,59.7,31.6,70.1', CH: '5.9,45.8,10.5,47.8', AT: '9.5,46.4,17.2,49.0', PT: '-9.5,36.9,-6.2,42.2',
+  PL: '14.1,49.0,24.2,55.0', SG: '103.6,1.2,104.1,1.5', JP: '122.9,24.0,146.0,45.6', KR: '124.6,33.1,131.0,38.6', MX: '-118.4,14.5,-86.7,32.7',
+  BR: '-74.0,-33.8,-34.7,5.3', AR: '-73.6,-55.1,-53.6,-21.8', ZA: '16.4,-34.9,32.9,-22.1', IN: '68.1,6.7,97.4,35.5', AE: '51.5,22.6,56.4,26.1',
+}
 async function addressSuggest(url: URL): Promise<Response> {
   const q = (url.searchParams.get('q') || '').trim().slice(0, 120)
   const cc = (url.searchParams.get('cc') || '').toUpperCase().slice(0, 2)
   const json = (body: unknown, age = 86400) => new Response(JSON.stringify(body), { headers: { 'content-type': 'application/json', 'cache-control': `public, max-age=${age}` } })
   if (q.length < 3) return json([])
   try {
-    const r = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(q)}&limit=12&lang=en`, { headers: { 'user-agent': 'GrabCo checkout (contact@grabco.store)' } })
+    const bbox = BBOX[cc] ? `&bbox=${BBOX[cc]}` : ''
+    const r = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(q)}&limit=10&lang=en${bbox}`, { headers: { 'user-agent': 'GrabCo checkout (contact@grabco.store)' } })
     if (!r.ok) return json([], 60)
     const data: any = await r.json()
     const out: any[] = []
