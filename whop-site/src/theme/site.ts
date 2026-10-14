@@ -93,12 +93,12 @@ export async function handleRequest(request: Request): Promise<Response> {
 
   if (path === '/cart') return Response.redirect(new URL(CHECKOUT_PATH + '?key=1:', url.origin).toString(), 302)
   if (path === CHECKOUT_PATH) {
-    const html = checkoutPage({ key: url.searchParams.get('key') || '1:', store: 'ClauseGrab', product: store.product, origin: url.origin, accent: 'red', logo: '/images/logo.webp' })
+    const html = checkoutPage({ key: url.searchParams.get('key') || '1:', store: 'ClauseGrab', product: store.product, origin: url.origin, accent: 'red', logo: '/images/logo.webp', sale: 'Christmas Sale 50% off', country: request.headers.get('cf-ipcountry') || '' })
     if (!html) return Response.redirect(new URL(CHECKOUT_PATH + '?key=1:', url.origin).toString(), 302)
     return htmlResponse(html)
   }
   if (path === CHECKOUT_PATH + '/return')
-    return htmlResponse(returnPage({ store: 'ClauseGrab', logo: '/images/logo.webp', status: url.searchParams.get('status') || '', paymentId: url.searchParams.get('payment') || '', key: url.searchParams.get('key') || '1:' }))
+    return htmlResponse(returnPage({ store: 'ClauseGrab', accent: 'red', logo: '/images/logo.webp', status: url.searchParams.get('status') || '', paymentId: url.searchParams.get('payment') || '', key: url.searchParams.get('key') || '1:' }))
   // No separate home page: the shop is the product page.
   if (SHOP_PATHS.includes(path)) return Response.redirect(new URL(PRODUCT_PATH, url.origin).toString(), 302)
 

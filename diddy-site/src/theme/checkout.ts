@@ -5,6 +5,7 @@
 // exactly what the plans define.
 import bundle from './bundle.json'
 import plans from './bundle-plans.json'
+import countries from './countries.json'
 
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 const money = (n) => '$' + Number(n || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
@@ -82,14 +83,165 @@ h2{font-family:Georgia,"Times New Roman",serif;font-weight:700;font-size:1.25rem
 .trust span:before{content:"✓ ";color:#1a7f37}
 .foot{font-size:.72rem;color:#9a9a9a;margin-top:28px;border-top:1px solid #e6e6e6;padding-top:14px}
 .err{background:#fff2f2;border:1px solid #f2c2c2;color:#9a1b1b;border-radius:6px;padding:12px 14px;font-size:.88rem;margin:0 0 16px}
+
+.field{position:relative;margin:0 0 12px}
+.field input,.field select{width:100%;min-height:52px;padding:20px 12px 6px;border:1px solid #d9d9d9;border-radius:6px;background:#fff;font:inherit;font-size:16px;color:#121212;outline:none;appearance:none;-webkit-appearance:none}
+.field select{padding-right:36px}
+.field.sel:after{content:'';position:absolute;right:14px;top:22px;width:8px;height:8px;border-right:1.5px solid #555;border-bottom:1.5px solid #555;transform:rotate(45deg);pointer-events:none}
+.field label{position:absolute;left:12px;top:16px;font-size:15px;color:#737373;pointer-events:none;transition:all .12s}
+.field input:focus,.field select:focus{border-color:#1773b0;box-shadow:0 0 0 1px #1773b0}
+.field input:focus+label,.field input:not(:placeholder-shown)+label,.field select+label{top:7px;font-size:11.5px}
+.field.bad input,.field.bad select{border-color:#d72c0d;box-shadow:0 0 0 1px #d72c0d}
+.ferr{display:none;margin:4px 0 0;font-size:.78rem;color:#d72c0d}.field.bad .ferr{display:block}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+@media(max-width:420px){.row3{grid-template-columns:1fr 1fr}.row3 .field:first-child{grid-column:1/-1}}
+h2{margin-bottom:14px}
+.bill{margin:0 0 16px}.bill label{padding:13px 16px}.bill .t{font-size:.92rem}
+.wait{border:1px solid #d9d9d9;border-radius:6px;padding:18px 16px;background:#fafafa}
+.wait p{margin:0 0 14px;font-size:.88rem;color:#555}
+.wait button{width:100%;min-height:52px;border:0;border-radius:6px;background:#1773b0;color:#fff;font:inherit;font-weight:600;font-size:16px;opacity:.45}
+.hide{display:none!important}
 `
 
-export function checkoutPage({ key, store, product, origin, accent, logo, protectionKey = 'protection' }) {
+const FORM_JS = String.raw`
+  // ---- Shopify-style contact + delivery form -------------------------------
+  const C = window.__countries;
+  const $ = (id) => document.getElementById(id);
+  const form = $('info');
+  let names; try { names = new Intl.DisplayNames(['en'], { type: 'region' }); } catch (e) {}
+  const cname = (cc) => { try { return (names && names.of(cc)) || cc; } catch (e) { return cc; } };
+  const list = Object.keys(C).map((cc) => [cc, cname(cc)]).sort((a, b) => a[1].localeCompare(b[1]));
+  const sel = $('country');
+  sel.innerHTML = list.map(([cc, n]) => '<option value="' + cc + '">' + n.replace(/</g, '&lt;') + '</option>').join('');
+  sel.value = DEFAULT_COUNTRY;
+  const STATE_LABEL = { state: 'State', province: 'Province', county: 'County', area: 'Area', emirate: 'Emirate', island: 'Island', parish: 'Parish', prefecture: 'Prefecture', oblast: 'Oblast', department: 'Department', do_si: 'Province' };
+  const rec = () => C[sel.value] || ['', 'A', '', '', '', ''];
+  const fieldHtml = (id, label, extra) => '<div class="field" data-f="' + id + '"><input id="' + id + '" placeholder=" " ' + (extra || '') + '><label for="' + id + '">' + label + '</label><p class="ferr"></p></div>';
+  function renderCSZ() {
+    const r = rec(), cc = sel.value, keep = { city: $('city')?.value || '', state: $('state')?.value || '', postal: $('postal')?.value || '' };
+    const parts = [];
+    for (const ch of r[1]) {
+      if (ch === 'C') parts.push(fieldHtml('city', cc === 'AU' || cc === 'NZ' ? 'Suburb' : 'City', 'autocomplete="shipping address-level2"'));
+      if (ch === 'S') {
+        const label = STATE_LABEL[r[4]] || 'Region';
+        if (r[6]) parts.push('<div class="field sel" data-f="state"><select id="state" autocomplete="shipping address-level1"><option value=""></option>' + r[6].map((k, i) => '<option value="' + k.replace(/"/g, '&quot;') + '">' + String(r[7][i] || k).replace(/</g, '&lt;') + '</option>').join('') + '</select><label for="state">' + label + '</label><p class="ferr"></p></div>');
+        else parts.push(fieldHtml('state', label, 'autocomplete="shipping address-level1"'));
+      }
+      if (ch === 'Z') parts.push(fieldHtml('postal', r[5] === 'zip' ? 'ZIP code' : r[5] === 'pin' ? 'PIN code' : r[5] === 'eircode' ? 'Eircode' : (cc === 'AU' || cc === 'GB' || cc === 'NZ') ? 'Postcode' : 'Postal code', 'autocomplete="shipping postal-code"'));
+    }
+    const box = $('csz');
+    box.innerHTML = parts.join('');
+    box.className = 'row' + Math.max(1, parts.length);
+    if ($('city')) $('city').value = keep.city;
+    if ($('state')) $('state').value = keep.state;
+    if ($('postal')) $('postal').value = keep.postal;
+  }
+  renderCSZ();
+  sel.addEventListener('change', () => { renderCSZ(); schedule(); });
+
+  const v = (id) => ($(id)?.value || '').trim();
+  const setErr = (id, msg) => { const f = form.querySelector('[data-f="' + id + '"]'); if (!f) return; f.classList.toggle('bad', !!msg); f.querySelector('.ferr').textContent = msg || ''; };
+  function validate(show) {
+    const r = rec(), req = r[0] || '', errs = {};
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v('email'))) errs.email = 'Enter a valid email';
+    if (!v('first')) errs.first = 'Enter a first name';
+    if (!v('last')) errs.last = 'Enter a last name';
+    if (!v('line1')) errs.line1 = 'Enter an address';
+    if ($('city') && req.includes('C') && !v('city')) errs.city = 'Enter a ' + ($('city').labels[0].textContent.toLowerCase());
+    if ($('state') && req.includes('S') && !v('state')) errs.state = 'Select a ' + ($('state').labels[0].textContent.toLowerCase());
+    if ($('postal')) {
+      const pl = $('postal').labels[0].textContent;
+      if (req.includes('Z') && !v('postal')) errs.postal = 'Enter a ' + pl;
+      else if (v('postal') && r[2]) { try { if (!new RegExp('^(?:' + r[2] + ')$', 'i').test(v('postal'))) errs.postal = 'Enter a valid ' + pl; } catch (e) {} }
+    }
+    if (v('phone') && v('phone').replace(/[^\d]/g, '').length < 6) errs.phone = 'Enter a valid phone number';
+    for (const id of ['email', 'first', 'last', 'line1', 'city', 'state', 'postal', 'phone']) if (show === true || (show && show.has(id))) setErr(id, errs[id]);
+    return Object.keys(errs).length === 0;
+  }
+  const touched = new Set();
+  form.addEventListener('focusout', (e) => { if (e.target.id) { touched.add(e.target.id); validate(touched); } });
+  form.addEventListener('input', (e) => { if (e.target.id && touched.has(e.target.id)) validate(touched); });
+  form.addEventListener('change', () => schedule());
+  form.addEventListener('submit', (e) => e.preventDefault());
+
+  // ---- Whop embedded checkout, mounted once the form is complete -------------
+  const values = () => {
+    const r = rec(), cc = sel.value, up = (x) => x;
+    const address = { country: cc, line1: v('line1') };
+    if (v('line2')) address.line2 = v('line2');
+    if ($('city') && v('city')) address.city = v('city');
+    if ($('state') && v('state')) address.state = v('state');
+    if ($('postal') && v('postal')) address.postal_code = v('postal');
+    const name = (v('first') + ' ' + v('last')).trim();
+    return { email: v('email').toLowerCase(), name, phone: v('phone'), address, billSame: form.ownerDocument.querySelector('input[name=bill]:checked').value === 'same' };
+  };
+  let mounted = null, timer = null;
+  const schedule = () => { clearTimeout(timer); timer = setTimeout(mount, 400); };
+  document.querySelectorAll('input[name=bill]').forEach((r) => r.addEventListener('change', () => { document.querySelectorAll('#bill label').forEach((l) => l.classList.toggle('on', l.querySelector('input').checked)); schedule(); }));
+  function mount() {
+    if (!validate(touched)) return;
+    const d = values(), sig = JSON.stringify(d);
+    if (mounted && mounted.sig === sig) return;
+    if (mounted) { try { mounted.el.destroy(); } catch (e) {} try { mounted.co.destroy(); } catch (e) {} mounted = null; }
+    const host = $('whop-checkout');
+    host.innerHTML = '<div class="loading" id="loading">Loading secure checkout…</div>';
+    $('pay-wait').classList.add('hide');
+    try {
+      const whop = window.WhopElements({ appearance: {
+        theme: { appearance: 'light', accentColor: ACCENT, grayColor: 'slate' },
+        variables: { '--radius': '6px' },
+        classes: {
+          'whop-CheckoutSeller': { display: 'none' },
+          'whop-CheckoutSummaryHead': { display: 'none' },
+          'whop-CheckoutItem': { display: 'none' },
+          'whop-CheckoutPrice': { display: 'none' },
+          'whop-CheckoutPriceContext': { display: 'none' },
+          'whop-CheckoutDetailsToggle': { display: 'none' },
+          'whop-CheckoutItemHeadline': { display: 'none' },
+          'whop-CheckoutItemDescription': { display: 'none' },
+          'whop-CheckoutCompanyPurchase': { display: 'none' },
+          'whop-CheckoutCompanyPurchaseCheckbox': { display: 'none' },
+          'whop-CheckoutRequirements': { display: 'none' },
+          'whop-CheckoutDetails': { display: 'none' },
+          'whop-CheckoutCollection': { padding: '0' },
+          'whop-PaymentBillingBlock': d.billSame ? { display: 'none' } : { marginTop: '12px' },
+          'whop-CheckoutPayButton': { background: '#1773b0', borderRadius: '6px', fontWeight: '600', fontSize: '16px', minHeight: '52px' },
+          'whop-Label': { fontSize: '15px', fontWeight: '500', color: '#333' },
+          'whop-CardLabel': { fontSize: '15px', fontWeight: '500', color: '#333' },
+          'whop-Input': { borderRadius: '6px', minHeight: '48px' },
+        },
+      } });
+      const co = whop.checkout.create({
+        plan: PLAN,
+        returnUrl: RETURN,
+        attribution: { source: 'website' },
+        metadata: { customer_name: d.name, phone: d.phone || '', ship_to: [d.address.line1, d.address.line2, d.address.city, d.address.state, d.address.postal_code, d.address.country].filter(Boolean).join(', ') },
+        onComplete: (r) => { if (r && r.result === 'payment') location.href = RETURN + '&payment=' + encodeURIComponent(r.paymentId) + '&status=succeeded'; },
+      });
+      const billing = { name: d.name, email: d.email, address: d.address };
+      if (d.phone) billing.phone = d.phone;
+      const el = co.create('checkout', {
+        buyerEmail: d.email,
+        lockBuyerEmail: true,
+        defaultValues: { shippingAddress: { name: d.name, ...d.address }, billingDetails: billing, phone: d.phone || undefined },
+        onReady: () => $('loading')?.remove(),
+      });
+      el.mount('#whop-checkout');
+      mounted = { sig, el, co };
+      setTimeout(() => $('loading')?.remove(), 8000);
+    } catch (e) {
+      console.error(e);
+      host.innerHTML = '<div class="err">The secure checkout could not load. <a href="' + FALLBACK + '">Continue to checkout here</a>.</div>';
+    }
+  }
+  // Browser autofill can complete the whole form without a change event per field.
+  setInterval(() => { if (!mounted && validate()) mount(); }, 1500);
+`
+
+export function checkoutPage({ key, store, product, origin, accent, logo, sale = '50% off', country = '', protectionKey = 'protection' }) {
   const sel = parseKey(key)
   if (!sel.plan) return null
   const { tier, addons, plan } = sel
-  const unit = tier.price / tier.qty
-  const compareUnit = tier.compare / tier.qty
   const addonTotal = addons.reduce((s, a) => s + a.price, 0)
   const total = round(tier.price + addonTotal)
   const compare = round(tier.compare + addons.reduce((s, a) => s + a.compare, 0))
@@ -102,17 +254,34 @@ export function checkoutPage({ key, store, product, origin, accent, logo, protec
     on ? keys.add(toggleKey) : keys.delete(toggleKey)
     return `${tier.qty}:${bundle.addons.filter((a) => keys.has(a.key)).map((a) => a.key).join(',')}`
   }
-  const shipping = bundle.shipping || [{ key: 'free', label: 'Free Shipping', eta: 'Delivers in 2–3 weeks', price: 0 }]
+  const defaultCountry = countries[String(country || '').toUpperCase()] ? String(country).toUpperCase() : 'US'
+
+  const field = (id, label, extra = '') => `<div class="field" data-f="${id}"><input id="${id}" placeholder=" " ${extra}><label for="${id}">${esc(label)}</label><p class="ferr"></p></div>`
 
   const body = `<header class="hdr"><a href="/"><img src="${esc(logo)}" alt="${esc(store)}"></a></header>
 <div class="wrap">
 <div class="left">
   <p class="crumbs"><a href="/products/${esc(product.handle)}">Cart</a> › <b>Information</b> › <b>Shipping</b> › <b>Payment</b></p>
-  <div class="sec"><p class="note" style="margin:0 0 8px">All transactions are secure and encrypted.</p><div class="accept">${ICONS}</div><div class="loading" id="loading">Loading secure checkout…</div><div id="whop-checkout"></div></div>
+  <form id="info" novalidate autocomplete="on">
+  <div class="sec"><h2>Contact</h2>${field('email', 'Email', 'type="email" autocomplete="email" inputmode="email"')}</div>
+  <div class="sec"><h2>Delivery</h2>
+    <div class="field sel" data-f="country"><select id="country" autocomplete="shipping country"></select><label for="country">Country/Region</label><p class="ferr"></p></div>
+    <div class="row2">${field('first', 'First name', 'autocomplete="shipping given-name"')}${field('last', 'Last name', 'autocomplete="shipping family-name"')}</div>
+    ${field('line1', 'Address', 'autocomplete="shipping address-line1"')}
+    ${field('line2', 'Apartment, suite, etc. (optional)', 'autocomplete="shipping address-line2"')}
+    <div class="row3" id="csz"></div>
+    ${field('phone', 'Phone (optional)', 'type="tel" autocomplete="shipping tel" inputmode="tel"')}
+  </div>
+  </form>
+  <div class="sec"><h2>Payment</h2><p class="note" style="margin:0 0 8px">All transactions are secure and encrypted.</p><div class="accept">${ICONS}</div>
+    <div class="ship bill" id="bill"><label class="on"><input type="radio" name="bill" value="same" checked><span><span class="t">Billing address: same as shipping</span><span class="d">Your card is billed to the delivery address above.</span></span></label><label><input type="radio" name="bill" value="diff"><span><span class="t">Use a different billing address</span></span></label></div>
+    <div id="pay-wait" class="wait"><p>Enter your contact and delivery details above to continue to payment.</p><button type="button" disabled>Order now</button></div>
+    <div id="whop-checkout"></div>
+  </div>
   <p class="links"><a href="/pages/refund-policy">Refund policy</a><a href="/pages/shipping">Shipping</a><a href="/pages/contact">Contact</a></p>
 </div>
 <div class="right"><details class="sum" open><summary class="msum"><span>Order summary</span><b>${money(total)}</b></summary>
-  <div class="item"><div class="img"><img src="${esc(img)}" alt=""><b>${tier.qty}</b></div><div><div class="n">${esc(product.title)}</div><div class="v">${tier.qty > 1 ? `${tier.qty} costumes · ` : ''}One adult size · Halloween Sale 50% off</div></div><div class="pr">${money(tier.price)}<span class="was">${money(tier.compare)}</span></div></div>
+  <div class="item"><div class="img"><img src="${esc(img)}" alt=""><b>${tier.qty}</b></div><div><div class="n">${esc(product.title)}</div><div class="v">${tier.qty > 1 ? `${tier.qty} costumes · ` : ''}One adult size · ${esc(sale)}</div></div><div class="pr">${money(tier.price)}<span class="was">${money(tier.compare)}</span></div></div>
   ${protection ? `<div class="prot"><label class="top"><input type="checkbox" id="prot" ${hasProt ? 'checked' : ''} data-on="${esc(keyWith(protectionKey, true))}" data-off="${esc(keyWith(protectionKey, false))}">Yes, add package protection</label><div class="body"><img src="${esc(protection.image)}" alt=""><div><div class="k">${esc(store)} package protection</div><div class="pp">${money(protection.price)} <span class="was" style="display:inline;color:#9a9a9a;text-decoration:line-through;font-size:.8rem;font-weight:400">${money(protection.compare)}</span></div><div class="pd">Full coverage if your order is lost, stolen or damaged in transit.</div></div></div></div>` : ''}
   ${otherAddons.length ? `<div class="addons">${otherAddons.map((a) => { const on = addons.some((x) => x.key === a.key); return `<label><input type="checkbox" ${on ? 'checked' : ''} data-on="${esc(keyWith(a.key, true))}" data-off="${esc(keyWith(a.key, false))}">${esc(a.title)}<span class="ap">${money(a.price)}</span></label>` }).join('')}</div>` : ''}
   <div class="tot">
@@ -128,54 +297,24 @@ export function checkoutPage({ key, store, product, origin, accent, logo, protec
 </details></div>
 </div>
 <script src="https://cdn.whop.com/elements/amber/elements.js" data-whop-elements></script>
+<script>window.__countries = ${JSON.stringify(countries)};</script>
 <script type="module">
   const PLAN = ${JSON.stringify(plan.id)};
   const RETURN = ${JSON.stringify(origin + CHECKOUT_PATH + '/return?key=' + encodeURIComponent(sel.key))};
+  const ACCENT = ${JSON.stringify(accent)};
+  const DEFAULT_COUNTRY = ${JSON.stringify(defaultCountry)};
+  const FALLBACK = ${JSON.stringify(plan.url)};
   const go = (k) => { location.href = '${CHECKOUT_PATH}?key=' + encodeURIComponent(k); };
   if (matchMedia('(max-width:959px)').matches) document.querySelector('details.sum')?.removeAttribute('open');
   document.querySelectorAll('input[type=checkbox][data-on]').forEach((c) => c.addEventListener('change', () => go(c.checked ? c.dataset.on : c.dataset.off)));
-  try {
-    const whop = window.WhopElements({ appearance: {
-      theme: { appearance: 'light', accentColor: ${JSON.stringify(accent)}, grayColor: 'slate' },
-      variables: { '--radius': '6px' },
-      classes: {
-        'whop-CheckoutSeller': { display: 'none' },
-        'whop-CheckoutSummaryHead': { display: 'none' },
-        'whop-CheckoutItem': { display: 'none' },
-        'whop-CheckoutPrice': { display: 'none' },
-        'whop-CheckoutPriceContext': { display: 'none' },
-        'whop-CheckoutDetailsToggle': { display: 'none' },
-        'whop-CheckoutItemHeadline': { display: 'none' },
-        'whop-CheckoutItemDescription': { display: 'none' },
-        'whop-CheckoutCompanyPurchase': { display: 'none' },
-        'whop-CheckoutCompanyPurchaseCheckbox': { display: 'none' },
-        'whop-CheckoutPayButton': { background: '#1773b0', borderRadius: '6px', fontWeight: '600', fontSize: '16px', minHeight: '52px' },
-        'whop-Label': { fontSize: '19px', fontWeight: '600', color: '#111', marginTop: '6px' },
-        'whop-EmailLabel': { fontSize: '19px', fontWeight: '600', color: '#111' },
-        'whop-CardLabel': { fontSize: '15px', fontWeight: '500', color: '#333' },
-        'whop-Input': { borderRadius: '6px', minHeight: '48px' },
-      },
-    } });
-    const checkout = whop.checkout.create({
-      plan: PLAN,
-      returnUrl: RETURN,
-      attribution: { source: 'website' },
-      onComplete: (r) => { if (r && r.result === 'payment') location.href = RETURN + '&payment=' + encodeURIComponent(r.paymentId) + '&status=succeeded'; },
-    });
-    const el = checkout.create('checkout', { onReady: () => document.getElementById('loading')?.remove() });
-    el.mount('#whop-checkout');
-    setTimeout(() => document.getElementById('loading')?.remove(), 8000);
-  } catch (e) {
-    console.error(e);
-    document.getElementById('whop-checkout').innerHTML = '<div class="err">The secure checkout could not load. <a href="' + ${JSON.stringify(plan.url)} + '">Continue to checkout here</a>.</div>';
-  }
+  ${FORM_JS}
 </script>`
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Checkout – ${esc(store)}</title><meta name="robots" content="noindex"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><style>:root{--accent:${esc(accentHex(accent))}}${CSS}</style></head><body>${body}</body></html>`
 }
 
 const accentHex = (a) => ({ pink: '#F06A9F', red: '#C8102E', crimson: '#C8102E' })[a] || '#F06A9F'
 
-export function returnPage({ store, logo, status, paymentId, key }) {
+export function returnPage({ store, logo, status, paymentId, key, accent = 'pink' }) {
   const ok = status === 'succeeded'
   const sel = parseKey(key)
   const body = `<header class="hdr"><a href="/"><img src="${esc(logo)}" alt="${esc(store)}"></a></header>
@@ -184,5 +323,5 @@ export function returnPage({ store, logo, status, paymentId, key }) {
     ? `<h2 style="font-size:1.8rem">Thank you! Your order is confirmed.</h2><p class="note" style="font-size:.95rem">We've emailed your receipt${paymentId ? ` (order ${esc(paymentId)})` : ''}. Your ${esc(store)} costume ships in 1–3 business days and you'll get a tracking number the moment it leaves.</p><p><a href="/products/${esc(sel.tier ? '' : '')}" style="display:none"></a><a class="btn" href="/">Back to ${esc(store)}</a></p>`
     : `<h2 style="font-size:1.6rem">Payment not completed</h2><p class="note" style="font-size:.95rem">Your payment ${status === 'failed' ? 'was declined' : 'was cancelled'} and nothing was charged. You can try again with a different payment method.</p><p><a class="btn" href="${CHECKOUT_PATH}?key=${encodeURIComponent(sel.key)}">Return to checkout</a></p>`}
 </div></div>`
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${ok ? 'Order confirmed' : 'Payment not completed'} – ${esc(store)}</title><meta name="robots" content="noindex"><style>${CSS}.btn{display:inline-block;margin-top:18px;padding:12px 22px;background:var(--accent);color:#fff;text-decoration:none;border-radius:6px;font-weight:600}:root{--accent:#F06A9F}</style></head><body>${body}</body></html>`
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${ok ? 'Order confirmed' : 'Payment not completed'} – ${esc(store)}</title><meta name="robots" content="noindex"><style>${CSS}.btn{display:inline-block;margin-top:18px;padding:12px 22px;background:var(--accent);color:#fff;text-decoration:none;border-radius:6px;font-weight:600}:root{--accent:${esc(accentHex(accent))}}</style></head><body>${body}</body></html>`
 }
