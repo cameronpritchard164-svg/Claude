@@ -96,10 +96,12 @@ h2{font-family:Georgia,"Times New Roman",serif;font-weight:700;font-size:1.25rem
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 @media(max-width:420px){.row3{grid-template-columns:1fr 1fr}.row3 .field:first-child{grid-column:1/-1}}
 h2{margin-bottom:14px}
-.bill{margin:0 0 16px}.bill label{padding:13px 16px}.bill .t{font-size:.92rem}
-.wait{border:1px solid #d9d9d9;border-radius:6px;padding:18px 16px;background:#fafafa}
-.wait p{margin:0 0 14px;font-size:.88rem;color:#555}
-.wait button{width:100%;min-height:52px;border:0;border-radius:6px;background:#1773b0;color:#fff;font:inherit;font-weight:600;font-size:16px;opacity:.45}
+.paybox{position:relative}
+.bill{display:none;position:absolute;left:0;right:0;bottom:78px;height:98px;margin:0;z-index:2;background:#fff}
+.paybox.ready .bill{display:block}
+.bill label{height:48px;padding:0 16px;grid-template-columns:auto 1fr}.bill .t{font-size:.92rem}
+.cardnote{display:none;margin:10px 0 0;font-size:.82rem;color:#9a1b1b;background:#fff2f2;border:1px solid #f2c2c2;border-radius:6px;padding:10px 12px}.cardnote.show{display:block}
+.legal{font-size:.74rem;color:#737373;text-align:center;margin:14px 0 0;line-height:1.5}.legal a{color:#737373}
 .hide{display:none!important}
 `
 
@@ -164,28 +166,42 @@ const FORM_JS = String.raw`
   form.addEventListener('change', () => schedule());
   form.addEventListener('submit', (e) => e.preventDefault());
 
-  // ---- Whop embedded checkout, mounted once the form is complete -------------
+  // ---- Whop embedded checkout ------------------------------------------------
+  // The card box mounts straight away so a shopper can start with their card.
+  // Whop only reads prefilled details when its element is created, so once the
+  // contact + delivery form is complete the element is recreated with those
+  // details (its own email/address rows stay hidden). If the card was already
+  // being typed, a note asks for it again.
   const values = () => {
-    const r = rec(), cc = sel.value, up = (x) => x;
+    const cc = sel.value;
     const address = { country: cc, line1: v('line1') };
     if (v('line2')) address.line2 = v('line2');
     if ($('city') && v('city')) address.city = v('city');
     if ($('state') && v('state')) address.state = v('state');
     if ($('postal') && v('postal')) address.postal_code = v('postal');
     const name = (v('first') + ' ' + v('last')).trim();
-    return { email: v('email').toLowerCase(), name, phone: v('phone'), address, billSame: form.ownerDocument.querySelector('input[name=bill]:checked').value === 'same' };
+    return { email: v('email').toLowerCase(), name, phone: v('phone'), address };
   };
-  let mounted = null, timer = null;
+  const billSame = () => document.querySelector('input[name=bill]:checked').value === 'same';
+  const BILL_H = 98, BILL_GAP = 14;
+  let mounted = null, timer = null, cardTouched = false, ready = false;
   const schedule = () => { clearTimeout(timer); timer = setTimeout(mount, 400); };
-  document.querySelectorAll('input[name=bill]').forEach((r) => r.addEventListener('change', () => { document.querySelectorAll('#bill label').forEach((l) => l.classList.toggle('on', l.querySelector('input').checked)); schedule(); }));
+  document.querySelectorAll('input[name=bill]').forEach((r) => r.addEventListener('change', () => { document.querySelectorAll('#bill label').forEach((l) => l.classList.toggle('on', l.querySelector('input').checked)); mount(); }));
+  window.addEventListener('blur', () => { if (ready && document.activeElement && document.activeElement.closest('#whop-checkout')) cardTouched = true; });
   function mount() {
-    if (!validate(touched)) return;
-    const d = values(), sig = JSON.stringify(d);
-    if (mounted && mounted.sig === sig) return;
+    const ok = validate(touched);
+    const d = ok ? values() : null;
+    const same = billSame();
+    const sig = JSON.stringify({ d, same });
+    if (mounted && (mounted.sig === sig || (!ok && !mounted.ok && mounted.same === same))) return;
     if (mounted) { try { mounted.el.destroy(); } catch (e) {} try { mounted.co.destroy(); } catch (e) {} mounted = null; }
+    const note = $('cardnote');
+    note.classList.toggle('show', cardTouched);
+    note.textContent = cardTouched ? 'Your details were updated — please enter your card details again.' : '';
+    cardTouched = false; ready = false;
+    $('paybox').classList.remove('ready');
     const host = $('whop-checkout');
     host.innerHTML = '<div class="loading" id="loading">Loading secure checkout…</div>';
-    $('pay-wait').classList.add('hide');
     try {
       const whop = window.WhopElements({ appearance: {
         theme: { appearance: 'light', accentColor: ACCENT, grayColor: 'slate' },
@@ -204,38 +220,49 @@ const FORM_JS = String.raw`
           'whop-CheckoutRequirements': { display: 'none' },
           'whop-CheckoutDetails': { display: 'none' },
           'whop-CheckoutCollection': { padding: '0' },
-          'whop-PaymentBillingBlock': d.billSame ? { display: 'none' } : { marginTop: '12px' },
-          'whop-CheckoutPayButton': { background: '#1773b0', borderRadius: '6px', fontWeight: '600', fontSize: '16px', minHeight: '52px' },
+          'whop-CheckoutTerms': { display: 'none' },
+          'whop-CheckoutTerms + div': { display: 'none' },
+          'whop-PaymentBillingBlock': same ? { display: 'none' } : { marginTop: '12px' },
+          'whop-CheckoutPayButton': { background: '#1773b0', borderRadius: '6px', fontWeight: '600', fontSize: '16px', minHeight: '52px', marginTop: (BILL_H + BILL_GAP * 2) + 'px' },
           'whop-Label': { fontSize: '15px', fontWeight: '500', color: '#333' },
           'whop-CardLabel': { fontSize: '15px', fontWeight: '500', color: '#333' },
           'whop-Input': { borderRadius: '6px', minHeight: '48px' },
         },
       } });
+      const meta = d ? { customer_name: d.name, phone: d.phone || '', ship_to: [d.address.line1, d.address.line2, d.address.city, d.address.state, d.address.postal_code, d.address.country].filter(Boolean).join(', ') } : undefined;
       const co = whop.checkout.create({
         plan: PLAN,
         returnUrl: RETURN,
         attribution: { source: 'website' },
-        metadata: { customer_name: d.name, phone: d.phone || '', ship_to: [d.address.line1, d.address.line2, d.address.city, d.address.state, d.address.postal_code, d.address.country].filter(Boolean).join(', ') },
+        metadata: meta,
         onComplete: (r) => { if (r && r.result === 'payment') location.href = RETURN + '&payment=' + encodeURIComponent(r.paymentId) + '&status=succeeded'; },
       });
-      const billing = { name: d.name, email: d.email, address: d.address };
-      if (d.phone) billing.phone = d.phone;
-      const el = co.create('checkout', {
-        buyerEmail: d.email,
-        lockBuyerEmail: true,
-        defaultValues: { shippingAddress: { name: d.name, ...d.address }, billingDetails: billing, phone: d.phone || undefined },
-        onReady: () => $('loading')?.remove(),
-      });
+      const opts = { onReady: () => { $('loading')?.remove(); $('paybox').classList.add('ready'); setTimeout(() => { ready = true; }, 800); } };
+      if (d) {
+        const billing = { name: d.name, email: d.email, address: d.address };
+        if (d.phone) billing.phone = d.phone;
+        opts.buyerEmail = d.email;
+        opts.lockBuyerEmail = true;
+        opts.defaultValues = { shippingAddress: { name: d.name, ...d.address }, billingDetails: billing, phone: d.phone || undefined };
+      }
+      const el = co.create('checkout', opts);
       el.mount('#whop-checkout');
-      mounted = { sig, el, co };
-      setTimeout(() => $('loading')?.remove(), 8000);
+      mounted = { sig, el, co, ok, same };
+      setTimeout(() => { $('loading')?.remove(); $('paybox').classList.add('ready'); ready = true; }, 8000);
     } catch (e) {
       console.error(e);
       host.innerHTML = '<div class="err">The secure checkout could not load. <a href="' + FALLBACK + '">Continue to checkout here</a>.</div>';
     }
   }
-  // Browser autofill can complete the whole form without a change event per field.
-  setInterval(() => { if (!mounted && validate()) mount(); }, 1500);
+  mount();
+  // Pressing Order now before the form is done makes Whop show an error in its
+  // box (which changes its height); point the shopper at the fields instead.
+  let lastH = 0;
+  new ResizeObserver(() => {
+    const h = $('whop-checkout').offsetHeight;
+    if (ready && h > lastH + 10 && lastH && !validate()) { validate(true); const bad = form.querySelector('.bad input, .bad select'); if (bad) { bad.scrollIntoView({ behavior: 'smooth', block: 'center' }); } }
+    lastH = h;
+  }).observe($('whop-checkout'));
 `
 
 export function checkoutPage({ key, store, product, origin, accent, logo, sale = '50% off', country = '', protectionKey = 'protection' }) {
@@ -274,9 +301,11 @@ export function checkoutPage({ key, store, product, origin, accent, logo, sale =
   </div>
   </form>
   <div class="sec"><h2>Payment</h2><p class="note" style="margin:0 0 8px">All transactions are secure and encrypted.</p><div class="accept">${ICONS}</div>
-    <div class="ship bill" id="bill"><label class="on"><input type="radio" name="bill" value="same" checked><span><span class="t">Billing address: same as shipping</span><span class="d">Your card is billed to the delivery address above.</span></span></label><label><input type="radio" name="bill" value="diff"><span><span class="t">Use a different billing address</span></span></label></div>
-    <div id="pay-wait" class="wait"><p>Enter your contact and delivery details above to continue to payment.</p><button type="button" disabled>Order now</button></div>
-    <div id="whop-checkout"></div>
+    <div class="paybox" id="paybox"><div id="whop-checkout"></div>
+      <div class="ship bill" id="bill"><label class="on"><input type="radio" name="bill" value="same" checked><span class="t">Billing address: same as shipping</span></label><label><input type="radio" name="bill" value="diff"><span class="t">Use a different billing address</span></label></div>
+    </div>
+    <p class="cardnote" id="cardnote"></p>
+    <p class="legal">By continuing, you agree to Whop's <a href="https://whop.com/legal/buyer-terms" target="_blank" rel="noopener">Buyer Terms of Service</a> and <a href="https://whop.com/legal/privacy" target="_blank" rel="noopener">Privacy Policy</a>. Payments are processed securely by Whop.</p>
   </div>
   <p class="links"><a href="/pages/refund-policy">Refund policy</a><a href="/pages/shipping">Shipping</a><a href="/pages/contact">Contact</a></p>
 </div>
