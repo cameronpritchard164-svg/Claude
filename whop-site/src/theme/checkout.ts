@@ -5,7 +5,6 @@
 // exactly what the plans define.
 import bundle from './bundle.json'
 import plans from './bundle-plans.json'
-import countries from './countries.json'
 
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 const money = (n) => '$' + Number(n || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
@@ -54,7 +53,7 @@ h2{font-family:Georgia,"Times New Roman",serif;font-weight:700;font-size:1.25rem
 #whop-checkout{min-height:420px}
 .loading{font-size:.85rem;color:#737373;padding:18px 0}
 .sum{position:sticky;top:20px}.msum{display:none;list-style:none;cursor:pointer;justify-content:space-between;align-items:center;font-size:.92rem;padding:4px 0 14px}.msum::-webkit-details-marker{display:none}.msum span:after{content:' ▾';color:#737373}
-@media(max-width:959px){.wrap{display:flex;flex-direction:column}.right{order:-1;border-bottom:1px solid #e6e6e6;padding:14px 20px}.sum{position:static}.msum{display:flex}.sum:not([open]) .msum{padding-bottom:0}}
+@media(max-width:959px){.wrap{display:flex;flex-direction:column}.right{order:-1;border-bottom:1px solid #e6e6e6;padding:14px 20px}.sum{position:static}.msum{display:flex;pointer-events:none}.msum span:after{content:''}}
 .item{display:grid;grid-template-columns:72px 1fr auto;gap:14px;align-items:center;padding:0 0 18px;border-bottom:1px solid #e6e6e6;margin-bottom:18px}
 .item .img{position:relative;width:72px;height:72px;border:1px solid #e6e6e6;border-radius:8px;background:#fff;overflow:hidden}
 .item .img img{width:100%;height:100%;object-fit:contain}
@@ -73,7 +72,7 @@ h2{font-family:Georgia,"Times New Roman",serif;font-weight:700;font-size:1.25rem
 .addons label{display:flex;align-items:center;gap:10px;font-size:.88rem;cursor:pointer}
 .addons input{width:16px;height:16px;accent-color:var(--accent);margin:0}
 .addons .ap{margin-left:auto;font-weight:500}
-.tot{border-top:1px solid #e6e6e6;padding-top:16px;display:grid;gap:10px;font-size:.92rem}
+.tot{padding-top:4px;display:grid;gap:10px;font-size:.92rem}
 .tot .r{display:flex;justify-content:space-between}.tot .r span:last-child{font-variant-numeric:tabular-nums}
 .tot .muted{color:#737373}.tot .free{color:#1a7f37;font-weight:600}
 .tot .big{font-family:Georgia,serif;font-size:1.5rem;align-items:baseline;margin-top:4px}
@@ -84,200 +83,56 @@ h2{font-family:Georgia,"Times New Roman",serif;font-weight:700;font-size:1.25rem
 .foot{font-size:.72rem;color:#9a9a9a;margin-top:28px;border-top:1px solid #e6e6e6;padding-top:14px}
 .err{background:#fff2f2;border:1px solid #f2c2c2;color:#9a1b1b;border-radius:6px;padding:12px 14px;font-size:.88rem;margin:0 0 16px}
 
-.field{position:relative;margin:0 0 12px}
-.field input,.field select{width:100%;min-height:52px;padding:20px 12px 6px;border:1px solid #d9d9d9;border-radius:6px;background:#fff;font:inherit;font-size:16px;color:#121212;outline:none;appearance:none;-webkit-appearance:none}
-.field select{padding-right:36px}
-.field.sel:after{content:'';position:absolute;right:14px;top:22px;width:8px;height:8px;border-right:1.5px solid #555;border-bottom:1.5px solid #555;transform:rotate(45deg);pointer-events:none}
-.field label{position:absolute;left:12px;top:16px;font-size:15px;color:#737373;pointer-events:none;transition:all .12s}
-.field input:focus,.field select:focus{border-color:#1773b0;box-shadow:0 0 0 1px #1773b0}
-.field input:focus+label,.field input:not(:placeholder-shown)+label,.field select+label{top:7px;font-size:11.5px}
-.field.bad input,.field.bad select{border-color:#d72c0d;box-shadow:0 0 0 1px #d72c0d}
-.ferr{display:none;margin:4px 0 0;font-size:.78rem;color:#d72c0d}.field.bad .ferr{display:block}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-@media(max-width:420px){.row3{grid-template-columns:1fr 1fr}.row3 .field:first-child{grid-column:1/-1}}
-h2{margin-bottom:14px}
-.express{display:none}.express.on{display:block}
+.express{display:none}.express.on{display:block}.express h2{text-align:center;font-family:Poppins,sans-serif;font-weight:400;font-size:.95rem;color:#555;margin-bottom:12px}
 .or{display:flex;align-items:center;gap:12px;margin:18px 0 4px;color:#737373;font-size:.78rem}.or:before,.or:after{content:'';flex:1;height:1px;background:#e6e6e6}
-.paybox{position:relative}
-.bill{display:none;position:absolute;left:0;right:0;bottom:78px;height:98px;margin:0;z-index:2;background:#fff}
-.paybox.ready .bill{display:block}
-.bill label{height:48px;padding:0 16px;grid-template-columns:auto 1fr}.bill .t{font-size:.92rem}
-.cardnote{display:none;margin:10px 0 0;font-size:.82rem;color:#9a1b1b;background:#fff2f2;border:1px solid #f2c2c2;border-radius:6px;padding:10px 12px}.cardnote.show{display:block}
 .legal{font-size:.74rem;color:#737373;text-align:center;margin:14px 0 0;line-height:1.5}.legal a{color:#737373}
 .hide{display:none!important}
 `
 
 const FORM_JS = String.raw`
-  // ---- Shopify-style contact + delivery form -------------------------------
-  const C = window.__countries;
-  const $ = (id) => document.getElementById(id);
-  const form = $('info');
-  let names; try { names = new Intl.DisplayNames(['en'], { type: 'region' }); } catch (e) {}
-  const cname = (cc) => { try { return (names && names.of(cc)) || cc; } catch (e) { return cc; } };
-  const list = Object.keys(C).map((cc) => [cc, cname(cc)]).sort((a, b) => a[1].localeCompare(b[1]));
-  const sel = $('country');
-  sel.innerHTML = list.map(([cc, n]) => '<option value="' + cc + '">' + n.replace(/</g, '&lt;') + '</option>').join('');
-  sel.value = DEFAULT_COUNTRY;
-  const STATE_LABEL = { state: 'State', province: 'Province', county: 'County', area: 'Area', emirate: 'Emirate', island: 'Island', parish: 'Parish', prefecture: 'Prefecture', oblast: 'Oblast', department: 'Department', do_si: 'Province' };
-  const rec = () => C[sel.value] || ['', 'A', '', '', '', ''];
-  const fieldHtml = (id, label, extra) => '<div class="field" data-f="' + id + '"><input id="' + id + '" placeholder=" " ' + (extra || '') + '><label for="' + id + '">' + label + '</label><p class="ferr"></p></div>';
-  function renderCSZ() {
-    const r = rec(), cc = sel.value, keep = { city: $('city')?.value || '', state: $('state')?.value || '', postal: $('postal')?.value || '' };
-    const parts = [];
-    for (const ch of r[1]) {
-      if (ch === 'C') parts.push(fieldHtml('city', cc === 'AU' || cc === 'NZ' ? 'Suburb' : 'City', 'autocomplete="shipping address-level2"'));
-      if (ch === 'S') {
-        const label = STATE_LABEL[r[4]] || 'Region';
-        if (r[6]) parts.push('<div class="field sel" data-f="state"><select id="state" autocomplete="shipping address-level1"><option value=""></option>' + r[6].map((k, i) => '<option value="' + k.replace(/"/g, '&quot;') + '">' + String(r[7][i] || k).replace(/</g, '&lt;') + '</option>').join('') + '</select><label for="state">' + label + '</label><p class="ferr"></p></div>');
-        else parts.push(fieldHtml('state', label, 'autocomplete="shipping address-level1"'));
-      }
-      if (ch === 'Z') parts.push(fieldHtml('postal', r[5] === 'zip' ? 'ZIP code' : r[5] === 'pin' ? 'PIN code' : r[5] === 'eircode' ? 'Eircode' : (cc === 'AU' || cc === 'GB' || cc === 'NZ') ? 'Postcode' : 'Postal code', 'autocomplete="shipping postal-code"'));
-    }
-    const box = $('csz');
-    box.innerHTML = parts.join('');
-    box.className = 'row' + Math.max(1, parts.length);
-    if ($('city')) $('city').value = keep.city;
-    if ($('state')) $('state').value = keep.state;
-    if ($('postal')) $('postal').value = keep.postal;
-  }
-  renderCSZ();
-  sel.addEventListener('change', () => { renderCSZ(); schedule(); });
-
-  const v = (id) => ($(id)?.value || '').trim();
-  const setErr = (id, msg) => { const f = form.querySelector('[data-f="' + id + '"]'); if (!f) return; f.classList.toggle('bad', !!msg); f.querySelector('.ferr').textContent = msg || ''; };
-  function validate(show) {
-    const r = rec(), req = r[0] || '', errs = {};
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v('email'))) errs.email = 'Enter a valid email';
-    if (!v('first')) errs.first = 'Enter a first name';
-    if (!v('last')) errs.last = 'Enter a last name';
-    if (!v('line1')) errs.line1 = 'Enter an address';
-    if ($('city') && req.includes('C') && !v('city')) errs.city = 'Enter a ' + ($('city').labels[0].textContent.toLowerCase());
-    if ($('state') && req.includes('S') && !v('state')) errs.state = 'Select a ' + ($('state').labels[0].textContent.toLowerCase());
-    if ($('postal')) {
-      const pl = $('postal').labels[0].textContent;
-      if (req.includes('Z') && !v('postal')) errs.postal = 'Enter a ' + pl;
-      else if (v('postal') && r[2]) { try { if (!new RegExp('^(?:' + r[2] + ')$', 'i').test(v('postal'))) errs.postal = 'Enter a valid ' + pl; } catch (e) {} }
-    }
-    if (v('phone') && v('phone').replace(/[^\d]/g, '').length < 6) errs.phone = 'Enter a valid phone number';
-    for (const id of ['email', 'first', 'last', 'line1', 'city', 'state', 'postal', 'phone']) if (show === true || (show && show.has(id))) setErr(id, errs[id]);
-    return Object.keys(errs).length === 0;
-  }
-  const touched = new Set();
-  form.addEventListener('focusout', (e) => { if (e.target.id) { touched.add(e.target.id); validate(touched); } });
-  form.addEventListener('input', (e) => { if (e.target.id && touched.has(e.target.id)) validate(touched); });
-  form.addEventListener('change', () => schedule());
-  form.addEventListener('submit', (e) => e.preventDefault());
-
-  // ---- Whop embedded checkout ------------------------------------------------
-  // The card box mounts straight away so a shopper can start with their card.
-  // Whop only reads prefilled details when its element is created, so once the
-  // contact + delivery form is complete the element is recreated with those
-  // details (its own email/address rows stay hidden). If the card was already
-  // being typed, a note asks for it again.
-  const values = () => {
-    const cc = sel.value;
-    const address = { country: cc, line1: v('line1') };
-    if (v('line2')) address.line2 = v('line2');
-    if ($('city') && v('city')) address.city = v('city');
-    if ($('state') && v('state')) address.state = v('state');
-    if ($('postal') && v('postal')) address.postal_code = v('postal');
-    const name = (v('first') + ' ' + v('last')).trim();
-    return { email: v('email').toLowerCase(), name, phone: v('phone'), address };
-  };
-  const billSame = () => document.querySelector('input[name=bill]:checked').value === 'same';
-  const BILL_H = 98, BILL_GAP = 14;
-  let mounted = null, timer = null, cardTouched = false, ready = false;
-  const schedule = () => { clearTimeout(timer); timer = setTimeout(mount, 400); };
-  document.querySelectorAll('input[name=bill]').forEach((r) => r.addEventListener('change', () => { document.querySelectorAll('#bill label').forEach((l) => l.classList.toggle('on', l.querySelector('input').checked)); mount(); }));
-  window.addEventListener('blur', () => { if (ready && document.activeElement && document.activeElement.closest('#whop-checkout')) cardTouched = true; });
-  function mount() {
-    const ok = validate(touched);
-    const d = ok ? values() : null;
-    const same = billSame();
-    const sig = JSON.stringify({ d, same });
-    if (mounted && (mounted.sig === sig || (!ok && !mounted.ok && mounted.same === same))) return;
-    if (mounted) { try { mounted.el.destroy(); } catch (e) {} try { mounted.co.destroy(); } catch (e) {} mounted = null; }
-    const note = $('cardnote');
-    note.classList.toggle('show', cardTouched);
-    note.textContent = cardTouched ? 'Your details were updated — please enter your card details again.' : '';
-    cardTouched = false; ready = false;
-    $('paybox').classList.remove('ready');
-    const host = $('whop-checkout');
-    host.innerHTML = '<div class="loading" id="loading">Loading secure checkout…</div>';
-    try {
-      const whop = window.WhopElements({ appearance: {
-        theme: { appearance: 'light', accentColor: ACCENT, grayColor: 'slate' },
-        variables: { '--radius': '6px' },
-        classes: {
-          'whop-CheckoutSeller': { display: 'none' },
-          'whop-CheckoutSummaryHead': { display: 'none' },
-          'whop-CheckoutItem': { display: 'none' },
-          'whop-CheckoutPrice': { display: 'none' },
-          'whop-CheckoutPriceContext': { display: 'none' },
-          'whop-CheckoutDetailsToggle': { display: 'none' },
-          'whop-CheckoutItemHeadline': { display: 'none' },
-          'whop-CheckoutItemDescription': { display: 'none' },
-          'whop-CheckoutCompanyPurchase': { display: 'none' },
-          'whop-CheckoutCompanyPurchaseCheckbox': { display: 'none' },
-          'whop-CheckoutRequirements': { display: 'none' },
-          'whop-CheckoutDetails': { display: 'none' },
-          'whop-CheckoutCollection': { padding: '0' },
-          'whop-CheckoutTerms': { display: 'none' },
-          'whop-CheckoutExpress': { display: 'none' },
-          'whop-CheckoutExpressDivider': { display: 'none' },
-          'whop-CheckoutTerms + div': { display: 'none' },
-          'whop-PaymentBillingBlock': same ? { display: 'none' } : { marginTop: '12px' },
-          'whop-CheckoutPayButton': { background: '#1773b0', borderRadius: '6px', fontWeight: '600', fontSize: '16px', minHeight: '52px', marginTop: (BILL_H + BILL_GAP * 2) + 'px' },
-          'whop-Label': { fontSize: '15px', fontWeight: '500', color: '#333' },
-          'whop-CardLabel': { fontSize: '15px', fontWeight: '500', color: '#333' },
-          'whop-Input': { borderRadius: '6px', minHeight: '48px' },
-        },
-      } });
-      const meta = d ? { customer_name: d.name, phone: d.phone || '', ship_to: [d.address.line1, d.address.line2, d.address.city, d.address.state, d.address.postal_code, d.address.country].filter(Boolean).join(', ') } : undefined;
-      const co = whop.checkout.create({
-        plan: PLAN,
-        returnUrl: RETURN,
-        attribution: { source: 'website' },
-        metadata: meta,
-        onComplete: (r) => { if (r && r.result === 'payment') location.href = RETURN + '&payment=' + encodeURIComponent(r.paymentId) + '&status=succeeded'; },
-      });
-      const opts = { onReady: () => { $('loading')?.remove(); $('paybox').classList.add('ready'); setTimeout(() => { ready = true; }, 800); } };
-      if (d) {
-        const billing = { name: d.name, email: d.email, address: d.address };
-        if (d.phone) billing.phone = d.phone;
-        opts.buyerEmail = d.email;
-        opts.lockBuyerEmail = true;
-        opts.defaultValues = { shippingAddress: { name: d.name, ...d.address }, billingDetails: billing, phone: d.phone || undefined };
-      }
-      const el = co.create('checkout', opts);
-      el.mount('#whop-checkout');
-      mounted = { sig, el, co, ok, same };
-      setTimeout(() => { $('loading')?.remove(); $('paybox').classList.add('ready'); ready = true; }, 8000);
-    } catch (e) {
-      console.error(e);
-      host.innerHTML = '<div class="err">The secure checkout could not load. <a href="' + FALLBACK + '">Continue to checkout here</a>.</div>';
-    }
-  }
-  mount();
-  // Apple Pay / Google Pay live in their own row above the form, like Shopify's
-  // express checkout. The wallet sheet collects the shipping address itself.
+  const appearance = (extra) => ({ appearance: {
+    theme: { appearance: 'light', accentColor: ACCENT, grayColor: 'slate' },
+    variables: { '--radius': '6px' },
+    classes: Object.assign({
+      'whop-CheckoutSeller': { display: 'none' },
+      'whop-CheckoutDetails': { display: 'none' },
+      'whop-CheckoutCollection': { padding: '0' },
+      'whop-CheckoutCompanyPurchase': { display: 'none' },
+      'whop-CheckoutCompanyPurchaseCheckbox': { display: 'none' },
+      'whop-CheckoutExpressDivider': { display: 'none' },
+      'whop-CheckoutTerms': { display: 'none' },
+      'whop-CheckoutTerms + div': { display: 'none' },
+      'whop-CheckoutPayButton': { background: '#1773b0', borderRadius: '6px', fontWeight: '600', fontSize: '16px', minHeight: '52px' },
+      'whop-Label': { fontSize: '19px', fontWeight: '600', color: '#111', marginTop: '6px' },
+      'whop-EmailLabel': { fontSize: '19px', fontWeight: '600', color: '#111' },
+      'whop-CheckoutRequirementLabel': { fontSize: '19px', fontWeight: '600', color: '#111', marginTop: '6px' },
+      'whop-CardLabel': { fontSize: '15px', fontWeight: '500', color: '#333' },
+      'whop-Input': { borderRadius: '6px', minHeight: '48px' },
+    }, extra || {}),
+  } });
+  const onComplete = (r) => { if (r && r.result === 'payment') location.href = RETURN + '&payment=' + encodeURIComponent(r.paymentId) + '&status=succeeded'; };
   try {
-    const ex = window.WhopElements({ appearance: { theme: { appearance: 'light', accentColor: ACCENT, grayColor: 'slate' }, variables: { '--radius': '6px' }, classes: { 'whop-CheckoutExpressDivider': { display: 'none' }, 'whop-CheckoutExpress': { padding: '0' } } } });
-    const exco = ex.checkout.create({ plan: PLAN, returnUrl: RETURN, attribution: { source: 'website' }, onComplete: (r) => { if (r && r.result === 'payment') location.href = RETURN + '&payment=' + encodeURIComponent(r.paymentId) + '&status=succeeded'; } });
+    // Main checkout: Whop's own email + shipping address (with address
+    // suggestions) + card + Order now. Wallet buttons are hidden here and shown
+    // in the express row above instead.
+    const whop = window.WhopElements(appearance({ 'whop-CheckoutExpress': { display: 'none' } }));
+    const co = whop.checkout.create({ plan: PLAN, returnUrl: RETURN, attribution: { source: 'website' }, onComplete });
+    co.create('checkout', { onReady: () => document.getElementById('loading')?.remove() }).mount('#whop-checkout');
+    setTimeout(() => document.getElementById('loading')?.remove(), 8000);
+  } catch (e) {
+    console.error(e);
+    document.getElementById('whop-checkout').innerHTML = '<div class="err">The secure checkout could not load. <a href="' + FALLBACK + '">Continue to checkout here</a>.</div>';
+  }
+  try {
+    const ex = window.WhopElements(appearance({ 'whop-CheckoutExpress': { padding: '0' } }));
+    const exco = ex.checkout.create({ plan: PLAN, returnUrl: RETURN, attribution: { source: 'website' }, onComplete });
     exco.create('expressCheckout', { layout: 'auto' }).mount('#express');
-    new ResizeObserver(() => $('expressbox').classList.toggle('on', $('express').offsetHeight > 30)).observe($('express'));
+    const box = document.getElementById('expressbox'), el = document.getElementById('express');
+    new ResizeObserver(() => box.classList.toggle('on', el.offsetHeight > 30)).observe(el);
   } catch (e) { console.error('express', e); }
-  // Pressing Order now before the form is done makes Whop show an error in its
-  // box (which changes its height); point the shopper at the fields instead.
-  let lastH = 0;
-  new ResizeObserver(() => {
-    const h = $('whop-checkout').offsetHeight;
-    if (ready && h > lastH + 10 && lastH && !validate()) { validate(true); const bad = form.querySelector('.bad input, .bad select'); if (bad) { bad.scrollIntoView({ behavior: 'smooth', block: 'center' }); } }
-    lastH = h;
-  }).observe($('whop-checkout'));
 `
 
-export function checkoutPage({ key, store, product, origin, accent, logo, sale = '50% off', country = '' }) {
+export function checkoutPage({ key, store, product, origin, accent, logo, sale = '50% off' }) {
   const sel = parseKey(key)
   if (!sel.plan) return null
   const { tier, addons, plan } = sel
@@ -285,31 +140,14 @@ export function checkoutPage({ key, store, product, origin, accent, logo, sale =
   const total = round(tier.price + addonTotal)
   const compare = round(tier.compare + addons.reduce((s, a) => s + a.compare, 0))
   const img = product.featured_image?.src || '/images/placeholder.svg'
-  const defaultCountry = countries[String(country || '').toUpperCase()] ? String(country).toUpperCase() : 'US'
-
-  const field = (id, label, extra = '') => `<div class="field" data-f="${id}"><input id="${id}" placeholder=" " ${extra}><label for="${id}">${esc(label)}</label><p class="ferr"></p></div>`
 
   const body = `<header class="hdr"><a href="/"><img src="${esc(logo)}" alt="${esc(store)}"></a></header>
 <div class="wrap">
 <div class="left">
   <p class="crumbs"><a href="/products/${esc(product.handle)}">Cart</a> › <b>Information</b> › <b>Shipping</b> › <b>Payment</b></p>
   <div class="sec express" id="expressbox"><h2>Express checkout</h2><div id="express"></div><div class="or"><span>OR</span></div></div>
-  <form id="info" novalidate autocomplete="on">
-  <div class="sec"><h2>Contact</h2>${field('email', 'Email', 'type="email" autocomplete="email" inputmode="email"')}</div>
-  <div class="sec"><h2>Delivery</h2>
-    <div class="field sel" data-f="country"><select id="country" autocomplete="shipping country"></select><label for="country">Country/Region</label><p class="ferr"></p></div>
-    <div class="row2">${field('first', 'First name', 'autocomplete="shipping given-name"')}${field('last', 'Last name', 'autocomplete="shipping family-name"')}</div>
-    ${field('line1', 'Address', 'autocomplete="shipping address-line1"')}
-    ${field('line2', 'Apartment, suite, etc. (optional)', 'autocomplete="shipping address-line2"')}
-    <div class="row3" id="csz"></div>
-    ${field('phone', 'Phone (optional)', 'type="tel" autocomplete="shipping tel" inputmode="tel"')}
-  </div>
-  </form>
-  <div class="sec"><h2>Payment</h2><p class="note" style="margin:0 0 8px">All transactions are secure and encrypted.</p><div class="accept">${ICONS}</div>
-    <div class="paybox" id="paybox"><div id="whop-checkout"></div>
-      <div class="ship bill" id="bill"><label class="on"><input type="radio" name="bill" value="same" checked><span class="t">Billing address: same as shipping</span></label><label><input type="radio" name="bill" value="diff"><span class="t">Use a different billing address</span></label></div>
-    </div>
-    <p class="cardnote" id="cardnote"></p>
+  <div class="sec"><p class="note" style="margin:0 0 8px">All transactions are secure and encrypted.</p><div class="accept">${ICONS}</div>
+    <div class="loading" id="loading">Loading secure checkout…</div><div id="whop-checkout"></div>
     <p class="legal">By continuing, you agree to Whop's <a href="https://whop.com/legal/buyer-terms" target="_blank" rel="noopener">Buyer Terms of Service</a> and <a href="https://whop.com/legal/privacy" target="_blank" rel="noopener">Privacy Policy</a>. Payments are processed securely by Whop.</p>
   </div>
   <p class="links"><a href="/pages/refund-policy">Refund policy</a><a href="/pages/shipping">Shipping</a><a href="/pages/contact">Contact</a></p>
@@ -329,14 +167,11 @@ export function checkoutPage({ key, store, product, origin, accent, logo, sale =
 </details></div>
 </div>
 <script src="https://cdn.whop.com/elements/amber/elements.js" data-whop-elements></script>
-<script>window.__countries = ${JSON.stringify(countries)};</script>
 <script type="module">
   const PLAN = ${JSON.stringify(plan.id)};
   const RETURN = ${JSON.stringify(origin + CHECKOUT_PATH + '/return?key=' + encodeURIComponent(sel.key))};
   const ACCENT = ${JSON.stringify(accent)};
-  const DEFAULT_COUNTRY = ${JSON.stringify(defaultCountry)};
   const FALLBACK = ${JSON.stringify(plan.url)};
-  if (matchMedia('(max-width:959px)').matches) document.querySelector('details.sum')?.removeAttribute('open');
   ${FORM_JS}
 </script>`
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Checkout – ${esc(store)}</title><meta name="robots" content="noindex"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><style>:root{--accent:${esc(accentHex(accent))}}${CSS}</style></head><body>${body}</body></html>`

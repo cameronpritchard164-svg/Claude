@@ -93,7 +93,7 @@ export async function handleRequest(request: Request): Promise<Response> {
 
   if (path === '/cart') return Response.redirect(new URL(CHECKOUT_PATH + '?key=1:', url.origin).toString(), 302)
   if (path === CHECKOUT_PATH) {
-    const html = checkoutPage({ key: url.searchParams.get('key') || '1:', store: 'DiddyGrab', product: store.product, origin: url.origin, accent: 'pink', logo: '/images/logo.webp', sale: 'Halloween Sale 50% off', country: request.headers.get('cf-ipcountry') || '' })
+    const html = checkoutPage({ key: url.searchParams.get('key') || '1:', store: 'DiddyGrab', product: store.product, origin: url.origin, accent: 'pink', logo: '/images/logo.webp', sale: 'Halloween Sale 50% off' })
     if (!html) return Response.redirect(new URL(CHECKOUT_PATH + '?key=1:', url.origin).toString(), 302)
     return htmlResponse(html)
   }
