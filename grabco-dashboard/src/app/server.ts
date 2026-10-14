@@ -171,7 +171,9 @@ export async function handleRequest(request: Request): Promise<Response> {
     return new Response(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#e66767"/><stop offset="1" stop-color="#9085e9"/></linearGradient></defs><rect width="64" height="64" rx="16" fill="url(#g)"/><text x="32" y="43" text-anchor="middle" font-family="Poppins,Arial,sans-serif" font-weight="800" font-size="34" fill="#fff">G</text></svg>`, { headers: { 'content-type': 'image/svg+xml', 'cache-control': 'public, max-age=86400' } })
 
   if (path === '/setup') {
-    if (apiKey() && dashboardPassword()) return redirect('/')
+    // Re-usable until the secrets are stored on Whop (env), even if this
+    // isolate still holds them in memory.
+    if (env.WHOP_API_KEY && env.DASHBOARD_PASSWORD) return redirect('/')
     if (request.method !== 'POST') return html(setupPage())
     const form = await request.formData()
     const key = String(form.get('key') || '').trim(), password = String(form.get('password') || '')
@@ -211,7 +213,10 @@ export async function handleRequest(request: Request): Promise<Response> {
   if (path !== '/') return redirect('/')
 
   try {
-    return html(await dashboard(q))
+    let out = await dashboard(q)
+    if (!env.WHOP_API_KEY)
+      out = out.replace('<div class="kpis">', '<div class="note">The API key is only held in memory and will be lost when the app restarts. In Whop, give the key the <code>developer:update_app</code> permission (or create a new key with all six), then paste it again at <a href="/setup">/setup</a> to store it permanently.</div><div class="kpis">')
+    return html(out)
   } catch (e) {
     console.log('dashboard error', e.message)
     const msg = e instanceof WhopError ? `Whop returned ${e.status}. ${e.status === 401 || e.status === 403 ? 'The API key may be missing a permission.' : ''}` : e.message
