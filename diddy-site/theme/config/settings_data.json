@@ -2,7 +2,7 @@
   "current": "Master Funnel",
   "presets": {
     "Master Funnel": {
-      "logo_width": 200,
+      "logo_width": 180,
       "customer_account_menu": "customer-account-main-menu",
       "color_schemes": {
         "scheme-1": {
@@ -210,9 +210,9 @@
       "mt_tab_x": true,
       "logo": {
         "src": "/images/logo.webp",
-        "width": 671,
-        "height": 201,
-        "aspect_ratio": 3.3383084577114426,
+        "width": 188,
+        "height": 67,
+        "aspect_ratio": 2.8059701492537314,
         "alt": "DiddyGrab"
       },
       "favicon": {
