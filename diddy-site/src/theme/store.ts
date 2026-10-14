@@ -2,8 +2,8 @@
 // Store data for the theme. The product's title, photos and prices are read
 // live from Whop, so changing them in the Whop dashboard updates the site.
 
-export const WHOP_PRODUCT_ID = 'prod_63epfH2IUlzYn'
-export const WHOP_PLAN_ID = 'plan_rFXSUE37gHuPi'
+export const WHOP_PRODUCT_ID = 'prod_Ek1iCKY3X54ue'
+export const WHOP_PLAN_ID = 'plan_eBZNKLKLXjibY'
 export const PRODUCT_HANDLE = 'diddygrab'
 const API = 'https://api.whop.com/api/v1'
 const CACHE_MS = 60_000
@@ -14,8 +14,8 @@ const FALLBACK = {
     title: 'DiddyGrab™ Inflatable Mrs. Claus Carry Costume',
     description: '',
     gallery_images: [
-      { id: 'file_FxH3XJ9wJNEBD', url: 'https://assets-2-prod.whop.com/public/uploads/2026-10-13/d5928f10-cd86-4dd7-abf4-6c609ef296a1/image.jpg', content_type: 'image/jpeg', width: 1121, height: 1403 },
-      { id: 'file_bfaD8TGSz0pEW', url: 'https://assets-2-prod.whop.com/public/uploads/2026-10-13/eb829bd0-1602-4097-ad09-109ef452b18c/image.jpg', content_type: 'image/jpeg', width: 1099, height: 1431 },
+      { id: 'file_AJeUiZwbGUlur', url: 'https://assets-2-prod.whop.com/public/uploads/2026-10-14/6b399d94-062e-4439-b7ff-36c6aaa54482/image.jpg', content_type: 'image/jpeg', width: 1024, height: 1536 },
+      { id: 'file_EoROFbEm3rf16', url: 'https://assets-2-prod.whop.com/public/uploads/2026-10-14/c45c5879-2fda-4a6b-9599-7665c130f96a/image.jpg', content_type: 'image/jpeg', width: 1108, height: 1420 },
     ],
   },
   plan: {

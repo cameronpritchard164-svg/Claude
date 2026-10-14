@@ -14,15 +14,18 @@ printf '{\n\t"app_id": "%s",\n\t"name": "DiddyGrab",\n\t"route": "diddygrab"\n}\
 sed -i "s/APP_ID_TBD/$APP_ID/" src/theme/site.ts
 
 echo "== product"
-PROD=$(whop products create --title "DiddyGrab™ Inflatable Carry-Me Costume" --route diddygrab \
+# Registering the app auto-created a free product on the `diddygrab` route (hidden
+# below); the real product lives on `diddygrab-costume` so it can collect a
+# shipping address, which `products update` cannot switch on.
+PROD=$(whop products create --title "DiddyGrab™ Inflatable Carry-Me Costume" --route diddygrab-costume \
   --headline "He's got you. The inflatable carry-me costume." \
   --description "The inflatable carry-me costume where a big guy in a black suit carries you off. You step into his legs, the battery fan inflates him around you, and your real head and hands come out of the little guy in the blue jeans. Walk, dance and sit down in it. One adult size fits roughly 5'3 to 6'4 (160 to 195 cm). Stands up in about 60 seconds on 4 AA batteries (not included) and runs for roughly 4 hours. Dispatched in 1 to 3 business days, delivered in 2 to 3 weeks with tracking. 30-day money-back guarantee." \
-  --collect_shipping_address --custom_cta order_now --visibility visible --idempotency-key diddygrab-product-v1 --format json)
+  --collect_shipping_address --custom_cta order_now --visibility visible --idempotency-key diddygrab-product-v4 --format json)
 PID=$(echo "$PROD" | j "['id']"); echo "product $PID"
 
 echo "== base plan"
 PLAN=$(whop plans create --product_id "$PID" --plan_type one_time --release_method buy_now --initial_price 99.99 --currency usd \
-  --unlimited_stock --visibility visible --title "DiddyGrab Costume" --adaptive_pricing_enabled=false --idempotency-key diddygrab-plan-v1 --format json)
+  --unlimited_stock --visibility visible --title "DiddyGrab Costume" --adaptive_pricing_enabled=false --idempotency-key diddygrab-plan-v2 --format json)
 PLID=$(echo "$PLAN" | j "['id']"); echo "plan $PLID"
 whop plans update "$PLID" --strike_through_initial_price 199.98 --format json | grep -E "strike_through_initial_price|adaptive_pricing"
 

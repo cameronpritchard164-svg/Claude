@@ -10,8 +10,8 @@ const bundle = JSON.parse(readFileSync(new URL('bundle.json', root)))
 const outFile = new URL('bundle-plans.json', root)
 const plans = existsSync(outFile) ? JSON.parse(readFileSync(outFile)) : {}
 
-const PRODUCT_ID = 'prod_63epfH2IUlzYn'
-const BASE_PLAN_ID = 'plan_rFXSUE37gHuPi' // 1 costume, no add-ons
+const PRODUCT_ID = 'prod_Ek1iCKY3X54ue'
+const BASE_PLAN_ID = 'plan_eBZNKLKLXjibY' // 1 costume, no add-ons
 const round = (n) => Math.round(n * 100) / 100
 
 export const comboKey = (qty, keys) => `${qty}:${keys.join(',')}`
@@ -45,7 +45,7 @@ for (const tier of bundle.tiers) {
       '--description', description,
       '--internal_notes', description,
       '--metadata', JSON.stringify({ bundle_key: key, quantity: tier.qty, addons: addons.map((a) => a.key).join(',') }),
-      '--idempotency-key', `clausegrab-bundle-${key.replace(/[:,]/g, '-')}`,
+      '--idempotency-key', `diddygrab-bundle-${key.replace(/[:,]/g, '-')}`,
       '--format', 'json',
     ]
     const plan = JSON.parse(execFileSync('whop', args, { encoding: 'utf8' }))
