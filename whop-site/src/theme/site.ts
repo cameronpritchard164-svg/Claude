@@ -5,6 +5,7 @@ import { createEngine } from './engine'
 import { buildStore, loadWhopData, PRODUCT_HANDLE } from './store'
 import bundleConfig from './bundle.json'
 import bundlePlans from './bundle-plans.json'
+import { checkoutPage, returnPage, CHECKOUT_PATH } from './checkout'
 
 const PRODUCT_PATH = `/products/${PRODUCT_HANDLE}`
 
@@ -51,7 +52,7 @@ function finalize(html, store, title) {
     .replace(/<script src="\/assets\/product-form\.js" defer="defer"><\/script>/g, '')
     .replace(/<title>[\s\S]*?<\/title>/, `<title>${title}</title>`)
     .replace('<head>', '<head>' + HEAD_INJECT)
-    .replace('</body>', checkoutScript(store.checkoutUrl) + '</body>')
+    .replace('</body>', checkoutScript(CHECKOUT_PATH + '?key=1:') + '</body>')
 }
 
 const htmlResponse = (html, status = 200) =>
@@ -61,6 +62,10 @@ const htmlResponse = (html, status = 200) =>
   })
 
 const CONTACT_PATH = '/pages/contact'
+const POLICY_PAGES = {
+  '/pages/refund-policy': { title: 'Refund policy', handle: 'refund-policy', url: '/pages/refund-policy', content: '<p>Every order is covered by our 30-day money-back guarantee. If you are not happy with your costume, contact us within 30 days of delivery and we will arrange a return for a refund.</p><p>If your costume or fan arrives damaged or develops a fault, send us a photo and we will replace it or refund you, whichever you prefer.</p><p>To start a return or claim, use the <a href="/pages/contact">contact page</a> with your order number.</p>' },
+  '/pages/shipping': { title: 'Shipping', handle: 'shipping', url: '/pages/shipping', content: '<p>Shipping is free worldwide. Orders are dispatched in 1 to 3 business days and delivery takes 2 to 3 weeks from dispatch (please allow up to 30 days). A tracking number is emailed the moment your order ships.</p><p>Every costume is checked before it leaves our warehouse. Questions about an order? Use the <a href="/pages/contact">contact page</a>.</p>' },
+}
 const SHOP_PATHS = ['/', '/collections/all', '/collections', '/products', '/shop']
 
 // Contact and newsletter submissions are written to the site's server logs
@@ -86,7 +91,14 @@ export async function handleRequest(request: Request): Promise<Response> {
   const store = buildStore(data, url.origin)
   for (const link of store.linklists['main-menu'].links) link.current = link.url === path
 
-  if (path === '/cart' || path === '/checkout') return Response.redirect(store.checkoutUrl, 302)
+  if (path === '/cart') return Response.redirect(new URL(CHECKOUT_PATH + '?key=1:', url.origin).toString(), 302)
+  if (path === CHECKOUT_PATH) {
+    const html = checkoutPage({ key: url.searchParams.get('key') || '1:', store: 'ClauseGrab', product: store.product, origin: url.origin, accent: 'red', logo: '/images/logo.webp' })
+    if (!html) return Response.redirect(new URL(CHECKOUT_PATH + '?key=1:', url.origin).toString(), 302)
+    return htmlResponse(html)
+  }
+  if (path === CHECKOUT_PATH + '/return')
+    return htmlResponse(returnPage({ store: 'ClauseGrab', logo: '/images/logo.webp', status: url.searchParams.get('status') || '', paymentId: url.searchParams.get('payment') || '', key: url.searchParams.get('key') || '1:' }))
   // No separate home page: the shop is the product page.
   if (SHOP_PATHS.includes(path)) return Response.redirect(new URL(PRODUCT_PATH, url.origin).toString(), 302)
 
@@ -94,6 +106,8 @@ export async function handleRequest(request: Request): Promise<Response> {
   const pages = {
     [PRODUCT_PATH]: ['product', `${store.product.title} – ClauseGrab`],
     [CONTACT_PATH]: ['page.contact', 'Contact – ClauseGrab'],
+    '/pages/refund-policy': ['page', 'Refund policy – ClauseGrab'],
+    '/pages/shipping': ['page', 'Shipping – ClauseGrab'],
     '/contact': ['page.contact', 'Contact – ClauseGrab'],
   }
   const page = pages[path]
@@ -109,7 +123,7 @@ export async function handleRequest(request: Request): Promise<Response> {
     path,
     posted_forms,
     product: template === 'product' ? store.product : null,
-    page: template === 'page.contact' ? { title: 'Contact', content: '', handle: 'contact', url: CONTACT_PATH } : null,
+    page: template === 'page.contact' ? { title: 'Contact', content: '', handle: 'contact', url: CONTACT_PATH } : template === 'page' ? POLICY_PAGES[path] : null,
     bundle: { ...bundleConfig, plans: bundlePlans },
     page_title: title,
     page_description: store.product.title,

@@ -23,7 +23,12 @@ export function parseKey(key) {
   return { tier, addons, key: k, plan: plans[k] }
 }
 
+const ICONS = ['VISA|#1A1F71|#fff','mastercard|#fff|#EB001B','AMEX|#2E77BC|#fff','Pay|#000|#fff','G Pay|#fff|#3C4043'].map((x) => { const [l, bg, fg] = x.split('|'); return `<svg viewBox="0 0 38 24" width="38" height="24" aria-label="${l}"><rect x=".5" y=".5" width="37" height="23" rx="3" fill="${bg}" stroke="#000" stroke-opacity=".12"/><text x="19" y="15.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="${l.length > 5 ? 6.5 : 8}" fill="${fg}">${l === 'Pay' ? ' Pay' : l}</text></svg>` }).join('')
+
 const CSS = `
+.accept{display:flex;gap:6px;margin:0 0 14px}.accept svg{display:block}
+.links{display:flex;gap:18px;font-size:.8rem;margin:26px 0 0;padding-top:18px;border-top:1px solid #e6e6e6}.links a{color:#1773b0}
+
 *{box-sizing:border-box}html{font-size:16px}
 body{margin:0;background:#fff;color:#121212;font-family:Poppins,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:inherit}
@@ -108,7 +113,8 @@ export function checkoutPage({ key, store, product, origin, accent, logo, protec
       (s, i) => `<label class="${i === 0 ? 'on' : ''}${s.price == null ? ' off' : ''}"><input type="radio" name="ship" value="${esc(s.key)}" ${i === 0 ? 'checked' : ''} ${s.price == null ? 'disabled' : ''}><span><span class="t">${esc(s.label)}</span><span class="d">${esc(s.eta)}</span></span><span class="p">${s.price ? money(s.price) : 'FREE'}</span></label>`,
     )
     .join('')}</div><p class="note">Tracking number emailed the moment it ships.</p></div>
-  <div class="sec"><h2>Contact &amp; payment</h2><p class="note" style="margin:0 0 12px">All transactions are secure and encrypted. Shipping address is collected below.</p><div class="loading" id="loading">Loading secure checkout…</div><div id="whop-checkout"></div></div>
+  <div class="sec"><h2>Contact, delivery &amp; payment</h2><p class="note" style="margin:0 0 10px">All transactions are secure and encrypted.</p><div class="accept">${ICONS}</div><div class="loading" id="loading">Loading secure checkout…</div><div id="whop-checkout"></div></div>
+  <p class="links"><a href="/pages/refund-policy">Refund policy</a><a href="/pages/shipping">Shipping</a><a href="/pages/contact">Contact</a></p>
 </div>
 <div class="right"><details class="sum" open><summary class="msum"><span>Show order summary</span><b>${money(total)}</b></summary>
   <div class="item"><div class="img"><img src="${esc(img)}" alt=""><b>${tier.qty}</b></div><div><div class="n">${esc(product.title)}</div><div class="v">${tier.qty > 1 ? `${tier.qty} costumes · ` : ''}One adult size · Halloween Sale 50% off</div></div><div class="pr">${money(tier.price)}<span class="was">${money(tier.compare)}</span></div></div>
@@ -135,7 +141,21 @@ export function checkoutPage({ key, store, product, origin, accent, logo, protec
   document.querySelectorAll('input[type=checkbox][data-on]').forEach((c) => c.addEventListener('change', () => go(c.checked ? c.dataset.on : c.dataset.off)));
   document.querySelectorAll('.ship input').forEach((r) => r.addEventListener('change', () => { document.querySelectorAll('.ship label').forEach((l) => l.classList.toggle('on', l.querySelector('input').checked)); }));
   try {
-    const whop = window.WhopElements({ appearance: { theme: { appearance: 'light', accentColor: ${JSON.stringify(accent)} }, variables: { '--radius': '6px' } } });
+    const whop = window.WhopElements({ appearance: {
+      theme: { appearance: 'light', accentColor: ${JSON.stringify(accent)}, grayColor: 'slate' },
+      variables: { '--radius': '6px' },
+      classes: {
+        'whop-CheckoutSeller': { display: 'none' },
+        'whop-CheckoutSummaryHead': { display: 'none' },
+        'whop-CheckoutItem': { display: 'none' },
+        'whop-CheckoutPrice': { display: 'none' },
+        'whop-CheckoutPriceContext': { display: 'none' },
+        'whop-CheckoutDetailsToggle': { display: 'none' },
+        'whop-CheckoutPayButton': { background: '#1773b0', borderRadius: '6px', fontWeight: '600', fontSize: '16px', minHeight: '52px' },
+        'whop-Label': { fontWeight: '500' },
+        'whop-Input': { borderRadius: '6px' },
+      },
+    } });
     const checkout = whop.checkout.create({
       plan: PLAN,
       returnUrl: RETURN,

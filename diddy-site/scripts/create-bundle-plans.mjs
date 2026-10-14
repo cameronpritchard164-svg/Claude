@@ -42,7 +42,7 @@ for (const tier of bundle.tiers) {
       '--visibility', 'quick_link',
       '--adaptive_pricing_enabled=false',
       '--override_tax_type', 'inclusive',
-      '--payment_method_configuration', JSON.stringify({ disabled: ['paypal', 'paypal_express'], include_platform_defaults: true }),
+      '--payment_method_configuration', JSON.stringify({ enabled: ['card', 'apple_pay', 'google_pay'], disabled: ['paypal', 'paypal_express', 'crypto', 'wechat_pay', 'alipay', 'us_bank_account'], include_platform_defaults: false }),
       '--title', title,
       '--description', description,
       '--internal_notes', description,

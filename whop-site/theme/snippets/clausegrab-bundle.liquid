@@ -133,7 +133,7 @@
   window.clausegrabCheckoutUrl = function(){
     var on = addonOrder.filter(function(k){ return box.querySelector('.bb-addon.is-on[data-addon="' + k + '"]'); });
     var plan = plans[qty + ':' + on.join(',')];
-    return plan ? plan.url : null;
+    return plan ? '/checkout?key=' + encodeURIComponent(qty + ':' + on.join(',')) : null;
   };
 
   select(tiers[0]);
