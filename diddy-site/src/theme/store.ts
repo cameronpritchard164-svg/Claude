@@ -233,7 +233,7 @@ export function buildStore(data, origin) {
       domain: new URL(origin).host,
       currency: currency.toUpperCase(),
       money_format: `${CURRENCY_SYMBOLS[currency] || '$'}{{amount}}`,
-      enabled_payment_types: ['visa', 'master', 'american_express', 'paypal', 'apple_pay', 'google_pay'],
+      enabled_payment_types: ['visa', 'master', 'american_express', 'apple_pay', 'google_pay'],
       policies: [],
       brand: {},
       'customer_accounts_enabled?': false,
