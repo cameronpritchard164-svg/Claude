@@ -1,0 +1,222 @@
+{%- comment -%}
+  Master theme product blocks.
+  Accepts: block, product, section_id
+{%- endcomment -%}
+{%- case block.type -%}
+  {%- when 'mt_badge' -%}
+    {%- if block.settings.text != blank -%}
+      <div class="mt-pbadge mt-pbadge--{{ block.settings.alignment }}" {{ block.shopify_attributes }}>
+        <span class="mt-pbadge__text">{{ block.settings.text | escape }}</span>
+      </div>
+    {%- endif -%}
+
+  {%- when 'mt_stars' -%}
+    {%- assign mt_count = block.settings.count -%}
+    {%- if mt_count == blank and product.metafields.reviews.rating_count != blank -%}
+      {%- assign mt_count = product.metafields.reviews.rating_count -%}
+    {%- endif -%}
+    <div class="mt-stars mt-stars--{{ block.settings.align | default: 'left' }}{% if block.settings.italic %} mt-stars--italic{% endif %}" {{ block.shopify_attributes }}>
+      <span class="mt-stars__icons" aria-hidden="true">★★★★★</span>
+      <span class="mt-stars__text">
+        {%- if block.settings.rating != blank -%}{{ block.settings.rating | escape }} {% endif -%}
+        {%- if mt_count != blank or block.settings.label != blank -%}
+          {%- if block.settings.brackets %}({% endif -%}
+          {{ mt_count }}{% if mt_count != blank and block.settings.label != blank %} {% endif %}{{ block.settings.label | escape }}
+          {%- if block.settings.brackets %}){% endif -%}
+        {%- endif -%}
+      </span>
+      {%- if block.settings.badge != blank -%}<span class="mt-stars__badge">{{ block.settings.badge | escape }}</span>{%- endif -%}
+    </div>
+
+  {%- when 'mt_salebox' -%}
+    {%- liquid
+      assign end_iso = ''
+      if block.settings.end_date != blank
+        assign end_iso = block.settings.end_date | strip | replace: ' ', 'T' | append: ':00' | append: block.settings.utc_offset
+      endif
+    -%}
+    <div class="mt-salebox" {{ block.shopify_attributes }}>
+      <div class="mt-salebox__row">
+        <span class="mt-salebox__emoji" aria-hidden="true">{{ block.settings.emoji }}</span>
+        <strong class="mt-salebox__title">{{ block.settings.title | escape }}</strong>
+        {%- if block.settings.badge != blank -%}<span class="mt-salebox__badge">{{ block.settings.badge | escape }}</span>{%- endif -%}
+        {%- if end_iso != '' -%}
+          <mt-countdown class="mt-salebox__timer" data-end="{{ end_iso }}" hidden>
+            <span>{{ block.settings.ends_label | escape }}</span>
+            <b><i data-u="d">00</i>d <i data-u="h">00</i>h <i data-u="m">00</i>m <i data-u="s">00</i>s</b>
+          </mt-countdown>
+        {%- endif -%}
+      </div>
+      {%- if block.settings.text != blank -%}<p class="mt-salebox__text">{{ block.settings.text | escape }}</p>{%- endif -%}
+    </div>
+
+  {%- when 'mt_note' -%}
+    {%- if block.settings.text != blank -%}
+      <div class="mt-note mt-note--{{ block.settings.style }}" {{ block.shopify_attributes }}>
+        <span class="mt-note__dot" aria-hidden="true"></span>
+        <span>{{ block.settings.text }}</span>
+      </div>
+    {%- endif -%}
+
+  {%- when 'mt_divider_text' -%}
+    <div class="mt-divtext" {{ block.shopify_attributes }}><span>{{ block.settings.text | escape }}</span></div>
+
+  {%- when 'mt_bullets' -%}
+    <ul class="mt-bullets mt-bullets--{{ block.settings.align | default: 'left' }}{% if block.settings.layout == 'grid' %} mt-bullets--grid{% endif %} list-unstyled" role="list" {{ block.shopify_attributes }}>
+      {%- for i in (1..4) -%}
+        {%- assign text_key = 'text_' | append: i -%}
+        {%- assign emoji_key = 'emoji_' | append: i -%}
+        {%- assign img_key = 'image_' | append: i -%}
+        {%- assign preset_key = 'preset_' | append: i -%}
+        {%- assign icon_key = 'icon_' | append: i -%}
+        {%- if block.settings[text_key] != blank -%}
+          <li class="mt-bullets__item">
+            {%- if block.settings[icon_key] != blank and block.settings[icon_key] != 'none' -%}
+              <span class="mt-bullets__circle">{% render 'mt-icon', icon: block.settings[icon_key] %}</span>
+            {%- elsif block.settings[emoji_key] != blank -%}
+              <span class="mt-bullets__emoji" aria-hidden="true">{{ block.settings[emoji_key] }}</span>
+            {%- elsif block.settings[img_key] != blank -%}
+              {{ block.settings[img_key] | image_url: width: 120 | image_tag: width: 34, height: 34, loading: 'lazy', alt: '', class: 'mt-bullets__icon' }}
+            {%- elsif block.settings[preset_key] != blank -%}
+              <img src="{{ block.settings[preset_key] | asset_url }}" width="34" height="34" loading="lazy" alt="" class="mt-bullets__icon">
+            {%- endif -%}
+            <span class="mt-bullets__text">{{ block.settings[text_key] | escape }}</span>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+
+  {%- when 'mt_avatars' -%}
+    {%- if block.settings.style == 'pill' -%}
+      <div class="mt-avpill mt-avpill--{{ block.settings.pill_align | default: 'left' }}" {{ block.shopify_attributes }}>
+        <div class="mt-avpill__faces">
+          {%- for i in (1..5) -%}
+            {%- assign key = 'avatar_' | append: i -%}
+            {%- assign url_key = key | append: '_url' -%}
+            {%- assign img = block.settings[key] -%}
+            {%- assign img_url = block.settings[url_key] -%}
+            {%- if img != blank or img_url != blank -%}
+              <span class="mt-avpill__face">
+                {%- if img != blank -%}
+                  {{ img | image_url: width: 120 | image_tag: width: 40, height: 40, loading: 'lazy', alt: '' }}
+                {%- else -%}
+                  <img src="{{ img_url | escape }}" width="40" height="40" loading="lazy" alt="">
+                {%- endif -%}
+                <span class="mt-avpill__tick" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M3 6.2 5 8.2 9 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              </span>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <div class="mt-avpill__label">
+          <strong>{{ block.settings.pill_title | escape }}</strong>
+          {%- if block.settings.pill_sub != blank -%}<span>{{ block.settings.pill_sub | escape }}</span>{%- endif -%}
+        </div>
+      </div>
+    {%- elsif block.settings.count != blank -%}
+      <div class="mt-avatars mt-avatars--{{ block.settings.number_color }}" {{ block.shopify_attributes }}>
+        <div class="mt-avatars__faces">
+          {%- for i in (1..3) -%}
+            {%- assign key = 'avatar_' | append: i -%}
+            {%- assign url_key = key | append: '_url' -%}
+            {%- assign img = block.settings[key] -%}
+            {%- assign img_url = block.settings[url_key] -%}
+            {%- if img != blank -%}
+              {{ img | image_url: width: 120 | image_tag: width: 38, height: 38, loading: 'lazy', alt: '', class: 'mt-avatars__face' }}
+            {%- elsif img_url != blank -%}
+              <img src="{{ img_url | escape }}" width="38" height="38" loading="lazy" alt="" class="mt-avatars__face">
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <div class="mt-avatars__text">
+          {%- if block.settings.name != blank -%}{{ block.settings.name | escape }} and {% endif -%}
+          <strong>{{ block.settings.count | escape }}</strong> {{ block.settings.suffix | escape }}
+        </div>
+      </div>
+    {%- endif -%}
+
+  {%- when 'mt_payments' -%}
+    <ul class="mt-payments list-unstyled" role="list" {{ block.shopify_attributes }}>
+      {%- for type in shop.enabled_payment_types -%}
+        <li>{{ type | payment_type_svg_tag: class: 'mt-payments__icon' }}</li>
+      {%- endfor -%}
+    </ul>
+
+  {%- when 'mt_trust' -%}
+    <ul class="mt-trust mt-trust--{{ block.settings.style | default: 'big' }} list-unstyled" role="list" {{ block.shopify_attributes }}>
+      {%- for i in (1..4) -%}
+        {%- assign icon_key = 'icon_' | append: i -%}
+        {%- assign label_key = 'label_' | append: i -%}
+        {%- if block.settings[label_key] != blank -%}
+          <li class="mt-trust__item">
+            {% render 'mt-icon', icon: block.settings[icon_key] %}
+            <span class="mt-trust__label">{{ block.settings[label_key] | escape }}</span>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+
+  {%- when 'mt_review_slider' -%}
+    {%- if block.settings.text_1 != blank or block.settings.text_2 != blank or block.settings.text_3 != blank -%}
+      <mt-review-slider class="mt-rslider" {{ block.shopify_attributes }}>
+        <div class="mt-rslider__track">
+          {%- for i in (1..3) -%}
+            {%- assign text_key = 'text_' | append: i -%}
+            {%- assign name_key = 'name_' | append: i -%}
+            {%- if block.settings[text_key] != blank -%}
+              <figure class="mt-rslider__slide">
+                <blockquote>{{ block.settings[text_key] | escape }}</blockquote>
+                <figcaption>
+                  <span class="mt-rslider__name">{{ block.settings[name_key] | escape }}</span>
+                  <span class="mt-rslider__stars" aria-label="5 out of 5 stars">★★★★★</span>
+                </figcaption>
+              </figure>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <div class="mt-rslider__nav">
+          <button type="button" class="mt-rslider__arrow" data-dir="-1" aria-label="Previous review">‹</button>
+          <div class="mt-rslider__dots"></div>
+          <button type="button" class="mt-rslider__arrow" data-dir="1" aria-label="Next review">›</button>
+        </div>
+      </mt-review-slider>
+    {%- endif -%}
+
+  {%- when 'mt_shipping_tab', 'mt_returns_tab', 'mt_info_tab' -%}
+    <div class="product__accordion accordion quick-add-hidden mt-tab{% if settings.mt_tab_x %} mt-tab--x{% endif %}" {{ block.shopify_attributes }}>
+      <details id="Details-{{ block.id }}-{{ section_id }}">
+        <summary>
+          <div class="summary__title">
+            {% render 'mt-icon', icon: block.settings.icon %}
+            <h2 class="h4 accordion__title">{{ block.settings.heading | escape }}</h2>
+          </div>
+          {{- 'icon-caret.svg' | inline_asset_content -}}
+        </summary>
+        <div class="accordion__content rte">
+          {%- if block.type == 'mt_info_tab' -%}
+            {{ block.settings.content }}
+          {%- elsif block.settings.override != blank -%}
+            {{ block.settings.override }}
+          {%- elsif block.type == 'mt_shipping_tab' -%}
+            <p>
+              {%- if settings.mt_preorder -%}
+                This is a pre-order. Your order ships free and delivery takes approximately
+                <strong>{{ settings.mt_preorder_time | escape }}</strong> from purchase.
+              {%- else -%}
+                Your order ships free within {{ settings.mt_dispatch_time | escape }} and typically arrives in
+                <strong>{{ settings.mt_delivery_time | escape }}</strong>.
+              {%- endif -%}
+              {% if settings.mt_ship_extra != blank %}{{ settings.mt_ship_extra | escape }}{% endif %}
+              You'll receive a tracking number by email the moment it leaves our warehouse.
+            </p>
+          {%- else -%}
+            <p>
+              Try your {{ settings.mt_store_name | default: shop.name | escape }} {{ settings.mt_product_noun | escape }} for
+              <strong>{{ settings.mt_return_days }} days</strong>. If you're not happy with it, you can return it within
+              {{ settings.mt_return_days }} days for a refund. If your {{ settings.mt_product_noun | escape }} develops a
+              fault or breaks, simply send it back to us and we'll either repair it or replace it with a new one.
+            </p>
+          {%- endif -%}
+        </div>
+      </details>
+    </div>
+{%- endcase -%}

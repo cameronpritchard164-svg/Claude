@@ -1,0 +1,262 @@
+<div class="mt-trev mt-trev--{{ section.settings.style }} color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  <div class="page-width">
+    {%- if section.settings.pill != blank -%}<p class="mt-trev__pill"><span class="mt-trev__pillstars">★★★★★</span> {{ section.settings.pill }}</p>{%- endif -%}
+    {% render 'mt-heading', accent: section.settings.heading_accent, heading: section.settings.heading, sub: section.settings.sub, accent_end: section.settings.accent_end %}
+    {%- if section.settings.show_summary -%}
+      <div class="mt-trev__summary">
+        <div class="mt-trev__score"><strong>{{ section.settings.score | escape }}</strong><span class="mt-trev__stars">★★★★★</span><small>Based on {{ section.settings.total | escape }} reviews</small></div>
+        <ul class="mt-trev__bars">
+          {%- for i in (1..5) -%}{%- assign n = 6 | minus: i -%}{%- assign k = 'bar_' | append: n -%}
+            <li><span>{{ n }} stars</span><i><b style="width: {{ section.settings[k] }}%"></b></i><span>{{ section.settings[k] }}%</span></li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+    <ul class="mt-trev__grid list-unstyled" role="list">
+      {%- for block in section.blocks -%}
+        {%- assign bs = block.settings -%}
+        <li class="mt-trev__card" {{ block.shopify_attributes }}>
+          {%- if section.settings.style == 'tinted' -%}
+            <div class="mt-trev__stars">★★★★★</div>
+            {%- if bs.title != blank -%}<h3 class="mt-trev__title">{{ bs.title | escape }}</h3>{%- endif -%}
+            <p class="mt-trev__text">{{ bs.text | escape }}</p>
+            <p class="mt-trev__name">{{ bs.name | escape }}</p>
+          {%- elsif section.settings.style == 'chip' -%}
+            <div class="mt-trev__head"><span class="mt-trev__stars mt-trev__stars--sm">★★★★★</span><span class="mt-trev__namepill">{{ bs.name | escape }}{% if bs.verified %} <em>✓ Verified Buyer</em>{% endif %}</span></div>
+            <p class="mt-trev__text">&ldquo;{{ bs.text | escape }}&rdquo;</p>
+            {%- if bs.product != blank -%}
+              <div class="mt-trev__chip">
+                {%- if bs.image != blank -%}{{ bs.image | image_url: width: 120 | image_tag: width: 48, height: 48, loading: 'lazy', alt: '' }}{%- endif -%}
+                <div><strong>{{ bs.product | escape }}</strong>{% if bs.price != blank %}<span class="mt-trev__price">{{ bs.price | escape }}</span>{% endif %}{% if bs.meta != blank %}<small>{{ bs.meta | escape }}</small>{% endif %}</div>
+              </div>
+            {%- endif -%}
+          {%- else -%}
+            <div class="mt-trev__head"><strong>{{ bs.name | escape }}</strong>{% if bs.verified %}<span class="mt-trev__verified">✓ VERIFIED</span>{% endif %}</div>
+            <div class="mt-trev__stars mt-trev__stars--sm">★★★★★</div>
+            {%- if bs.title != blank -%}<h3 class="mt-trev__title mt-trev__title--left">{{ bs.title | escape }}</h3>{%- endif -%}
+            <p class="mt-trev__text mt-trev__text--left">&ldquo;{{ bs.text | escape }}&rdquo;</p>
+            {%- if bs.meta != blank -%}<small class="mt-trev__meta">{{ bs.meta | escape }}</small>{%- endif -%}
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+{%- style -%}
+  .section-{{ section.id }}-padding { padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px; }
+{%- endstyle -%}
+{% schema %}
+{
+  "name": "Text review cards",
+  "settings": [
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Style",
+      "options": [
+        {
+          "value": "tinted",
+          "label": "Tinted, centred"
+        },
+        {
+          "value": "chip",
+          "label": "Name pill + product chip"
+        },
+        {
+          "value": "grid",
+          "label": "Verified grid"
+        }
+      ],
+      "default": "tinted"
+    },
+    {
+      "type": "text",
+      "id": "pill",
+      "label": "Rating pill above heading (optional)"
+    },
+    {
+      "type": "text",
+      "id": "heading_accent",
+      "label": "Heading (accent part)"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading (rest)",
+      "default": "What People Are Saying"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_end",
+      "label": "Accent part goes after the heading",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "sub",
+      "label": "Subheading"
+    },
+    {
+      "type": "header",
+      "content": "Rating summary (grid style)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_summary",
+      "label": "Show rating summary",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "score",
+      "label": "Score",
+      "default": "4.9"
+    },
+    {
+      "type": "text",
+      "id": "total",
+      "label": "Total reviews",
+      "default": "2847"
+    },
+    {
+      "type": "range",
+      "id": "bar_5",
+      "label": "5 star %",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 78
+    },
+    {
+      "type": "range",
+      "id": "bar_4",
+      "label": "4 star %",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 17
+    },
+    {
+      "type": "range",
+      "id": "bar_3",
+      "label": "3 star %",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "bar_2",
+      "label": "2 star %",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "bar_1",
+      "label": "1 star %",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "First name, initial"
+        },
+        {
+          "type": "checkbox",
+          "id": "verified",
+          "label": "Verified",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Review",
+          "default": "Add your customer review here."
+        },
+        {
+          "type": "text",
+          "id": "meta",
+          "label": "Small line (e.g. 3 days ago · Bought Pink / M, or Purchased Sep 2026)"
+        },
+        {
+          "type": "text",
+          "id": "product",
+          "label": "Product chip name (chip style)"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Product chip price (chip style)"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Product chip image (chip style)"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Text review cards",
+      "blocks": [
+        {
+          "type": "review"
+        },
+        {
+          "type": "review"
+        },
+        {
+          "type": "review"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

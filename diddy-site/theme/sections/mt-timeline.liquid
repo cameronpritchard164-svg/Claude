@@ -1,0 +1,111 @@
+{%- comment -%}
+  Delivery timeline. Three steps with dates worked out from today.
+  Drop this file in sections/ as mt-timeline.liquid, then add the section in the theme editor.
+{%- endcomment -%}
+
+{%- liquid
+  assign day = 86400
+  assign now = 'now' | date: '%s' | plus: 0
+-%}
+
+<div class="mt-timeline color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    <ul class="mt-timeline__list" role="list">
+      {%- for i in (1..3) -%}
+        {%- liquid
+          assign icon_key = 'icon_' | append: i
+          assign label_key = 'label_' | append: i
+          assign from_key = 'from_' | append: i
+          assign to_key = 'to_' | append: i
+          assign text_key = 'text_' | append: i
+
+          assign from_days = section.settings[from_key]
+          assign to_days = section.settings[to_key]
+          assign from_stamp = from_days | times: day | plus: now
+          assign to_stamp = to_days | times: day | plus: now
+          assign from_date = from_stamp | date: section.settings.date_format
+          assign to_date = to_stamp | date: section.settings.date_format
+        -%}
+        <li class="mt-timeline__step">
+          <span class="mt-timeline__bubble">
+            {% render 'mt-icon', icon: section.settings[icon_key] %}
+          </span>
+          <p class="mt-timeline__date">
+            {%- if section.settings[text_key] != blank -%}
+              {{ section.settings[text_key] | escape }}
+            {%- elsif from_days == to_days -%}
+              {{ from_date }}
+            {%- else -%}
+              {{ from_date }} &ndash; {{ to_date }}
+            {%- endif -%}
+          </p>
+          <p class="mt-timeline__label">{{ section.settings[label_key] | escape }}</p>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+
+{%- style -%}
+  .mt-timeline { padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px; }
+  .mt-timeline__list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin: 0; padding: 0; list-style: none; position: relative; }
+  .mt-timeline__step { position: relative; text-align: center; padding: 0 6px; }
+  .mt-timeline__step::before { content: ''; position: absolute; top: 26px; left: -50%; width: 100%; height: 2px; background: var(--mt-accent); z-index: 0; }
+  .mt-timeline__step:first-child::before { display: none; }
+  .mt-timeline__bubble { position: relative; z-index: 1; display: grid; place-items: center; width: 52px; height: 52px; margin: 0 auto 12px; border-radius: 50%; background: var(--mt-accent); color: #fff; }
+  .mt-timeline__bubble .mt-icon { width: 26px; height: 26px; }
+  .mt-timeline__date { margin: 0; font-size: 1.5rem; font-weight: 700; line-height: 1.3; }
+  .mt-timeline__label { margin: 2px 0 0; font-size: 1.4rem; opacity: .7; }
+  @media (max-width: 749px) {
+    .mt-timeline__date { font-size: 1.3rem; }
+    .mt-timeline__label { font-size: 1.2rem; }
+    .mt-timeline__bubble { width: 44px; height: 44px; }
+    .mt-timeline__step::before { top: 22px; }
+  }
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "Delivery timeline",
+  "settings": [
+    { "type": "paragraph", "content": "Dates are worked out from today, so the timeline never goes stale. Set each step as a number of days from today. Leave a step's Override text blank to use the dates." },
+    { "type": "text", "id": "date_format", "label": "Date format", "default": "%b %e", "info": "%b %e gives Sep 24. %d/%m gives 24/09." },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+
+    { "type": "header", "content": "Step 1" },
+    { "type": "select", "id": "icon_1", "label": "Icon", "options": [
+      { "value": "checkbox", "label": "Checkbox" }, { "value": "heart", "label": "Heart" }, { "value": "return", "label": "Return arrow" },
+      { "value": "truck", "label": "Truck" }, { "value": "shield", "label": "Shield" }, { "value": "gift", "label": "Gift" },
+      { "value": "star", "label": "Star" }, { "value": "lock", "label": "Lock" } ], "default": "checkbox" },
+    { "type": "text", "id": "label_1", "label": "Label", "default": "Ordered" },
+    { "type": "range", "id": "from_1", "label": "Days from today (start)", "min": 0, "max": 90, "step": 1, "default": 0 },
+    { "type": "range", "id": "to_1", "label": "Days from today (end)", "min": 0, "max": 90, "step": 1, "default": 0 },
+    { "type": "text", "id": "text_1", "label": "Override text (optional)" },
+
+    { "type": "header", "content": "Step 2" },
+    { "type": "select", "id": "icon_2", "label": "Icon", "options": [
+      { "value": "checkbox", "label": "Checkbox" }, { "value": "heart", "label": "Heart" }, { "value": "return", "label": "Return arrow" },
+      { "value": "truck", "label": "Truck" }, { "value": "shield", "label": "Shield" }, { "value": "gift", "label": "Gift" },
+      { "value": "star", "label": "Star" }, { "value": "lock", "label": "Lock" } ], "default": "truck" },
+    { "type": "text", "id": "label_2", "label": "Label", "default": "Order Ready" },
+    { "type": "range", "id": "from_2", "label": "Days from today (start)", "min": 0, "max": 90, "step": 1, "default": 1 },
+    { "type": "range", "id": "to_2", "label": "Days from today (end)", "min": 0, "max": 90, "step": 1, "default": 2 },
+    { "type": "text", "id": "text_2", "label": "Override text (optional)" },
+
+    { "type": "header", "content": "Step 3" },
+    { "type": "select", "id": "icon_3", "label": "Icon", "options": [
+      { "value": "checkbox", "label": "Checkbox" }, { "value": "heart", "label": "Heart" }, { "value": "return", "label": "Return arrow" },
+      { "value": "truck", "label": "Truck" }, { "value": "shield", "label": "Shield" }, { "value": "gift", "label": "Gift" },
+      { "value": "star", "label": "Star" }, { "value": "lock", "label": "Lock" } ], "default": "gift" },
+    { "type": "text", "id": "label_3", "label": "Label", "default": "Delivered" },
+    { "type": "range", "id": "from_3", "label": "Days from today (start)", "min": 0, "max": 90, "step": 1, "default": 42 },
+    { "type": "range", "id": "to_3", "label": "Days from today (end)", "min": 0, "max": 90, "step": 1, "default": 56 },
+    { "type": "text", "id": "text_3", "label": "Override text (optional)" },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 80, "step": 4, "unit": "px", "default": 24 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 80, "step": 4, "unit": "px", "default": 24 }
+  ],
+  "presets": [ { "name": "Delivery timeline" } ]
+}
+{% endschema %}

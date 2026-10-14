@@ -1,0 +1,58 @@
+{
+  "heading": "BUNDLE UP & SAVE MORE!",
+  "noun": "Costume",
+  "product_name": "DiddyGrab™ Carry-Me Costume",
+  "popular_tier": 2,
+  "best_tier": 4,
+  "tiers": [
+    {
+      "qty": 1,
+      "price": 99.99,
+      "compare": 199.98
+    },
+    {
+      "qty": 2,
+      "price": 182,
+      "compare": 364
+    },
+    {
+      "qty": 3,
+      "price": 252,
+      "compare": 504
+    },
+    {
+      "qty": 4,
+      "price": 320,
+      "compare": 640
+    }
+  ],
+  "addons": [
+    {
+      "key": "guarantee",
+      "title": "30-Day Money-Back Guarantee",
+      "short": "MBG",
+      "price": 4.99,
+      "compare": 7.99,
+      "badge": "",
+      "image": "/images/addon-guarantee.svg"
+    },
+    {
+      "key": "protection",
+      "title": "Shipping Protection",
+      "short": "Ship",
+      "price": 4.99,
+      "compare": 7.99,
+      "badge": "",
+      "image": "/images/addon-shipping.svg"
+    },
+    {
+      "key": "mystery",
+      "title": "Diddy Mystery Box",
+      "short": "Box",
+      "price": 32.99,
+      "compare": 54.99,
+      "badge": "US$55+ INSIDE",
+      "image": "/images/addon-mystery.svg"
+    }
+  ]
+}
