@@ -24,87 +24,86 @@ export function parseKey(key) {
   return { tier, addons, key: k, plan: plans[k] }
 }
 
-const ICONS = ['VISA|#1A1F71|#fff','mastercard|#fff|#EB001B','AMEX|#2E77BC|#fff','Pay|#000|#fff','G Pay|#fff|#3C4043'].map((x) => { const [l, bg, fg] = x.split('|'); return `<svg viewBox="0 0 38 24" width="38" height="24" aria-label="${l}"><rect x=".5" y=".5" width="37" height="23" rx="3" fill="${bg}" stroke="#000" stroke-opacity=".12"/><text x="19" y="15.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="${l.length > 5 ? 6.5 : 8}" fill="${fg}">${l === 'Pay' ? ' Pay' : l}</text></svg>` }).join('')
+const CARD = (l, bg, fg) => `<svg viewBox="0 0 38 24" width="36" height="23" aria-label="${l}"><rect x=".5" y=".5" width="37" height="23" rx="3" fill="${bg}" stroke="#000" stroke-opacity=".12"/>${l === 'MC' ? '<circle cx="15" cy="12" r="6.5" fill="#EB001B"/><circle cx="23" cy="12" r="6.5" fill="#F79E1B" fill-opacity=".9"/>' : `<text x="19" y="15.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-style="italic" font-size="8" fill="${fg}">${l}</text>`}</svg>`
+const ICONS = CARD('VISA', '#1A4CD6', '#fff') + CARD('MC', '#111', '') + CARD('AMEX', '#2E77BC', '#fff') + '<i>+1</i>'
+const BAG = '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 8h12l1 13H5L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>'
+const CHEV = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>'
+const SEARCH = '<svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>'
+const HELP = '<svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.7"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg>'
 
 const CSS = `
-.accept{display:flex;gap:6px;margin:0 0 14px}.accept svg{display:block}
-.links{display:flex;gap:18px;font-size:.8rem;margin:26px 0 0;padding-top:18px;border-top:1px solid #e6e6e6}.links a{color:#1773b0}
-
 *{box-sizing:border-box}html{font-size:16px}
-body{margin:0;background:#fff;color:#121212;font-family:Poppins,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
-a{color:inherit}
-.hdr{border-bottom:1px solid #e6e6e6;padding:14px 20px;display:flex;justify-content:center}
-.hdr img{height:48px;width:auto}
+body{margin:0;background:#fff;color:#121212;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#1773b0}
+.hdr{border-bottom:1px solid #e6e6e6;padding:16px 20px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;max-width:1100px;margin:0 auto}
+.hdr .logo{grid-column:2}.hdr img{height:52px;width:auto;display:block}
+.hdr .bag{grid-column:3;justify-self:end;color:#1773b0;display:flex}
 .wrap{display:grid;grid-template-columns:1fr;max-width:1100px;margin:0 auto}
-@media(min-width:960px){.wrap{grid-template-columns:7fr 5fr;min-height:calc(100vh - 77px)}.left{border-right:1px solid #e6e6e6}.right{background:#fafafa}}
-.left{padding:28px 24px 48px}.right{padding:28px 24px 48px}
+@media(min-width:960px){.wrap{grid-template-columns:7fr 5fr;min-height:calc(100vh - 86px)}.left{border-right:1px solid #e6e6e6}.right{background:#fafafa}}
+.left{padding:22px 20px 48px}.right{padding:24px 20px 32px}
 @media(min-width:960px){.left{padding:36px 44px 60px}.right{padding:36px 38px 60px}}
-.crumbs{font-size:.78rem;color:#737373;margin:0 0 22px}.crumbs b{color:#121212;font-weight:500}
-h2{font-family:Georgia,"Times New Roman",serif;font-weight:700;font-size:1.25rem;letter-spacing:.02em;margin:0 0 12px}
-.sec{margin:0 0 28px}
-.ship{border:1px solid #d9d9d9;border-radius:6px;overflow:hidden}
-.ship label{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:16px 18px;cursor:pointer;border-top:1px solid #e6e6e6}
-.ship label:first-child{border-top:0}
-.ship label.on{background:#fbf0f4;box-shadow:inset 0 0 0 1px var(--accent)}
-.ship input{width:18px;height:18px;accent-color:var(--accent);margin:0}
-.ship .t{display:block;font-size:.95rem}.ship .d{display:block;font-size:.82rem;color:#737373;margin-top:2px}
-.ship .p{font-weight:600;font-size:.95rem}
-.ship label.off{opacity:.45;cursor:not-allowed}
-.note{font-size:.82rem;color:#737373;margin:8px 0 0}
-#whop-checkout{min-height:420px}
-.loading{font-size:.85rem;color:#737373;padding:18px 0}
-.sum{position:sticky;top:20px}.msum{display:none;list-style:none;cursor:pointer;justify-content:space-between;align-items:center;font-size:.92rem;padding:4px 0 14px}.msum::-webkit-details-marker{display:none}.msum span:after{content:' ▾';color:#737373}
-@media(max-width:959px){.wrap{display:flex;flex-direction:column}.right{order:-1;border-bottom:1px solid #e6e6e6;padding:14px 20px}.sum{position:static}.msum{display:flex}.sum:not([open]) .msum{padding-bottom:0}}
-.item{display:grid;grid-template-columns:72px 1fr auto;gap:14px;align-items:center;padding:0 0 18px;border-bottom:1px solid #e6e6e6;margin-bottom:18px}
-.item .img{position:relative;width:72px;height:72px;border:1px solid #e6e6e6;border-radius:8px;background:#fff;overflow:hidden}
-.item .img img{width:100%;height:100%;object-fit:contain}
-.item .img b{position:absolute;top:-8px;right:-8px;background:#121212;color:#fff;font-size:.72rem;width:22px;height:22px;border-radius:50%;display:grid;place-items:center}
-.item .n{font-size:.92rem;line-height:1.3}.item .v{font-size:.8rem;color:#737373;margin-top:2px}
-.item .pr{font-size:.92rem;font-weight:500}
-.item .was{display:block;color:#9a9a9a;text-decoration:line-through;font-size:.8rem;font-weight:400;text-align:right}
-.prot{border:1px solid #d9d9d9;border-radius:6px;padding:14px 16px;margin:0 0 18px;background:#fff}
-.prot label.top{display:flex;align-items:center;gap:12px;background:#f2f2f2;padding:12px 14px;border-radius:4px;cursor:pointer;font-size:.95rem}
-.prot input{width:18px;height:18px;accent-color:var(--accent);margin:0}
-.prot .body{display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:center;padding:14px 4px 2px}
-.prot .body img{width:56px;height:56px;object-fit:contain}
-.prot .k{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:#555}
-.prot .pp{font-size:1.05rem;font-weight:600;margin:2px 0}.prot .pd{font-size:.82rem;color:#555}
-.addons{margin:0 0 18px;display:grid;gap:8px}
-.addons label{display:flex;align-items:center;gap:10px;font-size:.88rem;cursor:pointer}
-.addons input{width:16px;height:16px;accent-color:var(--accent);margin:0}
-.addons .ap{margin-left:auto;font-weight:500}
-.tot{border-top:1px solid #e6e6e6;padding-top:16px;display:grid;gap:10px;font-size:.92rem}
-.tot .r{display:flex;justify-content:space-between}.tot .r span:last-child{font-variant-numeric:tabular-nums}
-.tot .muted{color:#737373}.tot .free{color:#1a7f37;font-weight:600}
-.tot .big{font-family:Georgia,serif;font-size:1.5rem;align-items:baseline;margin-top:4px}
-.tot .big small{font-size:.72rem;color:#737373;margin-right:8px;font-family:Poppins,sans-serif}
-.save{font-size:.82rem;color:#1a7f37;margin-top:6px;text-align:right}
-.trust{display:flex;gap:16px;flex-wrap:wrap;font-size:.78rem;color:#555;margin-top:18px}
-.trust span:before{content:"✓ ";color:#1a7f37}
-.foot{font-size:.72rem;color:#9a9a9a;margin-top:28px;border-top:1px solid #e6e6e6;padding-top:14px}
-.err{background:#fff2f2;border:1px solid #f2c2c2;color:#9a1b1b;border-radius:6px;padding:12px 14px;font-size:.88rem;margin:0 0 16px}
-
-.field{position:relative;margin:0 0 12px}
-.field input,.field select{width:100%;min-height:52px;padding:20px 12px 6px;border:1px solid #d9d9d9;border-radius:6px;background:#fff;font:inherit;font-size:16px;color:#121212;outline:none;appearance:none;-webkit-appearance:none}
-.field select{padding-right:36px}
-.field.sel:after{content:'';position:absolute;right:14px;top:22px;width:8px;height:8px;border-right:1.5px solid #555;border-bottom:1.5px solid #555;transform:rotate(45deg);pointer-events:none}
-.field label{position:absolute;left:12px;top:16px;font-size:15px;color:#737373;pointer-events:none;transition:all .12s}
-.field input:focus,.field select:focus{border-color:#1773b0;box-shadow:0 0 0 1px #1773b0}
-.field input:focus+label,.field input:not(:placeholder-shown)+label,.field select+label{top:7px;font-size:11.5px}
-.field.bad input,.field.bad select{border-color:#d72c0d;box-shadow:0 0 0 1px #d72c0d}
-.ferr{display:none;margin:4px 0 0;font-size:.78rem;color:#d72c0d}.field.bad .ferr{display:block}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-@media(max-width:420px){.row3{grid-template-columns:1fr 1fr}.row3 .field:first-child{grid-column:1/-1}}
-h2{margin-bottom:14px}
+h2{font-weight:700;font-size:1.3rem;margin:0 0 14px;color:#121212}
+.sec{margin:0 0 30px}
+.note{font-size:.9rem;color:#737373;margin:-6px 0 14px}
 .express{display:none}.express.on{display:block}
-.or{display:flex;align-items:center;gap:12px;margin:18px 0 4px;color:#737373;font-size:.78rem}.or:before,.or:after{content:'';flex:1;height:1px;background:#e6e6e6}
+.exh{text-align:center;color:#737373;font-size:1rem;margin:0 0 14px}
+.or{display:flex;align-items:center;gap:14px;margin:18px 0 26px;color:#737373;font-size:.85rem}.or:before,.or:after{content:'';flex:1;height:1px;background:#dedede}
+.field{position:relative;margin:0 0 12px}
+.field input,.field select{width:100%;min-height:56px;padding:22px 14px 8px;border:1px solid #dedede;border-radius:8px;background:#fff;font:inherit;font-size:17px;color:#121212;outline:none;appearance:none;-webkit-appearance:none}
+.field select{padding-right:44px}
+.field.sel:after{content:'';position:absolute;right:18px;top:22px;width:9px;height:9px;border-right:1.5px solid #555;border-bottom:1.5px solid #555;transform:rotate(45deg);pointer-events:none}
+.field label{position:absolute;left:14px;top:18px;font-size:17px;color:#737373;pointer-events:none;transition:all .12s}
+.field input:focus,.field select:focus{border-color:#1773b0;box-shadow:0 0 0 1px #1773b0}
+.field input:focus+label,.field input:not(:placeholder-shown)+label,.field select+label{top:8px;font-size:12px}
+.field.bad input,.field.bad select{border-color:#d72c0d;box-shadow:0 0 0 1px #d72c0d}
+.ferr{display:none;margin:4px 0 0;font-size:.8rem;color:#d72c0d}.field.bad .ferr{display:block}
+.field .ico{position:absolute;right:16px;top:17px;color:#555;pointer-events:none}
+.field.ico-in input{padding-right:48px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.row3{display:grid;grid-template-columns:1fr 1fr;gap:10px}.row3 .field:first-child{grid-column:1/-1}
+@media(min-width:600px){.row3{grid-template-columns:1fr 1fr 1fr}.row3 .field:first-child{grid-column:auto}}
+.chk{display:flex;align-items:center;gap:12px;font-size:1rem;margin:6px 0 0;cursor:pointer}
+.chk input{width:20px;height:20px;margin:0;accent-color:#1773b0;border-radius:4px}
+.shipbox{background:#f5f5f5;border-radius:8px;padding:18px 18px;color:#737373;font-size:1rem}
+.shipbox .shipopt{display:none;justify-content:space-between;color:#121212}
+.shipbox.ready{background:#f0f5fd;border:1px solid #1773b0;color:#121212}.shipbox.ready .shipwait{display:none}.shipbox.ready .shipopt{display:flex}
+.pm{border:1px solid #dedede;border-radius:8px;overflow:hidden}
+.pmhead{display:flex;align-items:center;gap:12px;padding:16px 18px;background:#f0f5fd;border:1px solid #1773b0;border-radius:8px 8px 0 0;margin:-1px -1px 0}
+.pmhead .rad{width:20px;height:20px;border-radius:50%;border:6px solid #1773b0;background:#fff;flex:none}
+.pmhead b{font-size:1.05rem;flex:1}
+.cards{display:flex;gap:4px;align-items:center}.cards svg{display:block}.cards i{font-style:normal;font-size:.75rem;color:#1773b0;border:1px solid #dedede;border-radius:3px;padding:3px 5px}
+.pmbody{background:#f5f5f5;padding:14px 14px 18px}
 .paybox{position:relative}
-.bill{display:none;position:absolute;left:0;right:0;bottom:78px;height:98px;margin:0;z-index:2;background:#fff}
-.paybox.ready .bill{display:block}
-.bill label{height:48px;padding:0 16px;grid-template-columns:auto 1fr}.bill .t{font-size:.92rem}
-.cardnote{display:none;margin:10px 0 0;font-size:.82rem;color:#9a1b1b;background:#fff2f2;border:1px solid #f2c2c2;border-radius:6px;padding:10px 12px}.cardnote.show{display:block}
-.legal{font-size:.74rem;color:#737373;text-align:center;margin:14px 0 0;line-height:1.5}.legal a{color:#737373}
-.hide{display:none!important}
+.overlay{display:none;position:absolute;left:0;right:0;bottom:78px;height:150px;z-index:2}
+.paybox.ready .overlay{display:block}
+.overlay .chk{margin:0 0 20px;font-size:1.05rem}
+.totalrow{display:flex;align-items:center;gap:14px;padding:4px 2px}
+.totalrow img{width:58px;height:58px;border-radius:8px;object-fit:cover;border:1px solid #e6e6e6}
+.totalrow .t b{display:block;font-size:1.25rem}.totalrow .t span{color:#737373;font-size:.95rem}
+.totalrow .amt{margin-left:auto;font-size:1.45rem;font-weight:700;display:flex;align-items:center;gap:8px}
+.totalrow .cur{font-size:.75rem;font-weight:600;color:#737373;background:#eee;border-radius:12px;padding:3px 8px}
+#whop-checkout{min-height:120px}
+.loading{font-size:.9rem;color:#737373;padding:14px 0}
+.cardnote{display:none;margin:10px 0 0;font-size:.85rem;color:#9a1b1b;background:#fff2f2;border:1px solid #f2c2c2;border-radius:8px;padding:10px 12px}.cardnote.show{display:block}
+.legal{font-size:.8rem;color:#737373;margin:16px 0 0;line-height:1.5}
+.links{display:flex;flex-wrap:wrap;gap:10px 22px;font-size:1rem;margin:30px 0 0;padding-top:22px;border-top:1px solid #e6e6e6}
+.sum{position:sticky;top:20px}
+.msum{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:1.2rem;padding:0 0 14px}.msum::-webkit-details-marker{display:none}
+.msum .os{color:#1773b0;display:flex;align-items:center;gap:8px}.msum .os svg{transition:transform .2s}.sum[open] .msum .os svg{transform:rotate(180deg)}.msum b{font-weight:700;font-size:1.5rem}
+@media(max-width:959px){.wrap{display:flex;flex-direction:column}.right{order:-1;background:#f5f5f5;border-bottom:1px solid #e6e6e6;padding:18px 20px}.sum{position:static}.sum:not([open]) .msum{padding-bottom:0}}
+@media(min-width:960px){.msum{pointer-events:none}.msum .os svg{display:none}}
+.item{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;padding:14px 0 18px;border-bottom:1px solid #dedede;margin-bottom:16px}
+.item .img{position:relative;width:64px;height:64px;border:1px solid #dedede;border-radius:8px;background:#fff;overflow:hidden}
+.item .img img{width:100%;height:100%;object-fit:cover}
+.item .img b{position:absolute;top:-8px;right:-8px;background:#737373;color:#fff;font-size:.72rem;width:22px;height:22px;border-radius:50%;display:grid;place-items:center}
+.item .n{font-size:.95rem;line-height:1.3}.item .v{font-size:.8rem;color:#737373;margin-top:2px}
+.item .pr{font-size:.95rem;font-weight:500}
+.item .was{display:block;color:#9a9a9a;text-decoration:line-through;font-size:.8rem;font-weight:400;text-align:right}
+.tot{display:grid;gap:10px;font-size:.95rem}
+.tot .r{display:flex;justify-content:space-between}.tot .r span:last-child{font-variant-numeric:tabular-nums}
+.tot .muted{color:#737373}.tot .free{font-weight:600}
+.tot .big{font-size:1.35rem;font-weight:700;align-items:baseline;margin-top:6px}
+.tot .big small{font-size:.75rem;color:#737373;margin-right:8px;font-weight:600}
+.err{background:#fff2f2;border:1px solid #f2c2c2;color:#9a1b1b;border-radius:8px;padding:12px 14px;font-size:.88rem;margin:0 0 16px}
 `
 
 const FORM_JS = String.raw`
@@ -121,13 +120,14 @@ const FORM_JS = String.raw`
   const STATE_LABEL = { state: 'State', province: 'Province', county: 'County', area: 'Area', emirate: 'Emirate', island: 'Island', parish: 'Parish', prefecture: 'Prefecture', oblast: 'Oblast', department: 'Department', do_si: 'Province' };
   const rec = () => C[sel.value] || ['', 'A', '', '', '', ''];
   const fieldHtml = (id, label, extra) => '<div class="field" data-f="' + id + '"><input id="' + id + '" placeholder=" " ' + (extra || '') + '><label for="' + id + '">' + label + '</label><p class="ferr"></p></div>';
+  const STATE_LABEL_AU = 'State/territory';
   function renderCSZ() {
     const r = rec(), cc = sel.value, keep = { city: $('city')?.value || '', state: $('state')?.value || '', postal: $('postal')?.value || '' };
     const parts = [];
     for (const ch of r[1]) {
       if (ch === 'C') parts.push(fieldHtml('city', cc === 'AU' || cc === 'NZ' ? 'Suburb' : 'City', 'autocomplete="shipping address-level2"'));
       if (ch === 'S') {
-        const label = STATE_LABEL[r[4]] || 'Region';
+        const label = cc === 'AU' ? STATE_LABEL_AU : (STATE_LABEL[r[4]] || 'Region');
         if (r[6]) parts.push('<div class="field sel" data-f="state"><select id="state" autocomplete="shipping address-level1"><option value=""></option>' + r[6].map((k, i) => '<option value="' + k.replace(/"/g, '&quot;') + '">' + String(r[7][i] || k).replace(/</g, '&lt;') + '</option>').join('') + '</select><label for="state">' + label + '</label><p class="ferr"></p></div>');
         else parts.push(fieldHtml('state', label, 'autocomplete="shipping address-level1"'));
       }
@@ -135,7 +135,7 @@ const FORM_JS = String.raw`
     }
     const box = $('csz');
     box.innerHTML = parts.join('');
-    box.className = 'row' + Math.max(1, parts.length);
+    box.className = 'row3';
     if ($('city')) $('city').value = keep.city;
     if ($('state')) $('state').value = keep.state;
     if ($('postal')) $('postal').value = keep.postal;
@@ -184,14 +184,15 @@ const FORM_JS = String.raw`
     const name = (v('first') + ' ' + v('last')).trim();
     return { email: v('email').toLowerCase(), name, phone: v('phone'), address };
   };
-  const billSame = () => document.querySelector('input[name=bill]:checked').value === 'same';
-  const BILL_H = 98, BILL_GAP = 14;
+  const billSame = () => $('billsame').checked;
+  const BILL_H = 150, BILL_GAP = 14;
   let mounted = null, timer = null, cardTouched = false, ready = false;
   const schedule = () => { clearTimeout(timer); timer = setTimeout(mount, 400); };
-  document.querySelectorAll('input[name=bill]').forEach((r) => r.addEventListener('change', () => { document.querySelectorAll('#bill label').forEach((l) => l.classList.toggle('on', l.querySelector('input').checked)); mount(); }));
+  $('billsame').addEventListener('change', () => mount());
   window.addEventListener('blur', () => { if (ready && document.activeElement && document.activeElement.closest('#whop-checkout')) cardTouched = true; });
   function mount() {
     const ok = validate(touched);
+    $('shipbox').classList.toggle('ready', ok);
     const d = ok ? values() : null;
     const same = billSame();
     const sig = JSON.stringify({ d, same });
@@ -226,11 +227,19 @@ const FORM_JS = String.raw`
           'whop-CheckoutExpress': { display: 'none' },
           'whop-CheckoutExpressDivider': { display: 'none' },
           'whop-CheckoutTerms + div': { display: 'none' },
+          'whop-CheckoutError': { marginTop: '10px' },
           'whop-PaymentBillingBlock': same ? { display: 'none' } : { marginTop: '12px' },
-          'whop-CheckoutPayButton': { background: '#1773b0', borderRadius: '6px', fontWeight: '600', fontSize: '16px', minHeight: '52px', marginTop: (BILL_H + BILL_GAP * 2) + 'px' },
+          'whop-PaymentMethodRow': { display: 'none' },
+          'whop-CardLabel': { display: 'none' },
+          'whop-Payment': { padding: '0' },
+          'whop-PaymentMethods': { border: '0', background: 'transparent', borderRadius: '0' },
+          'whop-PaymentMethod': { border: '0', margin: '0' },
+          'whop-PaymentMethodDetail': { padding: '0' },
+          'whop-PaymentMethodPanel': { background: 'transparent', padding: '0', border: '0' },
+          'whop-PaymentDetailRegion': { padding: '0' },
+          'whop-CheckoutPayButton': { background: '#1773b0', borderRadius: '8px', fontWeight: '600', fontSize: '17px', minHeight: '56px', marginTop: (BILL_H + BILL_GAP * 2) + 'px' },
           'whop-Label': { fontSize: '15px', fontWeight: '500', color: '#333' },
-          'whop-CardLabel': { fontSize: '15px', fontWeight: '500', color: '#333' },
-          'whop-Input': { borderRadius: '6px', minHeight: '48px' },
+          'whop-Input': { borderRadius: '8px', minHeight: '54px', background: '#fff' },
         },
       } });
       const meta = d ? { customer_name: d.name, phone: d.phone || '', ship_to: [d.address.line1, d.address.line2, d.address.city, d.address.state, d.address.postal_code, d.address.country].filter(Boolean).join(', ') } : undefined;
@@ -264,17 +273,9 @@ const FORM_JS = String.raw`
   try {
     const ex = window.WhopElements({ appearance: { theme: { appearance: 'light', accentColor: ACCENT, grayColor: 'slate' }, variables: { '--radius': '6px' }, classes: { 'whop-CheckoutExpressDivider': { display: 'none' }, 'whop-CheckoutExpress': { padding: '0' } } } });
     const exco = ex.checkout.create({ plan: PLAN, returnUrl: RETURN, attribution: { source: 'website' }, onComplete: (r) => { if (r && r.result === 'payment') location.href = RETURN + '&payment=' + encodeURIComponent(r.paymentId) + '&status=succeeded'; } });
-    exco.create('expressCheckout', { layout: 'auto' }).mount('#express');
+    exco.create('expressCheckout', { layout: 'horizontal' }).mount('#express');
     new ResizeObserver(() => $('expressbox').classList.toggle('on', $('express').offsetHeight > 30)).observe($('express'));
   } catch (e) { console.error('express', e); }
-  // Pressing Order now before the form is done makes Whop show an error in its
-  // box (which changes its height); point the shopper at the fields instead.
-  let lastH = 0;
-  new ResizeObserver(() => {
-    const h = $('whop-checkout').offsetHeight;
-    if (ready && h > lastH + 10 && lastH && !validate()) { validate(true); const bad = form.querySelector('.bad input, .bad select'); if (bad) { bad.scrollIntoView({ behavior: 'smooth', block: 'center' }); } }
-    lastH = h;
-  }).observe($('whop-checkout'));
 `
 
 export function checkoutPage({ key, store, product, origin, accent, logo, sale = '50% off', country = '' }) {
@@ -289,44 +290,46 @@ export function checkoutPage({ key, store, product, origin, accent, logo, sale =
 
   const field = (id, label, extra = '') => `<div class="field" data-f="${id}"><input id="${id}" placeholder=" " ${extra}><label for="${id}">${esc(label)}</label><p class="ferr"></p></div>`
 
-  const body = `<header class="hdr"><a href="/"><img src="${esc(logo)}" alt="${esc(store)}"></a></header>
+  const body = `<header class="hdr"><a class="logo" href="/"><img src="${esc(logo)}" alt="${esc(store)}"></a><a class="bag" href="/products/${esc(product.handle)}" aria-label="Cart">${BAG}</a></header>
 <div class="wrap">
+<div class="right"><details class="sum" open><summary class="msum"><span class="os">Order summary ${CHEV}</span><b>${money(total)}</b></summary>
+  <div class="item"><div class="img"><img src="${esc(img)}" alt=""><b>${tier.qty}</b></div><div><div class="n">${esc(product.title)}</div><div class="v">${tier.qty > 1 ? `${tier.qty} costumes · ` : ''}One adult size · ${esc(sale)}</div></div><div class="pr">${money(tier.price)}<span class="was">${money(tier.compare)}</span></div></div>
+  <div class="tot">
+    <div class="r"><span>Subtotal · ${tier.qty} item${tier.qty > 1 ? 's' : ''}</span><span>${money(tier.price)}</span></div>
+    ${addons.map((a) => `<div class="r"><span>${esc(a.title)}</span><span>${money(a.price)}</span></div>`).join('')}
+    <div class="r"><span>Shipping</span><span class="free">FREE</span></div>
+    <div class="r big"><span>Total</span><span><small>USD</small>${money(total)}</span></div>
+    <div class="r muted" style="font-size:.85rem"><span>Including taxes</span><span></span></div>
+  </div>
+</details></div>
 <div class="left">
-  <p class="crumbs"><a href="/products/${esc(product.handle)}">Cart</a> › <b>Information</b> › <b>Shipping</b> › <b>Payment</b></p>
-  <div class="sec express" id="expressbox"><h2>Express checkout</h2><div id="express"></div><div class="or"><span>OR</span></div></div>
+  <div class="express" id="expressbox"><p class="exh">Express checkout</p><div id="express"></div><div class="or"><span>OR</span></div></div>
   <form id="info" novalidate autocomplete="on">
-  <div class="sec"><h2>Contact</h2>${field('email', 'Email', 'type="email" autocomplete="email" inputmode="email"')}</div>
+  <div class="sec"><h2>Contact</h2>${field('email', 'Email', 'type="email" autocomplete="email" inputmode="email"')}<label class="chk"><input type="checkbox" id="news">Email me with news and offers</label></div>
   <div class="sec"><h2>Delivery</h2>
     <div class="field sel" data-f="country"><select id="country" autocomplete="shipping country"></select><label for="country">Country/Region</label><p class="ferr"></p></div>
-    <div class="row2">${field('first', 'First name', 'autocomplete="shipping given-name"')}${field('last', 'Last name', 'autocomplete="shipping family-name"')}</div>
-    ${field('line1', 'Address', 'autocomplete="shipping address-line1"')}
+    ${field('first', 'First name', 'autocomplete="shipping given-name"')}
+    ${field('last', 'Last name', 'autocomplete="shipping family-name"')}
+    <div class="field ico-in" data-f="line1"><input id="line1" placeholder=" " autocomplete="shipping address-line1"><label for="line1">Address</label>${SEARCH}<p class="ferr"></p></div>
     ${field('line2', 'Apartment, suite, etc. (optional)', 'autocomplete="shipping address-line2"')}
     <div class="row3" id="csz"></div>
-    ${field('phone', 'Phone (optional)', 'type="tel" autocomplete="shipping tel" inputmode="tel"')}
+    <div class="field ico-in" data-f="phone"><input id="phone" placeholder=" " type="tel" autocomplete="shipping tel" inputmode="tel"><label for="phone">Phone (optional)</label>${HELP}<p class="ferr"></p></div>
   </div>
   </form>
-  <div class="sec"><h2>Payment</h2><p class="note" style="margin:0 0 8px">All transactions are secure and encrypted.</p><div class="accept">${ICONS}</div>
-    <div class="paybox" id="paybox"><div id="whop-checkout"></div>
-      <div class="ship bill" id="bill"><label class="on"><input type="radio" name="bill" value="same" checked><span class="t">Billing address: same as shipping</span></label><label><input type="radio" name="bill" value="diff"><span class="t">Use a different billing address</span></label></div>
+  <div class="sec"><h2>Shipping method</h2><div class="shipbox" id="shipbox"><p class="shipwait" style="margin:0">Enter your shipping address to view available shipping methods.</p><div class="shipopt"><span>Free shipping</span><b>FREE</b></div></div></div>
+  <div class="sec"><h2>Payment</h2><p class="note">All transactions are secure and encrypted.</p>
+    <div class="pm"><div class="pmhead"><span class="rad"></span><b>Credit card</b><span class="cards">${ICONS}</span></div>
+      <div class="pmbody"><div class="paybox" id="paybox"><div id="whop-checkout"></div>
+        <div class="overlay" id="bill"><label class="chk"><input type="checkbox" id="billsame" checked>Use shipping address as billing address</label>
+          <div class="totalrow"><img src="${esc(img)}" alt=""><div class="t"><b>Total</b><span>${tier.qty} item${tier.qty > 1 ? 's' : ''}</span></div><div class="amt"><span class="cur">USD</span>${money(total)}</div></div>
+        </div>
+      </div></div>
     </div>
     <p class="cardnote" id="cardnote"></p>
-    <p class="legal">By continuing, you agree to Whop's <a href="https://whop.com/legal/buyer-terms" target="_blank" rel="noopener">Buyer Terms of Service</a> and <a href="https://whop.com/legal/privacy" target="_blank" rel="noopener">Privacy Policy</a>. Payments are processed securely by Whop.</p>
+    <p class="legal">By paying, you agree to Whop's <a href="https://whop.com/legal/buyer-terms" target="_blank" rel="noopener">Buyer Terms of Service</a> and <a href="https://whop.com/legal/privacy" target="_blank" rel="noopener">Privacy Policy</a>. Payments are processed securely by Whop.</p>
   </div>
   <p class="links"><a href="/pages/refund-policy">Refund policy</a><a href="/pages/shipping">Shipping</a><a href="/pages/contact">Contact</a></p>
 </div>
-<div class="right"><details class="sum" open><summary class="msum"><span>Order summary</span><b>${money(total)}</b></summary>
-  <div class="item"><div class="img"><img src="${esc(img)}" alt=""><b>${tier.qty}</b></div><div><div class="n">${esc(product.title)}</div><div class="v">${tier.qty > 1 ? `${tier.qty} costumes · ` : ''}One adult size · ${esc(sale)}</div></div><div class="pr">${money(tier.price)}<span class="was">${money(tier.compare)}</span></div></div>
-  <div class="tot">
-    <div class="r"><span>Subtotal</span><span>${money(tier.price)}</span></div>
-    ${addons.map((a) => `<div class="r"><span>${esc(a.title)}</span><span>${money(a.price)}</span></div>`).join('')}
-    <div class="r"><span>Shipping</span><span class="free" id="shipline">FREE</span></div>
-    <div class="r muted"><span>Taxes</span><span>Included</span></div>
-    <div class="r big"><span>Total</span><span><small>USD</small>${money(total)}</span></div>
-    <div class="save">You save ${money(compare - total)} (${Math.round(((compare - total) / compare) * 100)}% off)</div>
-  </div>
-  <div class="trust"><span>30-day money-back guarantee</span><span>Secure checkout by Whop</span><span>Ships in 1–3 business days</span></div>
-  <p class="foot">Prices in USD. Questions? <a href="/pages/contact">Contact us</a>.</p>
-</details></div>
 </div>
 <script src="https://cdn.whop.com/elements/amber/elements.js" data-whop-elements></script>
 <script>window.__countries = ${JSON.stringify(countries)};</script>
@@ -339,7 +342,7 @@ export function checkoutPage({ key, store, product, origin, accent, logo, sale =
   if (matchMedia('(max-width:959px)').matches) document.querySelector('details.sum')?.removeAttribute('open');
   ${FORM_JS}
 </script>`
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Checkout – ${esc(store)}</title><meta name="robots" content="noindex"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><style>:root{--accent:${esc(accentHex(accent))}}${CSS}</style></head><body>${body}</body></html>`
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Checkout – ${esc(store)}</title><meta name="robots" content="noindex"><style>:root{--accent:${esc(accentHex(accent))}}${CSS}</style></head><body>${body}</body></html>`
 }
 
 const accentHex = (a) => ({ pink: '#F06A9F', red: '#C8102E', crimson: '#C8102E' })[a] || '#F06A9F'
