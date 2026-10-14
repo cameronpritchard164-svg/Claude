@@ -14,11 +14,7 @@ const round = (n) => Math.round(n * 100) / 100
 export const CHECKOUT_PATH = '/checkout'
 
 // Parses "2:guarantee,protection" into the tier and add-ons it names.
-const TEST_PLAN = { id: 'plan_6E3bBGkSNciZD', url: 'https://whop.com/checkout/plan_6E3bBGkSNciZD' }
-
 export function parseKey(key) {
-  // Hidden $1 test order: /checkout?key=test
-  if (String(key) === 'test') return { tier: { qty: 1, price: 1, compare: 1 }, addons: [], key: 'test', plan: TEST_PLAN }
   const [q, a] = String(key || '1:').split(':')
   const qty = Math.max(1, Math.min(4, Number(q) || 1))
   const tier = bundle.tiers.find((t) => t.qty === qty) || bundle.tiers[0]
