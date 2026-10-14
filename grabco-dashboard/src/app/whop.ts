@@ -1,7 +1,8 @@
 // @ts-nocheck
 // Read-only Whop data layer for the dashboard. Everything comes from Whop's
 // own API (the hosted sites are tracked by Whop automatically), authenticated
-// with the API key stored as the app secret WHOP_API_KEY.
+// with the API key stored as the app secret GRABCO_WHOP_KEY (WHOP_API_KEY is
+// a name reserved by Whop's runtime).
 import { env } from 'cloudflare:workers'
 
 export const ACCOUNT_ID = env.WHOP_ACCOUNT_ID || 'biz_eBI3bCf0mqzUIk'
@@ -16,7 +17,7 @@ export const storeOfProduct = (id) => Object.values(STORES).find((s) => s.produc
 
 // Secrets set through /setup live here until Whop injects them on the next deploy.
 const runtime = (globalThis.__grabco ||= {})
-export const apiKey = () => runtime.WHOP_API_KEY || env.WHOP_API_KEY || ''
+export const apiKey = () => runtime.GRABCO_WHOP_KEY || env.GRABCO_WHOP_KEY || ''
 export const dashboardPassword = () => runtime.DASHBOARD_PASSWORD || env.DASHBOARD_PASSWORD || ''
 export const setRuntimeSecrets = (s) => Object.assign(runtime, s)
 

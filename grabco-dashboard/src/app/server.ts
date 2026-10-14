@@ -173,7 +173,7 @@ export async function handleRequest(request: Request): Promise<Response> {
   if (path === '/setup') {
     // Re-usable until the secrets are stored on Whop (env), even if this
     // isolate still holds them in memory.
-    if (env.WHOP_API_KEY && env.DASHBOARD_PASSWORD) return redirect('/')
+    if (env.GRABCO_WHOP_KEY && env.DASHBOARD_PASSWORD) return redirect('/')
     if (request.method !== 'POST') return html(setupPage())
     const form = await request.formData()
     const key = String(form.get('key') || '').trim(), password = String(form.get('password') || '')
@@ -185,15 +185,15 @@ export async function handleRequest(request: Request): Promise<Response> {
     }
     let saved = true
     try {
-      await saveAppSecrets(key, { WHOP_API_KEY: key, DASHBOARD_PASSWORD: password })
+      await saveAppSecrets(key, { GRABCO_WHOP_KEY: key, DASHBOARD_PASSWORD: password })
     } catch (e) {
       saved = false
       console.log('secret save failed', e.message)
     }
-    setRuntimeSecrets({ WHOP_API_KEY: key, DASHBOARD_PASSWORD: password })
+    setRuntimeSecrets({ GRABCO_WHOP_KEY: key, DASHBOARD_PASSWORD: password })
     const t = await token(password)
     return html(
-      page('GrabCo Dashboard · Setup', `${brandHeader(false)}<form class="setup"><h2 style="margin:0">Connected</h2><p>The key works${saved ? ' and has been stored as an app secret on Whop.' : ', but it could not be stored as an app secret (the key lacks <code>developer:update_app</code>). It will work until the app next restarts; ask Claude to store it permanently.'}</p><a class="btn" style="display:inline-block;text-decoration:none" href="/">Open dashboard</a></form>`),
+      page('GrabCo Dashboard · Setup', `${brandHeader(false)}<form class="setup"><h2 style="margin:0">Connected</h2><p>The key works${saved ? ' and has been stored as an app secret on Whop.' : ', but it could not be stored as an app secret (Whop said: see the app log). It will work until the app next restarts; ask Claude to store it permanently.'}</p><a class="btn" style="display:inline-block;text-decoration:none" href="/">Open dashboard</a></form>`),
       200,
       { 'set-cookie': `gc=${t}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=2592000` },
     )
@@ -214,7 +214,7 @@ export async function handleRequest(request: Request): Promise<Response> {
 
   try {
     let out = await dashboard(q)
-    if (!env.WHOP_API_KEY)
+    if (!env.GRABCO_WHOP_KEY)
       out = out.replace('<div class="kpis">', '<div class="note">The API key is only held in memory and will be lost when the app restarts. In Whop, give the key the <code>developer:update_app</code> permission (or create a new key with all six), then paste it again at <a href="/setup">/setup</a> to store it permanently.</div><div class="kpis">')
     return html(out)
   } catch (e) {
