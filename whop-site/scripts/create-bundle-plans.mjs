@@ -41,6 +41,8 @@ for (const tier of bundle.tiers) {
       '--unlimited_stock',
       '--visibility', 'quick_link',
       '--adaptive_pricing_enabled=false',
+      '--override_tax_type', 'inclusive',
+      '--payment_method_configuration', JSON.stringify({ disabled: ['paypal', 'paypal_express'], include_platform_defaults: true }),
       '--title', title,
       '--description', description,
       '--internal_notes', description,
