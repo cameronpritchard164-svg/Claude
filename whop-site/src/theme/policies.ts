@@ -1,6 +1,6 @@
 // @ts-nocheck
 // Store policies shown at /pages/refund-policy and /pages/shipping.
-// Written for the inflatable carry-me costume sold on this store.
+// Written for the product sold on this store.
 
 const EMAIL = 'forgerelic@outlook.com'
 
@@ -21,7 +21,7 @@ export function policyPages({ store, product, season, updated = '12 September 20
     p(`<strong>All sales on this store are final.</strong>`),
     p(`Unless you purchased the optional <strong>30-Day Money-Back Guarantee</strong> at checkout (see Section 2), we do not offer refunds, returns, exchanges, cancellations or store credit for change of mind. This includes, without limitation, situations where:`),
     ul([
-      'you no longer want the costume',
+      'you no longer want the item',
       'you found it cheaper elsewhere',
       'you ordered the wrong quantity or add-on',
       `your ${esc(season)} event was cancelled, postponed or has passed`,
@@ -36,8 +36,8 @@ export function policyPages({ store, product, season, updated = '12 September 20
     h2('2. Optional 30-Day Money-Back Guarantee'),
     p(`The 30-Day Money-Back Guarantee is an optional add-on offered at checkout. Where it was purchased with your order and appears on your receipt:`),
     ul([
-      'you may return the costume for a refund of the costume price for any reason within <strong>30 days of the delivery date</strong> recorded by the carrier',
-      'the costume must be <strong>unworn, undamaged, clean</strong> and returned in its original packaging with the fan unit, battery pack, straps and all accessories',
+      'you may return the item for a refund of the item price for any reason within <strong>30 days of the delivery date</strong> recorded by the carrier',
+      'the item must be <strong>unused, undamaged, clean</strong> and returned in its original packaging with the bubble bottle and all accessories',
       'you must request a Return Authorisation by email before sending anything back (see Section 6)',
       'return shipping is at your cost unless the return is due to our error',
       'the add-on fee itself, original shipping (where charged) and any other add-ons are non-refundable',
@@ -70,9 +70,9 @@ export function policyPages({ store, product, season, updated = '12 September 20
     p(`Without this add-on, parcels recorded as delivered by the carrier are not covered.`),
 
     h2('5. Damaged, defective or incorrect items'),
-    p(`We stand behind our product. If your costume arrives damaged, faulty or incorrect we will make it right.`),
+    p(`We stand behind our product. If your item arrives damaged, faulty or incorrect we will make it right.`),
     h3('5.1 Inspect on arrival'),
-    p(`<strong>You must inspect your order immediately upon delivery.</strong> Unpack the costume and run the fan to check it inflates fully.`),
+    p(`<strong>You must inspect your order immediately upon delivery.</strong> Unpack the item, fit batteries and switch it on to check it blows bubbles and plays music.`),
     h3('5.2 Report within 48 hours'),
     p(`All damage, defect and incorrect-item claims must be submitted to <strong>${mail} within 48 hours of the delivery timestamp recorded by the carrier.</strong> Claims submitted after 48 hours will not be accepted, because we cannot verify whether the damage occurred in transit or after delivery while the item was in your possession.`),
     h3('5.3 Evidence required'),
@@ -80,10 +80,10 @@ export function policyPages({ store, product, season, updated = '12 September 20
     ul([
       'your <strong>order number</strong>',
       '<strong>clear, well-lit photographs of the damage or fault</strong>, in focus, showing the affected area close up',
-      'a <strong>wider photograph</strong> showing the damaged part in the context of the whole costume',
+      'a <strong>wider photograph</strong> showing the damaged part in the context of the whole item',
       '<strong>photographs of the outer shipping bag or carton</strong>, including any tears, crush or water damage',
       'a <strong>photograph of the shipping label</strong>',
-      'for a fan, battery pack or inflation fault, a <strong>short video</strong> clearly demonstrating the fault with the fan switched on',
+      'for a motor, music or bubble fault, a <strong>short video</strong> clearly demonstrating the fault with the unit switched on',
       'for an incorrect item, <strong>photographs of the item received</strong> alongside the label',
     ]),
     p(`Incomplete claims will be returned to you for the missing evidence. The 48-hour window applies to your initial claim, not to the completion of your evidence, provided you respond to our follow-up requests within 5 days.`),
@@ -91,20 +91,20 @@ export function policyPages({ store, product, season, updated = '12 September 20
     p(`<strong>Do not discard any packaging until your claim is fully resolved.</strong> Carriers require original packaging to process a damage claim. Disposing of the packaging before your claim closes will void the claim.`),
     h3('5.5 Assessment and outcome'),
     p(`We will acknowledge your claim within 2 business days and issue a decision within 5 business days of receiving complete evidence. Where a claim is approved, <strong>we choose the remedy at our discretion</strong>, being one of:`),
-    ul(['dispatch of a free replacement part (for example a fan unit or battery pack)', 'dispatch of a free replacement costume', 'a partial refund proportionate to the fault, where the costume remains usable', 'a full refund']),
+    ul(['dispatch of a free replacement part (for example a bubble bucket or bottle)', 'dispatch of a free replacement unit', 'a partial refund proportionate to the fault, where the item remains usable', 'a full refund']),
     p(`Where a replacement part resolves the fault, a replacement part is the remedy provided. A full refund is not automatic.`),
     h3('5.6 What is not a defect'),
     p(`The following are expressly <strong>not</strong> defects and will not be accepted as a damage claim:`),
     ul([
       'minor variation in colour, print alignment or shade from the product photography, including differences caused by screen calibration',
-      'creases or fold marks from packaging, which relax after the costume has been inflated for a short time',
+      'bubble solution residue or a small amount of leaked solution from the bottle during transit',
       'small cosmetic marks, loose threads or packing residue that cleans off',
-      'minor packaging damage where the costume inside is undamaged',
-      'fit differences within the stated one-size-fits-most adult range',
-      'slow deflation over many hours of continuous wear, which is normal for an air-filled costume',
-      'damage caused by wearing the costume near heat, flames, sharp objects, rough surfaces, pets or in wet conditions',
-      'damage caused by sitting, lying or leaning on the inflated costume, stretching, over-tightening straps, or forcing the zip',
-      'fan or battery faults caused by non-supplied batteries, incorrect battery installation, leaking batteries or moisture',
+      'minor packaging damage where the item inside is undamaged',
+      'small differences in bubble output caused by the solution used, humidity or temperature',
+      'weaker output as the batteries run down',
+      'damage caused by water ingress, running the unit without solution for long periods, or submerging it',
+      'damage caused by dropping the unit, forcing the bubble wand, or prying open the battery compartment',
+      'motor or sound faults caused by incorrect battery installation, leaking batteries, rechargeable batteries of the wrong voltage or moisture',
       'damage caused by washing in a machine, tumble drying, ironing or using solvents',
       'normal wear and tear after use',
     ]),
@@ -114,7 +114,7 @@ export function policyPages({ store, product, season, updated = '12 September 20
     ol([
       `Email <strong>${mail}</strong> with your order number and, for a damage claim, the evidence listed in Section 5.3.`,
       'If approved, we will issue a <strong>Return Authorisation (RA) number</strong> together with written return instructions and the return destination. The return destination is supplied only with an approved RA and is not published.',
-      'The costume must be returned <strong>in its original packaging</strong> with the fan unit, battery pack, straps and all accessories, in the condition it was received.',
+      'The item must be returned <strong>in its original packaging</strong> with the bubble bottle and all accessories, in the condition it was received.',
       'The RA number must be clearly marked on the outside of the parcel.',
       'Returns must be dispatched <strong>within 7 days</strong> of the RA being issued. RAs expire after 7 days.',
       'For approved damage, defect and incorrect-item claims, <strong>we cover return shipping.</strong> In all other cases, including Guarantee returns, return shipping is at your cost and is non-refundable.',
@@ -127,9 +127,9 @@ export function policyPages({ store, product, season, updated = '12 September 20
       'items purchased on sale, clearance or with a promotional discount code, except under an approved claim in Section 5',
       'items reported outside the 48-hour damage window',
       'items returned without a valid Return Authorisation',
-      'costumes that have been worn, absent an approved defect claim',
+      'items that have been used, absent an approved defect claim',
       'items damaged after delivery',
-      'checkout add-ons (30-Day Money-Back Guarantee, Shipping Protection and mystery box items), which hold no independent refund value',
+      'checkout add-ons, where offered, which hold no independent refund value',
     ]),
 
     h2('8. Exchanges'),
@@ -142,7 +142,7 @@ export function policyPages({ store, product, season, updated = '12 September 20
       'refunds are processed <strong>within 10 business days of approval</strong>, or within 10 business days of our receipt and inspection of an authorised return where a return was required.',
       'your bank or card issuer may take a further <strong>5 to 10 business days</strong> to post the funds. This period is outside our control.',
       'where a discount, bundle price or promotional rate was applied, the refund is calculated on the <strong>amount actually paid</strong>, not the compare-at price.',
-      'where part of a bundle is refunded, the remaining costumes are re-priced at their standard individual rate and the refund is adjusted accordingly.',
+      'where part of a bundle is refunded, the remaining units are re-priced at their standard individual rate and the refund is adjusted accordingly.',
     ]),
     p(`If more than <strong>15 business days</strong> have passed since we confirmed your refund in writing and you have not received it, contact ${mail} with your order number.`),
 
@@ -212,9 +212,9 @@ export function policyPages({ store, product, season, updated = '12 September 20
     h3('5.1 Someone should be available'),
     p(`Where nobody is available, the carrier may leave the parcel in a safe place at their discretion, leave a card, or return it to a depot. Depot storage and re-delivery fees, if charged by the carrier, are payable by you.`),
     h3('5.2 Inspect on arrival'),
-    p(`Inspect your delivery immediately and run the fan to check the costume inflates fully. Any damage, defect or incorrect item must be reported to ${mail} within 48 hours of the delivery timestamp recorded by the carrier, with the photographic evidence set out in our <a href="/pages/refund-policy">Refund &amp; Return Policy</a>. Do not discard the packaging until any claim is fully resolved.`),
+    p(`Inspect your delivery immediately, fit batteries and switch the unit on to check it works. Any damage, defect or incorrect item must be reported to ${mail} within 48 hours of the delivery timestamp recorded by the carrier, with the photographic evidence set out in our <a href="/pages/refund-policy">Refund &amp; Return Policy</a>. Do not discard the packaging until any claim is fully resolved.`),
     h3('5.3 Multiple parcels'),
-    p(`Bundle orders of two or more costumes may ship in more than one parcel, may leave on different dates and may arrive on different days. Receiving part of your order does not mean the remainder is lost. Each parcel has its own tracking number.`),
+    p(`Bundle orders of two or more units may ship in more than one parcel, may leave on different dates and may arrive on different days. Receiving part of your order does not mean the remainder is lost. Each parcel has its own tracking number.`),
 
     h2('6. Delays outside our control'),
     p(`Delivery estimates are not guarantees. Delays may occur for reasons outside our reasonable control, including:`),

@@ -1,65 +1,32 @@
 {
-  "heading": "BUNDLE UP & SAVE MORE!",
-  "noun": "Costume",
-  "product_name": "ClauseGrab™ Mrs. Claus Carry Costume",
+  "heading": "BUY MORE & SAVE MORE!",
+  "noun": "ClauseFart",
+  "product_name": "Bubble Blowing ClauseFart",
   "popular_tier": 2,
-  "best_tier": 4,
+  "best_tier": 3,
   "tiers": [
     {
       "qty": 1,
-      "price": 99.99,
-      "compare": 199.98
+      "price": 29.99,
+      "compare": 59.98
     },
     {
       "qty": 2,
-      "price": 182,
-      "compare": 364
+      "price": 57.99,
+      "compare": 119.96
     },
     {
       "qty": 3,
-      "price": 252,
-      "compare": 504
-    },
-    {
-      "qty": 4,
-      "price": 320,
-      "compare": 640
+      "price": 69.99,
+      "compare": 179.94
     }
   ],
-  "addons": [
-    {
-      "key": "guarantee",
-      "title": "30-Day Money-Back Guarantee",
-      "short": "MBG",
-      "price": 4.99,
-      "compare": 7.99,
-      "badge": "",
-      "image": "/images/addon-guarantee.webp"
-    },
-    {
-      "key": "protection",
-      "title": "Shipping Protection",
-      "short": "Ship",
-      "price": 4.99,
-      "compare": 7.99,
-      "badge": "",
-      "image": "/images/addon-shipping.webp"
-    },
-    {
-      "key": "mystery",
-      "title": "Claus Mystery Box",
-      "short": "Box",
-      "price": 32.99,
-      "compare": 54.99,
-      "badge": "",
-      "image": "/images/addon-mystery.webp"
-    }
-  ],
+  "addons": [],
   "shipping": [
     {
       "key": "free",
       "label": "Free Shipping",
-      "eta": "Delivers in 2–3 weeks · tracking emailed",
+      "eta": "Delivers in 2\u20133 weeks \u00b7 tracking emailed",
       "price": 0
     }
   ]

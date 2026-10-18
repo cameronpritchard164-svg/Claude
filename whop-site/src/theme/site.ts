@@ -7,6 +7,7 @@ import bundleConfig from './bundle.json'
 import bundlePlans from './bundle-plans.json'
 import { checkoutPage, returnPage, CHECKOUT_PATH } from './checkout'
 import { policyPages } from './policies'
+import { productPage, } from './product-page'
 import { env } from 'cloudflare:workers'
 
 const PRODUCT_PATH = `/products/${PRODUCT_HANDLE}`
@@ -64,7 +65,7 @@ const htmlResponse = (html, status = 200) =>
   })
 
 const CONTACT_PATH = '/pages/contact'
-const POLICY_PAGES = policyPages({ store: 'ClauseGrab', product: 'ClauseGrab inflatable costume', season: 'Christmas' })
+const POLICY_PAGES = policyPages({ store: 'ClauseGrab', product: 'Bubble Blowing ClauseFart', season: 'Christmas' })
 const SHOP_PATHS = ['/', '/collections/all', '/collections', '/products', '/shop']
 
 // Contact and newsletter submissions are written to the site's server logs
@@ -93,14 +94,16 @@ export async function handleRequest(request: Request): Promise<Response> {
 
   if (path === '/cart') return Response.redirect(new URL(CHECKOUT_PATH + '?key=1:', url.origin).toString(), 302)
   if (path === CHECKOUT_PATH) {
-    const html = checkoutPage({ key: url.searchParams.get('key') || '1:', store: 'ClauseGrab', product: store.product, origin: url.origin, accent: 'red', logo: '/images/logo.webp', sale: 'Christmas Sale 50% off', country: request.headers.get('cf-ipcountry') || '' })
+    const html = checkoutPage({ key: url.searchParams.get('key') || '1:', store: 'ClauseGrab', product: store.product, origin: url.origin, accent: 'red', logo: '/images/logo.webp', sale: 'Special offer', country: request.headers.get('cf-ipcountry') || '' })
     if (!html) return Response.redirect(new URL(CHECKOUT_PATH + '?key=1:', url.origin).toString(), 302)
     return htmlResponse(html)
   }
   if (path === CHECKOUT_PATH + '/return')
     return htmlResponse(returnPage({ store: 'ClauseGrab', accent: 'red', logo: '/images/logo.webp', status: url.searchParams.get('status') || '', paymentId: url.searchParams.get('payment') || '', key: url.searchParams.get('key') || '1:' }))
   // No separate home page: the shop is the product page.
-  if (SHOP_PATHS.includes(path)) return Response.redirect(new URL(PRODUCT_PATH, url.origin).toString(), 302)
+  if (SHOP_PATHS.includes(path) || path === '/products/clausegrab') return Response.redirect(new URL(PRODUCT_PATH, url.origin).toString(), 302)
+  if (path === PRODUCT_PATH)
+    return htmlResponse(productPage({ origin: url.origin, tiers: bundleConfig.tiers, images: ['/images/cf-1.webp', '/images/cf-2.webp'], reviewImages: ['/images/cf-r1.webp', '/images/cf-r2.webp', '/images/cf-r3.webp'], logo: '/images/logo.webp', store: 'ClauseGrab' }))
 
   const engine = createEngine(store)
   const pages = {

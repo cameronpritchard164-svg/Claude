@@ -1,0 +1,133 @@
+// @ts-nocheck
+// ClauseFart product page (the shop's only page), laid out like the reference
+// store: gallery, price, benefit bullets, Buy 1/2/3 selector, trust icons,
+// review ticker, FAQ, marquee, two feature sections and testimonials.
+import { CHECKOUT_PATH } from './checkout'
+
+const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+const money = (n) => '$' + Number(n || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+
+const STARS = '<span class="stars" aria-label="5 stars">★★★★★</span>'
+const ICON = {
+  heart: '<svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg>',
+  returns: '<svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg>',
+  truck: '<svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg>',
+  cart: '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 8h12l1 13H5L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>',
+  check: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m7 12 3 3 7-7"/></svg>',
+}
+const PAY = ['VISA|#1A4CD6|#fff', 'MC|#111|#fff', 'AMEX|#2E77BC|#fff', 'Pay|#000|#fff', 'G Pay|#fff|#3c4043', 'DISCOVER|#fff|#f68121'].map((x) => { const [l, bg, fg] = x.split('|'); return `<svg viewBox="0 0 38 24" width="38" height="24" aria-label="${l}"><rect x=".5" y=".5" width="37" height="23" rx="3" fill="${bg}" stroke="#000" stroke-opacity=".12"/>${l === 'MC' ? '<circle cx="15" cy="12" r="6.5" fill="#EB001B"/><circle cx="23" cy="12" r="6.5" fill="#F79E1B" fill-opacity=".9"/>' : `<text x="19" y="15.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="${l.length > 5 ? 6 : 8}" fill="${fg}">${l === 'Pay' ? ' Pay' : l}</text>`}</svg>` }).join('')
+
+const CSS = `
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:Poppins,-apple-system,"Segoe UI",Roboto,sans-serif;color:#121212;background:#fff;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}img{max-width:100%;display:block}
+.hdr{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 20px;max-width:1300px;margin:0 auto}
+.hdr nav{display:flex;gap:18px;font-size:.9rem;font-weight:600}
+.hdr .logo img{height:56px;width:auto}
+.hdr .cart{justify-self:end;display:flex;align-items:center;gap:6px;color:#121212}
+.marq{background:var(--red);color:#fff;font-weight:700;font-size:.95rem;letter-spacing:.04em;overflow:hidden;white-space:nowrap;padding:14px 0}
+.marq div{display:inline-block;animation:marq 28s linear infinite}.marq span{margin:0 56px}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.wrap{max-width:1300px;margin:0 auto;padding:0 20px}
+.prod{display:grid;grid-template-columns:1fr;gap:28px;padding:28px 0 20px}
+@media(min-width:900px){.prod{grid-template-columns:1.25fr 1fr;gap:48px;padding:44px 0 30px}}
+.gal .main{border-radius:12px;overflow:hidden;background:#f5f5f5}.gal .main img{width:100%;aspect-ratio:1/1;object-fit:cover}
+.thumbs{display:flex;gap:10px;margin-top:12px}.thumbs button{width:92px;height:92px;padding:0;border:2px solid #e5e5e5;border-radius:8px;overflow:hidden;background:#fff;cursor:pointer}.thumbs button.on{border-color:#121212}.thumbs img{width:100%;height:100%;object-fit:cover}
+h1{font-size:2.4rem;line-height:1.1;margin:0 0 8px;font-weight:700}
+.rating{display:flex;align-items:center;gap:8px;font-size:.95rem;margin:0 0 10px}.stars{color:#ffc107;letter-spacing:1px;font-size:1.05rem}
+.price{display:flex;align-items:center;gap:10px;margin:0 0 16px}.price .now{color:var(--red);font-weight:700;font-size:1.5rem}.price .was{color:#737373;text-decoration:line-through;font-size:1.1rem}
+.badge{background:var(--red);color:#fff;font-size:.72rem;font-weight:700;letter-spacing:.06em;padding:5px 10px;border-radius:5px}
+.bul{list-style:none;padding:0;margin:0 0 18px;display:grid;gap:8px;font-weight:600;font-size:1rem}
+.low{display:flex;align-items:center;gap:12px;font-weight:700;font-size:.9rem;margin:6px 0 14px}.low:before,.low:after{content:'';flex:1;height:1px;background:#e9c3c8}
+.tiers{display:grid;gap:12px}
+.tier{position:relative;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:16px 18px;border:2px solid #f3d6d9;background:#fdeaec;border-radius:8px;cursor:pointer}
+.tier.on{border-color:var(--red);background:#fde7ea}
+.tier .rad{width:22px;height:22px;border-radius:50%;border:2px solid #d9d9d9;background:#fff;display:grid;place-items:center}.tier.on .rad{border-color:var(--red)}.tier.on .rad:after{content:'';width:12px;height:12px;border-radius:50%;background:var(--red)}
+.tier .t{font-weight:700;font-size:1.15rem}.tier .s{font-size:.85rem;color:#444}
+.tier .p{text-align:right}.tier .p b{font-size:1.25rem}.tier .p span{display:block;color:#737373;text-decoration:line-through;font-size:.85rem}
+.tier .tag{position:absolute;right:12px;top:-12px;background:#1f3fd6;color:#fff;font-size:.7rem;font-weight:700;letter-spacing:.05em;padding:4px 10px;border-radius:4px}
+.saving{margin:14px 0 12px;border:1px solid #9ad3a8;background:#f1faf3;border-radius:6px;padding:12px 16px;font-size:.92rem;color:#1a5c2a}
+.atc{display:block;width:100%;border:0;background:var(--red);color:#fff;font:inherit;font-weight:700;font-size:1.15rem;letter-spacing:.06em;padding:17px;border-radius:6px;cursor:pointer}
+.pay{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:14px 0 24px}
+.trust{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center;color:var(--red);margin:0 0 20px}.trust b{display:block;color:#121212;font-size:1rem;margin-top:6px}
+.tick{display:flex;gap:14px;align-items:center;border-bottom:1px solid #eee;padding:8px 0 10px}.tick img{width:50px;height:50px;border-radius:50%;object-fit:cover}.tick p{margin:0;font-size:.95rem}.tick small{display:block;color:#737373;font-style:italic;margin-top:2px}
+.dots{display:flex;gap:8px;justify-content:center;margin:10px 0}.dots i{width:8px;height:8px;border-radius:50%;background:#ccc}.dots i.on{background:#121212}
+.faq{max-width:720px;margin:20px auto 50px}
+.faq details{border-bottom:1px solid #e6e6e6;padding:14px 0}.faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;font-weight:700;font-size:1.05rem}.faq summary::-webkit-details-marker{display:none}.faq summary:after{content:'⌃';margin-left:auto;transform:rotate(180deg);color:#555}.faq details[open] summary:after{transform:none}
+.faq p{margin:12px 0 0;line-height:1.7;color:#333}
+.feat{display:grid;grid-template-columns:1fr;gap:28px;align-items:center;padding:30px 0}
+@media(min-width:900px){.feat{grid-template-columns:1fr 1fr;gap:60px;padding:46px 0}}
+.feat img{border-radius:14px;width:100%;aspect-ratio:1/1;object-fit:cover}.feat h2{font-size:2.3rem;margin:0 0 14px;line-height:1.15}.feat p{color:#333;line-height:1.7;margin:0;font-size:1.05rem}
+.testi h2{text-align:center;font-size:2.4rem;margin:30px 0 30px}
+.cards{display:grid;grid-template-columns:1fr;gap:28px;align-items:start;padding-bottom:60px}
+@media(min-width:900px){.cards{grid-template-columns:repeat(3,1fr)}}
+.card{background:#f7f7f7;border-radius:16px;overflow:hidden;text-align:center;position:relative}
+.card img{width:100%;aspect-ratio:1/1;object-fit:cover}
+.card .b{padding:26px 24px 20px;position:relative}.card .q{position:absolute;right:16px;top:-24px;width:48px;height:48px;border-radius:50%;background:var(--red);color:#fff;font-size:1.8rem;font-weight:700;display:grid;place-items:center;font-family:Georgia,serif}
+.card:not(.img) .q{top:12px}.card:not(.img) .b{padding-top:34px}
+.card h3{font-size:1.2rem;margin:8px 0 10px}.card p{margin:0;line-height:1.7;color:#333}.card .n{margin-top:18px;padding-top:12px;border-top:1px solid #e6e6e6;font-weight:600;font-style:italic;font-size:.9rem}
+footer{border-top:1px solid #e6e6e6;padding:28px 20px;text-align:center;font-size:.85rem;color:#555}footer nav{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;margin-bottom:10px;font-weight:600}
+`
+
+export function productPage({ origin, tiers, images, reviewImages, logo, store }) {
+  const t1 = tiers[0]
+  const tier = (t, i) => {
+    const save = Math.round(((t.compare - t.price) / t.compare) * 100)
+    const tag = i === 1 ? 'MOST POPULAR' : i === 2 ? 'BEST VALUE' : ''
+    return `<label class="tier${i === 1 ? ' on' : ''}" data-qty="${t.qty}" data-price="${t.price}" data-compare="${t.compare}">${tag ? `<span class="tag">${tag}</span>` : ''}<span class="rad"></span><span><span class="t">Buy ${t.qty}</span><br><span class="s">${i === 0 ? 'Standard Price' : `Save ${save}%`}</span></span><span class="p"><b>${money(t.price)}</b><span>${money(t.compare)}</span></span></label>`
+  }
+  const body = `
+<header class="hdr"><nav><a href="/">Shop</a><a href="/pages/contact">Contact</a></nav><a class="logo" href="/"><img src="${esc(logo)}" alt="${esc(store)}"></a><a class="cart" href="${CHECKOUT_PATH}?key=1:" aria-label="Cart">${ICON.cart}</a></header>
+<div class="marq"><div>${'<span>24/7 CUSTOMER SUPPORT</span><span>FREE RETURNS</span><span>30 DAY GUARANTEE</span>'.repeat(6)}</div></div>
+<main class="wrap">
+<section class="prod">
+  <div class="gal"><div class="main"><img id="mainimg" src="${esc(images[0])}" alt="Bubble Blowing ClauseFart"></div>
+    <div class="thumbs">${images.map((src, i) => `<button type="button" class="${i === 0 ? 'on' : ''}" data-src="${esc(src)}"><img src="${esc(src)}" alt=""></button>`).join('')}</div></div>
+  <div class="info">
+    <h1>Bubble Blowing ClauseFart</h1>
+    <div class="rating">${STARS}<span>4.85/5 | 1,450+ Reviews</span></div>
+    <div class="price"><span class="now" id="pnow">${money(t1.price)}</span><span class="was" id="pwas">${money(t1.compare)}</span><span class="badge">🎁 SPECIAL OFFER</span></div>
+    <ul class="bul"><li>💨 Mrs. Claus Farts, Real Bubbles</li><li>😂 The Gag Gift Winner</li><li>🎄 Steals Every Christmas Party</li><li>&nbsp;&nbsp;&nbsp; Free Bubble Solution Included</li></ul>
+    <div class="low">Low Stock - Selling Fast</div>
+    <div class="tiers" id="tiers">${tiers.map(tier).join('')}</div>
+    <div class="saving" id="saving">→ You're saving ${money(tiers[1].compare - tiers[1].price)} on this order</div>
+    <button class="atc" id="atc" type="button">ADD TO CART</button>
+    <div class="pay">${PAY}</div>
+    <div class="trust"><div>${ICON.heart}<b>Satisfaction Guarantee</b></div><div>${ICON.returns}<b>Free Returns</b></div><div>${ICON.truck}<b>Free Shipping</b></div></div>
+    <div class="tick" id="tick"><img src="${esc(reviewImages[2])}" alt=""><p id="tickp">The funniest gift ever 😂 Everyone was dying laughing!<small>Julia M.</small></p></div>
+    <div class="dots" id="dots"><i class="on"></i><i></i><i></i></div>
+  </div>
+</section>
+<section class="faq">
+  <details open><summary>${ICON.check} Does it need batteries?</summary><p>Yes, it takes 3 AA batteries (not included). Pop them in, flick the switch, and Mrs. Claus handles the rest with bubbles, music and a cheeky fart or two.</p></details>
+  <details open><summary>${ICON.check} Does it come with bubble solution?</summary><p>Yes! A 60ml bottle of bubble solution is included, so ClauseFart is ready to rip right out of the box. Once it runs out, any standard bubble solution works as a refill.</p></details>
+  <details open><summary>${ICON.check} Shipping</summary><p>Orders are dispatched within 1–3 business days and delivered worldwide in 2–3 weeks, with free shipping and tracking on every order.</p></details>
+  <details open><summary>${ICON.check} Our Guarantee</summary><p>We truly believe we offer some of the funniest gifts in the world, and we back them with a risk-free 30-day money-back guarantee.</p></details>
+</section>
+<section class="feat"><img src="${esc(reviewImages[0])}" alt="ClauseFart on the Christmas dinner table"><div><h2>Surprise your friends</h2><p>Perfect if you need some laughs in your boring family. Set her on the table, flick the switch, and watch the room lose it.</p></div></section>
+<section class="feat"><img src="${esc(images[1])}" alt="ClauseFart dimensions and box"><div><h2>Load Her Up. Let Her Rip.</h2><p>Three AAs, a splash of bubble solution, and one flick of the switch. Zero skill required, maximum chaos delivered. 🎄</p></div></section>
+<section class="testi"><h2>Testimonials</h2>
+<div class="cards">
+  <div class="card img"><img src="${esc(reviewImages[1])}" alt=""><div class="b"><span class="q">”</span>${STARS}<h3>Absolutely hilarious Christmas gift!</h3><p>I bought this for our family Christmas party as a joke, and honestly, it was the best decision ever 😂 Everyone started laughing the second Mrs. Claus bent over. The bubbles made it even funnier, and even the adults wanted a go. Such a ridiculous gift in the best possible way!</p><div class="n">Jessica F.</div></div></div>
+  <div class="card"><div class="b"><span class="q">”</span>${STARS}<h3>Mrs. Claus stole the show!</h3><p>Got this for my brother because he's obsessed with silly Christmas stuff, and he couldn't stop laughing when he opened it. We ended up running it all evening and it became the main attraction at our Christmas gathering. One of those gifts people remember long after Christmas is over.</p><div class="n">Michael C.</div></div></div>
+  <div class="card img"><img src="${esc(reviewImages[2])}" alt=""><div class="b"><span class="q">”</span>${STARS}<h3>Perfect gift for someone with a silly sense of humor</h3><p>I was looking for something different from the usual socks, chocolates and gift cards, and this was exactly it. The farting Mrs. Claus design is hilarious, and the bubble-blowing makes it even better. I gave it to a friend who loves practical jokes and it got a far bigger reaction than I expected. Great Secret Santa gift!</p><div class="n">Daniel A.</div></div></div>
+</div></section>
+</main>
+<footer><nav><a href="/pages/refund-policy">Refund &amp; Return Policy</a><a href="/pages/shipping">Shipping Policy</a><a href="/pages/contact">Contact</a></nav>© ${new Date().getFullYear()} ${esc(store)}</footer>
+<script>
+  const $ = (s) => document.querySelector(s);
+  const money = (n) => '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  let qty = 2;
+  document.querySelectorAll('.tier').forEach((t) => t.addEventListener('click', () => {
+    document.querySelectorAll('.tier').forEach((x) => x.classList.remove('on')); t.classList.add('on');
+    qty = Number(t.dataset.qty);
+    $('#pnow').textContent = money(t.dataset.price); $('#pwas').textContent = money(t.dataset.compare);
+    $('#saving').textContent = "→ You're saving " + money(t.dataset.compare - t.dataset.price) + ' on this order';
+  }));
+  $('#atc').addEventListener('click', () => { location.href = ${JSON.stringify(CHECKOUT_PATH)} + '?key=' + qty + ':'; });
+  document.querySelectorAll('.thumbs button').forEach((b) => b.addEventListener('click', () => { document.querySelectorAll('.thumbs button').forEach((x) => x.classList.remove('on')); b.classList.add('on'); $('#mainimg').src = b.dataset.src; }));
+  const ticks = [['The funniest gift ever 😂 Everyone was dying laughing!', 'Julia M.'], ['My dad laughed so hard he cried. Worth every cent.', 'Chris B.'], ['Bubbles everywhere, kids obsessed, grandma mortified. 10/10.', 'Amanda K.']];
+  let ti = 0; setInterval(() => { ti = (ti + 1) % ticks.length; $('#tickp').innerHTML = ticks[ti][0] + '<small>' + ticks[ti][1] + '</small>'; document.querySelectorAll('#dots i').forEach((d, i) => d.classList.toggle('on', i === ti)); }, 4000);
+</script>`
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bubble Blowing ClauseFart – ${esc(store)}</title><meta name="description" content="The farting, bubble-blowing Mrs. Claus that steals every Christmas party. Plays music, blows bubbles, bubble solution included."><link rel="icon" href="/images/favicon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"><style>:root{--red:#c8102e}${CSS}</style></head><body>${body}</body></html>`
+}

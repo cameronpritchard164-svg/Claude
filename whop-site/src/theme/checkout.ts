@@ -346,7 +346,7 @@ export function checkoutPage({ key, store, product, origin, accent, logo, sale =
   const body = `<header class="hdr"><a class="logo" href="/"><img src="${esc(logo)}" alt="${esc(store)}"></a><a class="bag" href="/products/${esc(product.handle)}" aria-label="Cart">${BAG}</a></header>
 <div class="wrap">
 <div class="right"><details class="sum" open><summary class="msum"><span class="os">Order summary ${CHEV}</span><b>${money(total)}</b></summary>
-  <div class="item"><div class="img"><img src="${esc(img)}" alt=""><b>${tier.qty}</b></div><div><div class="n">${esc(product.title)}</div><div class="v">${tier.qty > 1 ? `${tier.qty} costumes · ` : ''}One adult size · ${esc(sale)}</div></div><div class="pr">${money(tier.price)}<span class="was">${money(tier.compare)}</span></div></div>
+  <div class="item"><div class="img"><img src="${esc(img)}" alt=""><b>${tier.qty}</b></div><div><div class="n">${esc(product.title)}</div><div class="v">${tier.qty > 1 ? `${tier.qty} units · ` : ''}Bubble solution included · ${esc(sale)}</div></div><div class="pr">${money(tier.price)}<span class="was">${money(tier.compare)}</span></div></div>
   <div class="tot">
     <div class="r"><span>Subtotal · ${tier.qty} item${tier.qty > 1 ? 's' : ''}</span><span>${money(tier.price)}</span></div>
     ${addons.map((a) => `<div class="r"><span>${esc(a.title)}</span><span>${money(a.price)}</span></div>`).join('')}
@@ -406,7 +406,7 @@ export function returnPage({ store, logo, status, paymentId, key, accent = 'pink
   const body = `<header class="hdr"><a href="/"><img src="${esc(logo)}" alt="${esc(store)}"></a></header>
 <div class="wrap" style="grid-template-columns:1fr;max-width:720px"><div class="left" style="border:0;text-align:center;padding-top:60px">
   ${ok
-    ? `<h2 style="font-size:1.8rem">Thank you! Your order is confirmed.</h2><p class="note" style="font-size:.95rem">We've emailed your receipt${paymentId ? ` (order ${esc(paymentId)})` : ''}. Your ${esc(store)} costume ships in 1–3 business days and you'll get a tracking number the moment it leaves.</p><p><a href="/products/${esc(sel.tier ? '' : '')}" style="display:none"></a><a class="btn" href="/">Back to ${esc(store)}</a></p>`
+    ? `<h2 style="font-size:1.8rem">Thank you! Your order is confirmed.</h2><p class="note" style="font-size:.95rem">We've emailed your receipt${paymentId ? ` (order ${esc(paymentId)})` : ''}. Your ${esc(store)} order ships in 1–3 business days and you'll get a tracking number the moment it leaves.</p><p><a href="/products/${esc(sel.tier ? '' : '')}" style="display:none"></a><a class="btn" href="/">Back to ${esc(store)}</a></p>`
     : `<h2 style="font-size:1.6rem">Payment not completed</h2><p class="note" style="font-size:.95rem">Your payment ${status === 'failed' ? 'was declined' : 'was cancelled'} and nothing was charged. You can try again with a different payment method.</p><p><a class="btn" href="${CHECKOUT_PATH}?key=${encodeURIComponent(sel.key)}">Return to checkout</a></p>`}
 </div></div>`
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${ok ? 'Order confirmed' : 'Payment not completed'} – ${esc(store)}</title><meta name="robots" content="noindex"><style>${CSS}.btn{display:inline-block;margin-top:18px;padding:12px 22px;background:var(--accent);color:#fff;text-decoration:none;border-radius:6px;font-weight:600}:root{--accent:${esc(accentHex(accent))}}</style></head><body>${body}</body></html>`

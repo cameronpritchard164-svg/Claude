@@ -4,14 +4,16 @@
 
 export const WHOP_PRODUCT_ID = 'prod_63epfH2IUlzYn'
 export const WHOP_PLAN_ID = 'plan_rFXSUE37gHuPi'
-export const PRODUCT_HANDLE = 'clausegrab'
+export const PRODUCT_HANDLE = 'clausefart'
+// Product photos are served from this site rather than Whop's gallery.
+export const LOCAL_PRODUCT = { title: 'Bubble Blowing ClauseFart', images: ['/images/cf-1.webp', '/images/cf-2.webp'] }
 const API = 'https://api.whop.com/api/v1'
 const CACHE_MS = 60_000
 
 // Used if Whop can't be reached.
 const FALLBACK = {
   product: {
-    title: 'ClauseGrab™ Inflatable Mrs. Claus Carry Costume',
+    title: 'Bubble Blowing ClauseFart',
     description: '',
     gallery_images: [
       { id: 'file_FxH3XJ9wJNEBD', url: 'https://assets-2-prod.whop.com/public/uploads/2026-10-13/d5928f10-cd86-4dd7-abf4-6c609ef296a1/image.jpg', content_type: 'image/jpeg', width: 1121, height: 1403 },
@@ -19,8 +21,8 @@ const FALLBACK = {
     ],
   },
   plan: {
-    initial_price: 99.99,
-    strike_through_initial_price: 199.98,
+    initial_price: 29.99,
+    strike_through_initial_price: 59.98,
     currency: 'usd',
     purchase_url: `https://whop.com/checkout/${WHOP_PLAN_ID}`,
   },
@@ -128,9 +130,7 @@ export function buildStore(data, origin) {
   const compare = toCents(plan.strike_through_initial_price)
   const url = `/products/${PRODUCT_HANDLE}`
 
-  let media = (wp.gallery_images || [])
-    .filter((g) => !g.content_type || g.content_type.startsWith('image/'))
-    .map((g, i) => imageFrom(g, i, wp.title)).filter((m) => m.src)
+  let media = LOCAL_PRODUCT.images.map((url, i) => imageFrom({ url, width: 1280, height: 1280 }, i, LOCAL_PRODUCT.title))
   if (!media.length) media = [imageFrom({ url: '/images/placeholder.svg', width: 1200, height: 1500 }, 0, wp.title)]
 
   const variant = {
@@ -155,12 +155,12 @@ export function buildStore(data, origin) {
 
   const product = {
     id: 1,
-    title: wp.title,
+    title: LOCAL_PRODUCT.title,
     handle: PRODUCT_HANDLE,
     url,
     description: wp.description ? `<p>${wp.description}</p>` : '',
     vendor: 'ClauseGrab',
-    type: 'Costume',
+    type: 'Toy',
     tags: [],
     media,
     images: media,
