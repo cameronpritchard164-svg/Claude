@@ -80,7 +80,7 @@ export function productPage({ origin, tiers, images, reviewImages, logo, store }
   const tier = (t, i) => {
     const save = Math.round(((t.compare - t.price) / t.compare) * 100)
     const tag = i === 1 ? 'MOST POPULAR' : i === 2 ? 'BEST VALUE' : ''
-    return `<label class="tier${i === 1 ? ' on' : ''}" data-qty="${t.qty}" data-price="${t.price}" data-compare="${t.compare}">${tag ? `<span class="tag">${tag}</span>` : ''}<span class="rad"></span><span><span class="t">Buy ${t.qty}</span><br><span class="s">${i === 0 ? 'Standard Price' : `Save ${save}%`}</span></span><span class="p"><b>${money(t.price)}</b><span>${money(t.compare)}</span></span></label>`
+    return `<label class="tier${i === 0 ? ' on' : ''}" data-qty="${t.qty}" data-price="${t.price}" data-compare="${t.compare}">${tag ? `<span class="tag">${tag}</span>` : ''}<span class="rad"></span><span><span class="t">Buy ${t.qty}</span><br><span class="s">${i === 0 ? 'Standard Price' : `Save ${save}%`}</span></span><span class="p"><b>${money(t.price)}</b><span>${money(t.compare)}</span></span></label>`
   }
   const body = `
 <header class="hdr"><nav><a href="/">Shop</a><a href="/pages/contact">Contact</a></nav><a class="logo" href="/"><img src="${esc(logo)}" alt="${esc(store)}"></a><a class="cart" href="${CHECKOUT_PATH}?key=1:" aria-label="Cart">${ICON.cart}</a></header>
@@ -96,7 +96,7 @@ export function productPage({ origin, tiers, images, reviewImages, logo, store }
     <ul class="bul"><li>💨 Mrs. Claus Farts, Real Bubbles</li><li>😂 The Gag Gift Winner</li><li>🎄 Steals Every Christmas Party</li><li>&nbsp;&nbsp;&nbsp; Free Bubble Solution Included</li></ul>
     <div class="low">Low Stock - Selling Fast</div>
     <div class="tiers" id="tiers">${tiers.map(tier).join('')}</div>
-    <div class="saving" id="saving">→ You're saving ${money(tiers[1].compare - tiers[1].price)} on this order</div>
+    <div class="saving" id="saving">→ You're saving ${money(tiers[0].compare - tiers[0].price)} on this order</div>
     <button class="atc" id="atc" type="button">ADD TO CART</button>
     <div class="pay">${PAY}</div>
     <div class="trust"><div>${ICON.heart}<b>Satisfaction Guarantee</b></div><div>${ICON.returns}<b>Free Returns</b></div><div>${ICON.truck}<b>Free Shipping</b></div></div>
@@ -105,10 +105,10 @@ export function productPage({ origin, tiers, images, reviewImages, logo, store }
   </div>
 </section>
 <section class="faq">
-  <details open><summary>${ICON.check} Does it need batteries?</summary><p>Yes, it takes 3 AA batteries (not included). Pop them in, flick the switch, and Mrs. Claus handles the rest with bubbles, music and a cheeky fart or two.</p></details>
-  <details open><summary>${ICON.check} Does it come with bubble solution?</summary><p>Yes! A 60ml bottle of bubble solution is included, so ClauseFart is ready to rip right out of the box. Once it runs out, any standard bubble solution works as a refill.</p></details>
-  <details open><summary>${ICON.check} Shipping</summary><p>Orders are dispatched within 1–3 business days and delivered worldwide in 2–3 weeks, with free shipping and tracking on every order.</p></details>
-  <details open><summary>${ICON.check} Our Guarantee</summary><p>We truly believe we offer some of the funniest gifts in the world, and we back them with a risk-free 30-day money-back guarantee.</p></details>
+  <details><summary>${ICON.check} Does it need batteries?</summary><p>Yes, it takes 3 AA batteries (not included). Pop them in, flick the switch, and Mrs. Claus handles the rest with bubbles, music and a cheeky fart or two.</p></details>
+  <details><summary>${ICON.check} Does it come with bubble solution?</summary><p>Yes! A 60ml bottle of bubble solution is included, so ClauseFart is ready to rip right out of the box. Once it runs out, any standard bubble solution works as a refill.</p></details>
+  <details><summary>${ICON.check} Shipping</summary><p>Orders are dispatched within 1–3 business days and delivered worldwide in 2–3 weeks, with free shipping and tracking on every order.</p></details>
+  <details><summary>${ICON.check} Our Guarantee</summary><p>We truly believe we offer some of the funniest gifts in the world, and we back them with a risk-free 30-day money-back guarantee.</p></details>
 </section>
 <section class="feat"><img src="${esc(reviewImages[0])}" alt="ClauseFart on the Christmas dinner table"><div><h2>Surprise your friends</h2><p>Perfect if you need some laughs in your boring family. Set her on the table, flick the switch, and watch the room lose it.</p></div></section>
 <section class="feat"><img src="${esc(images[1])}" alt="ClauseFart dimensions and box"><div><h2>Load Her Up. Let Her Rip.</h2><p>Three AAs, a splash of bubble solution, and one flick of the switch. Zero skill required, maximum chaos delivered. 🎄</p></div></section>
@@ -126,7 +126,7 @@ export function productPage({ origin, tiers, images, reviewImages, logo, store }
 <script>
   const $ = (s) => document.querySelector(s);
   const money = (n) => '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  let qty = 2;
+  let qty = 1;
   document.querySelectorAll('.tier').forEach((t) => t.addEventListener('click', () => {
     document.querySelectorAll('.tier').forEach((x) => x.classList.remove('on')); t.classList.add('on');
     qty = Number(t.dataset.qty);
