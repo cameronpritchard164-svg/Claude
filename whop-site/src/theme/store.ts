@@ -2,8 +2,8 @@
 // Store data for the theme. The product's title, photos and prices are read
 // live from Whop, so changing them in the Whop dashboard updates the site.
 
-export const WHOP_PRODUCT_ID = 'prod_63epfH2IUlzYn'
-export const WHOP_PLAN_ID = 'plan_rFXSUE37gHuPi'
+export const WHOP_PRODUCT_ID = 'prod_yZNPGTaTAEeFK'
+export const WHOP_PLAN_ID = 'plan_MHxHOvBlT5YC5'
 export const PRODUCT_HANDLE = 'clausefart'
 // Product photos are served from this site rather than Whop's gallery.
 export const LOCAL_PRODUCT = { title: 'Bubble Blowing ClauseFart', images: ['/images/cf-1.webp', '/images/cf-2.webp'] }
