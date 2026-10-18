@@ -66,7 +66,13 @@ h1{font-size:2.4rem;line-height:1.1;margin:0 0 8px;font-weight:700}
 .card .b{padding:26px 24px 20px;position:relative}.card .q{position:absolute;right:16px;top:-24px;width:48px;height:48px;border-radius:50%;background:var(--red);color:#fff;font-size:1.8rem;font-weight:700;display:grid;place-items:center;font-family:Georgia,serif}
 .card:not(.img) .q{top:12px}.card:not(.img) .b{padding-top:34px}
 .card h3{font-size:1.2rem;margin:8px 0 10px}.card p{margin:0;line-height:1.7;color:#333}.card .n{margin-top:18px;padding-top:12px;border-top:1px solid #e6e6e6;font-weight:600;font-style:italic;font-size:.9rem}
-footer{border-top:1px solid #e6e6e6;padding:28px 20px;text-align:center;font-size:.85rem;color:#555}footer nav{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;margin-bottom:10px;font-weight:600}
+.ft{position:relative;background:var(--red);color:#fff;text-align:center;margin-top:30px}
+.waves{position:absolute;left:0;right:0;top:-70px;height:72px;overflow:hidden}.waves svg{position:absolute;left:0;top:0;width:200%;height:100%}
+.waves path{fill:var(--red)}.w1{opacity:.35;animation:wave 14s linear infinite}.w2{opacity:.55;animation:wave 10s linear infinite reverse}.w3{opacity:1;animation:wave 18s linear infinite}
+@keyframes wave{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ftin{padding:60px 20px 40px;max-width:600px;margin:0 auto}.ftin h2{font-size:1.7rem;margin:0 0 12px}.ftin p{margin:0 0 24px;font-family:Georgia,serif}
+.sub{display:flex;max-width:360px;margin:0 auto 60px;border:1px solid rgba(255,255,255,.8);border-radius:4px;padding:0 4px 0 18px}.sub input{flex:1;background:none;border:0;color:#fff;font:inherit;font-family:Georgia,serif;font-size:1rem;padding:14px 0;outline:none}.sub input::placeholder{color:rgba(255,255,255,.85)}.sub button{background:none;border:0;color:#fff;font-size:1.3rem;cursor:pointer;padding:0 10px}
+.ftpay{margin:0 0 18px}.copy{font-family:Georgia,serif;font-size:.85rem;margin:0 0 14px}.ft nav{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;font-size:.8rem;opacity:.9}
 `
 
 export function productPage({ origin, tiers, images, reviewImages, logo, store }) {
@@ -109,11 +115,14 @@ export function productPage({ origin, tiers, images, reviewImages, logo, store }
 <section class="testi"><h2>Testimonials</h2>
 <div class="cards">
   <div class="card img"><img src="${esc(reviewImages[1])}" alt=""><div class="b"><span class="q">”</span>${STARS}<h3>Absolutely hilarious Christmas gift!</h3><p>I bought this for our family Christmas party as a joke, and honestly, it was the best decision ever 😂 Everyone started laughing the second Mrs. Claus bent over. The bubbles made it even funnier, and even the adults wanted a go. Such a ridiculous gift in the best possible way!</p><div class="n">Jessica F.</div></div></div>
-  <div class="card"><div class="b"><span class="q">”</span>${STARS}<h3>Mrs. Claus stole the show!</h3><p>Got this for my brother because he's obsessed with silly Christmas stuff, and he couldn't stop laughing when he opened it. We ended up running it all evening and it became the main attraction at our Christmas gathering. One of those gifts people remember long after Christmas is over.</p><div class="n">Michael C.</div></div></div>
+  <div class="card img"><img src="${esc(reviewImages[0])}" alt=""><div class="b"><span class="q">”</span>${STARS}<h3>Mrs. Claus stole the show!</h3><p>Got this for my brother because he's obsessed with silly Christmas stuff, and he couldn't stop laughing when he opened it. We ended up running it all evening and it became the main attraction at our Christmas gathering. One of those gifts people remember long after Christmas is over.</p><div class="n">Michael C.</div></div></div>
   <div class="card img"><img src="${esc(reviewImages[2])}" alt=""><div class="b"><span class="q">”</span>${STARS}<h3>Perfect gift for someone with a silly sense of humor</h3><p>I was looking for something different from the usual socks, chocolates and gift cards, and this was exactly it. The farting Mrs. Claus design is hilarious, and the bubble-blowing makes it even better. I gave it to a friend who loves practical jokes and it got a far bigger reaction than I expected. Great Secret Santa gift!</p><div class="n">Daniel A.</div></div></div>
 </div></section>
 </main>
-<footer><nav><a href="/pages/refund-policy">Refund &amp; Return Policy</a><a href="/pages/shipping">Shipping Policy</a><a href="/pages/contact">Contact</a></nav>© ${new Date().getFullYear()} ${esc(store)}</footer>
+<footer class="ft"><div class="waves" aria-hidden="true"><svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path class="w1" d="M0 70 C240 20 480 20 720 70 S1200 120 1440 70 L1440 120 L0 120Z"/><path class="w2" d="M0 90 C300 40 600 40 900 90 S1300 130 1440 90 L1440 120 L0 120Z"/><path class="w3" d="M0 100 C360 60 720 60 1080 100 S1380 130 1440 100 L1440 120 L0 120Z"/></svg></div>
+<div class="ftin"><h2>Subscribe to our emails</h2><p>Join our list for exclusive offers and first look at new drops.</p>
+<form method="post" action="/contact" class="sub"><input type="hidden" name="form_type" value="customer"><input type="email" name="contact[email]" placeholder="Email" required autocomplete="email"><button type="submit" aria-label="Subscribe">→</button></form>
+<div class="pay ftpay">${PAY}</div><p class="copy">© ${new Date().getFullYear()}, ${esc(store)}</p><nav><a href="/pages/refund-policy">Refund &amp; Return Policy</a><a href="/pages/shipping">Shipping Policy</a><a href="/pages/contact">Contact</a></nav></div></footer>
 <script>
   const $ = (s) => document.querySelector(s);
   const money = (n) => '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
