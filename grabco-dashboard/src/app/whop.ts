@@ -9,7 +9,7 @@ export const ACCOUNT_ID = env.WHOP_ACCOUNT_ID || 'biz_eBI3bCf0mqzUIk'
 const ORIGIN = env.WHOP_API_ORIGIN || 'https://api.whop.com'
 
 export const STORES = {
-  clausegrab: { key: 'clausegrab', name: 'ClauseGrab', host: 'clausegrab.whop.site', color: '#e66767', products: ['prod_63epfH2IUlzYn'] },
+  clausegrab: { key: 'clausegrab', name: 'ClauseGrab', host: 'clausefart.whop.site', color: '#e66767', products: ['prod_yZNPGTaTAEeFK', 'prod_63epfH2IUlzYn'] },
   diddygrab: { key: 'diddygrab', name: 'DiddyGrab', host: 'diddygrab.whop.site', color: '#9085e9', products: ['prod_Ek1iCKY3X54ue', 'prod_aUltblm4k46SE'] },
 }
 export const storeOfHost = (h) => Object.values(STORES).find((s) => s.host === h) || null
