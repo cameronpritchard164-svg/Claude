@@ -45,7 +45,7 @@ h1{font-size:2.4rem;line-height:1.1;margin:0 0 8px;font-weight:700}
 .tier .rad{width:22px;height:22px;border-radius:50%;border:2px solid #d9d9d9;background:#fff;display:grid;place-items:center}.tier.on .rad{border-color:var(--red)}.tier.on .rad:after{content:'';width:12px;height:12px;border-radius:50%;background:var(--red)}
 .tier .t{font-weight:700;font-size:1.15rem}.tier .s{font-size:.85rem;color:#444}
 .tier .p{text-align:right}.tier .p b{font-size:1.25rem}.tier .p span{display:block;color:#737373;text-decoration:line-through;font-size:.85rem}
-.tier .tag{position:absolute;right:12px;top:-12px;background:#1f3fd6;color:#fff;font-size:.7rem;font-weight:700;letter-spacing:.05em;padding:4px 10px;border-radius:4px}
+.tier .tag{position:absolute;right:12px;top:-12px;background:var(--red);color:#fff;font-size:.7rem;font-weight:700;letter-spacing:.05em;padding:4px 10px;border-radius:4px}
 .saving{margin:14px 0 12px;border:1px solid #9ad3a8;background:#f1faf3;border-radius:6px;padding:12px 16px;font-size:.92rem;color:#1a5c2a}
 .atc{display:block;width:100%;border:0;background:var(--red);color:#fff;font:inherit;font-weight:700;font-size:1.15rem;letter-spacing:.06em;padding:17px;border-radius:6px;cursor:pointer}
 .pay{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:14px 0 24px}
