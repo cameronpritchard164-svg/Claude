@@ -1,0 +1,33 @@
+{
+  "heading": "BUY MORE & SAVE MORE!",
+  "noun": "ClauseFart",
+  "product_name": "The Grumpy Bum Tissue Holder",
+  "popular_tier": 2,
+  "best_tier": 3,
+  "tiers": [
+    {
+      "qty": 1,
+      "price": 29.99,
+      "compare": 59.98
+    },
+    {
+      "qty": 2,
+      "price": 57.99,
+      "compare": 119.96
+    },
+    {
+      "qty": 3,
+      "price": 83.67,
+      "compare": 179.94
+    }
+  ],
+  "addons": [],
+  "shipping": [
+    {
+      "key": "free",
+      "label": "Free Shipping",
+      "eta": "Delivers in 2\u20133 weeks \u00b7 tracking emailed",
+      "price": 0
+    }
+  ]
+}

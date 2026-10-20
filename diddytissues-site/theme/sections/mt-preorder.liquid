@@ -1,0 +1,42 @@
+{%- if settings.mt_preorder or section.settings.always_show -%}
+  <div class="mt-preorder color-scheme-4 gradient">
+    <div class="page-width mt-preorder__inner">
+      <div class="mt-preorder__media">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '550, 750, 1100, 1400', sizes: '(min-width: 750px) 50vw, 100vw' }}
+        {%- elsif product.featured_image != blank -%}
+          {{ product.featured_image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '550, 750, 1100, 1400', sizes: '(min-width: 750px) 50vw, 100vw' }}
+        {%- else -%}
+          {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+      </div>
+      <div class="mt-preorder__text">
+        <h2 class="mt-preorder__heading">{{ section.settings.heading | escape }}</h2>
+        {%- if section.settings.text != blank -%}
+          <div class="rte">{{ section.settings.text }}</div>
+        {%- else -%}
+          <p>
+            Please note our {{ settings.mt_product_noun | escape }} is currently in high demand and available for
+            pre-order. Delivery takes approximately {{ settings.mt_preorder_time | escape }} from purchase.
+            {% if section.settings.extra != blank %}{{ section.settings.extra | escape }}{% endif %}
+          </p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Pre-order notice",
+  "settings": [
+    { "type": "paragraph", "content": "Shows only when Pre-order is switched on in Theme settings > Store basics, unless the box below is ticked." },
+    { "type": "checkbox", "id": "always_show", "label": "Show even when pre-order is off", "default": false },
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "Falls back to the product's main image." },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "PRE-ORDER NOTICE (please read)" },
+    { "type": "textarea", "id": "extra", "label": "Extra line for this product", "info": "Added after the automatic pre-order sentence." },
+    { "type": "richtext", "id": "text", "label": "Override text (optional)" }
+  ],
+  "presets": [ { "name": "Pre-order notice" } ]
+}
+{% endschema %}

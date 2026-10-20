@@ -1,0 +1,184 @@
+{% comment %}
+  ========== CLAUSEGRAB BUNDLE BOX ==========
+  Ported from the KirkGrab bundle box. Tiers, add-ons and the Whop checkout
+  plan for every combination come from the `bundle` global
+  (src/theme/bundle.json + bundle-plans.json). Colours follow the theme:
+  accent (Christmas red) for badges, secondary (evergreen) for selection.
+{% endcomment %}
+
+{%- if product -%}
+<style>
+  .bb{--bb-red:var(--mt-accent,#C8102E);--bb-navy:var(--mt-accent-2,#0F5132);--bb-ink:#121212;--bb-grey:#F4F4F6;--bb-row:#CCCCCC;--bb-check:#3A3A3D;--bb-line:#D7D7D7;font-family:inherit;margin:14px 0 18px}
+  .bb *{box-sizing:border-box}
+  .bb-head{display:flex;align-items:center;gap:12px;margin:0 0 12px;font-family:Georgia,"Times New Roman",serif;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--bb-ink)}
+  .bb-head:before,.bb-head:after{content:"";flex:1;height:1px;background:var(--bb-line)}
+  .bb-tier{position:relative;border:2px solid var(--bb-line);border-radius:10px;background:var(--bb-grey);margin:0 0 12px;cursor:pointer}
+  .bb-tier.is-on{background:#fff;border-color:var(--bb-navy)}
+  .bb-tier-top{display:flex;align-items:center;gap:12px;padding:13px 16px}
+  .bb-radio{display:flex !important;width:22px;height:22px;border-radius:50%;border:2px solid #8a8a8a;background:#fff;flex:0 0 22px;align-items:center;justify-content:center}
+  .bb-radio i{display:block;width:10px;height:10px;border-radius:50%;background:transparent}
+  .bb-tier.is-on .bb-radio{border-color:var(--bb-navy)}
+  .bb-tier.is-on .bb-radio i{background:var(--bb-navy)}
+  .bb-tier-name{font-family:Georgia,"Times New Roman",serif;font-size:19px;line-height:1.15;color:var(--bb-ink)}
+  .bb-tier-save{font-size:13px;color:var(--bb-ink);margin-top:2px}
+  .bb-tier-price{margin-left:auto;text-align:right}
+  .bb-price{font-family:Georgia,"Times New Roman",serif;font-size:20px;color:var(--bb-ink);line-height:1.1}
+  .bb-compare{font-size:13px;color:#8a8a8a;text-decoration:line-through}
+  .bb-body{display:none;border-top:1px solid #ececec;border-radius:0 0 8px 8px;overflow:hidden}
+  .bb-tier.is-on .bb-body{display:block}
+  .bb-prod{display:flex;align-items:center;gap:16px;padding:10px 16px 14px;background:#fff}
+  .bb-prod img{width:72px;height:72px;object-fit:contain;flex:0 0 72px}
+  .bb-prod-name{font-family:Georgia,"Times New Roman",serif;font-size:18px;color:var(--bb-ink)}
+  .bb-prod-qty{font-size:13px;color:#555;margin-top:2px}
+  .bb-addon{display:flex;align-items:center;gap:10px;padding:6px 12px;background:var(--bb-row);border-top:2px solid #fff;cursor:pointer}
+  .bb-check{display:flex !important;width:22px;height:22px;border-radius:4px;background:#fff;border:1px solid #bbb;flex:0 0 22px;align-items:center;justify-content:center}
+  .bb-check i{display:block;width:7px;height:11px;border:solid transparent;border-width:0 3px 3px 0;transform:rotate(45deg);margin-top:-3px}
+  .bb-addon.is-on .bb-check{background:var(--bb-check);border-color:var(--bb-check)}
+  .bb-addon.is-on .bb-check i{border-color:#fff}
+  .bb-addon img{width:46px;height:46px;object-fit:contain;flex:0 0 46px}
+  .bb-addon-text{flex:1;font-family:Georgia,"Times New Roman",serif;font-size:14.5px;line-height:1.2;color:var(--bb-ink)}
+  .bb-pill{display:inline-block;margin-top:4px;background:var(--bb-red);color:#fff;font-family:inherit;font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:3px}
+  .bb-addon-price{text-align:right}
+  .bb-addon-price .bb-price{font-size:15px;color:var(--bb-red)}
+  .bb-addon-price .bb-compare{font-size:12px}
+  .bb-pop{position:absolute;right:-6px;top:-13px;background:var(--bb-red);color:#fff;font-family:inherit;font-size:13px;line-height:1;padding:7px 12px;border-radius:4px;transform:rotate(-2deg);box-shadow:0 1px 4px rgba(0,0,0,.18);z-index:2;white-space:nowrap}
+  .bb-best{position:relative;background:var(--bb-red);border-radius:14px;padding:26px;margin:0 0 12px}
+  .bb-best .bb-tier{margin:0;border-radius:8px;border-color:transparent;position:relative;z-index:1}
+  .bb-best .bb-tier.is-on{border-color:var(--bb-navy)}
+  .bb-ribbon{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+  .bb-ribbon text{fill:#fff;font-family:Arial,Helvetica,sans-serif;font-weight:800;font-size:12px;letter-spacing:.14em}
+  @media (max-width:600px){.bb-tier-name{font-size:17px}.bb-price{font-size:18px}.bb-addon-text{font-size:14px}.bb-prod-name{font-size:16px}}
+</style>
+
+<div class="bb" id="bb-{{ section.id }}" data-plans='{{ bundle.plans | json | escape }}'>
+  <div class="bb-head">{{ bundle.heading }}</div>
+
+  {%- for tier in bundle.tiers -%}
+    {%- assign i = tier.qty -%}
+    {%- assign price_cents = tier.price | times: 100 | round -%}
+    {%- assign compare_cents = tier.compare | times: 100 | round -%}
+    {%- assign save_cents = compare_cents | minus: price_cents -%}
+    {%- if i == bundle.best_tier -%}
+    <div class="bb-best">
+      <svg class="bb-ribbon" aria-hidden="true"><defs><path id="bb-path-{{ section.id }}" d=""></path></defs><text dominant-baseline="middle"><textPath href="#bb-path-{{ section.id }}" startOffset="0"></textPath></text></svg>
+    {%- endif -%}
+    <div class="bb-tier{% if forloop.first %} is-on{% endif %}" data-qty="{{ i }}">
+      {%- if i == bundle.popular_tier -%}<div class="bb-pop">Most popular</div>{%- endif -%}
+      <div class="bb-tier-top">
+        <div class="bb-radio"><i></i></div>
+        <div>
+          <div class="bb-tier-name">{{ i }} {{ bundle.noun }}{% if i > 1 %}s{% endif %}</div>
+          <div class="bb-tier-save">You save {{ save_cents | money }}</div>
+        </div>
+        <div class="bb-tier-price">
+          <div class="bb-price">{{ price_cents | money }}</div>
+          <div class="bb-compare">{{ compare_cents | money }}</div>
+        </div>
+      </div>
+      <div class="bb-body"></div>
+    </div>
+    {%- if i == bundle.best_tier -%}</div>{%- endif -%}
+  {%- endfor -%}
+
+  <div class="bb-contents" id="bb-contents-{{ section.id }}" style="display:none">
+    <div class="bb-prod">
+      {%- if product.featured_image -%}<img src="{{ product.featured_image | image_url: width: 160 }}" alt="{{ bundle.product_name | escape }}">{%- endif -%}
+      <div>
+        <div class="bb-prod-name">{{ bundle.product_name }}</div>
+        <div class="bb-prod-qty" data-bb-qty-label></div>
+      </div>
+    </div>
+    {%- for addon in bundle.addons -%}
+      {%- assign addon_price = addon.price | times: 100 | round -%}
+      {%- assign addon_compare = addon.compare | times: 100 | round -%}
+      <div class="bb-addon" data-addon="{{ addon.key }}">
+        <div class="bb-check"><i></i></div>
+        <img src="{{ addon.image }}" alt="{{ addon.title | escape }}" width="46" height="46" loading="lazy">
+        <div class="bb-addon-text">+ Add {{ addon.title }}{% if addon.badge != blank %}<br><span class="bb-pill">{{ addon.badge }}</span>{% endif %}</div>
+        <div class="bb-addon-price">
+          <div class="bb-price">{{ addon_price | money }}</div>
+          {%- if addon_compare > addon_price -%}<div class="bb-compare">{{ addon_compare | money }}</div>{%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+<script>
+(function(){
+  var box = document.getElementById('bb-{{ section.id }}');
+  if(!box) return;
+  var contents = document.getElementById('bb-contents-{{ section.id }}');
+  var plans = JSON.parse(box.getAttribute('data-plans') || '{}');
+  var addonOrder = Array.prototype.map.call(contents.querySelectorAll('.bb-addon'), function(a){ return a.getAttribute('data-addon'); });
+  var qty = 1;
+  var tiers = box.querySelectorAll('.bb-tier');
+
+  function select(tier){
+    tiers.forEach(function(t){ t.classList.remove('is-on'); });
+    tier.classList.add('is-on');
+    qty = parseInt(tier.getAttribute('data-qty'),10) || 1;
+    tier.querySelector('.bb-body').appendChild(contents);
+    contents.style.display = 'block';
+    var lbl = contents.querySelector('[data-bb-qty-label]');
+    if(lbl) lbl.textContent = qty > 1 ? ('Quantity: ' + qty) : '';
+  }
+  tiers.forEach(function(t){ t.addEventListener('click', function(){ select(t); }); });
+
+  box.querySelectorAll('.bb-addon').forEach(function(a){
+    a.addEventListener('click', function(e){ e.stopPropagation(); a.classList.toggle('is-on'); });
+  });
+
+  /* Add to cart goes to the Whop checkout plan for this quantity + add-on combination */
+  window.clausegrabCheckoutUrl = function(){
+    var on = addonOrder.filter(function(k){ return box.querySelector('.bb-addon.is-on[data-addon="' + k + '"]'); });
+    var plan = plans[qty + ':' + on.join(',')];
+    return plan ? '/checkout?key=' + encodeURIComponent(qty + ':' + on.join(',')) : null;
+  };
+
+  select(tiers[0]);
+
+  /* ---- BEST VALUE ribbon: text on one continuous rounded path, circling to the right ---- */
+  var best = box.querySelector('.bb-best');
+  if(best){
+    var svg = best.querySelector('.bb-ribbon');
+    var path = svg.querySelector('path');
+    var tp = svg.querySelector('textPath');
+    var unit = 'BEST VALUE • ';
+    var pathLen = 0, unitLen = 0, offset = 0, speed = 40;
+
+    function build(){
+      var W = best.offsetWidth, H = best.offsetHeight, inset = 13, r = 7;
+      svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+      var x0 = inset, y0 = inset, x1 = W - inset, y1 = H - inset;
+      path.setAttribute('d',
+        'M' + (x0 + r) + ',' + y0 +
+        ' L' + (x1 - r) + ',' + y0 + ' A' + r + ',' + r + ' 0 0 1 ' + x1 + ',' + (y0 + r) +
+        ' L' + x1 + ',' + (y1 - r) + ' A' + r + ',' + r + ' 0 0 1 ' + (x1 - r) + ',' + y1 +
+        ' L' + (x0 + r) + ',' + y1 + ' A' + r + ',' + r + ' 0 0 1 ' + x0 + ',' + (y1 - r) +
+        ' L' + x0 + ',' + (y0 + r) + ' A' + r + ',' + r + ' 0 0 1 ' + (x0 + r) + ',' + y0 + ' Z');
+      pathLen = path.getTotalLength();
+      tp.textContent = unit;
+      unitLen = tp.getComputedTextLength() || 90;
+      var n = Math.ceil((pathLen + unitLen) / unitLen) + 2;
+      tp.textContent = new Array(n + 1).join(unit);
+      offset = -unitLen;
+    }
+    var last = null;
+    function tick(ts){
+      if(last !== null){
+        offset += speed * (ts - last) / 1000;
+        if(offset >= 0) offset -= unitLen;
+        tp.setAttribute('startOffset', offset);
+      }
+      last = ts;
+      requestAnimationFrame(tick);
+    }
+    build();
+    requestAnimationFrame(tick);
+    if(window.ResizeObserver){ new ResizeObserver(build).observe(best); }
+    else { window.addEventListener('resize', build); }
+  }
+})();
+</script>
+{%- endif -%}
