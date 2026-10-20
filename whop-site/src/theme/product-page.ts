@@ -37,7 +37,8 @@ h1{font-size:2.4rem;line-height:1.1;margin:0 0 8px;font-weight:700}
 .rating{display:flex;align-items:center;gap:8px;font-size:.95rem;margin:0 0 10px}.stars{color:#ffc107;letter-spacing:1px;font-size:1.05rem}
 .price{display:flex;align-items:center;gap:10px;margin:0 0 16px}.price .now{color:var(--red);font-weight:700;font-size:1.5rem}.price .was{color:#737373;text-decoration:line-through;font-size:1.1rem}
 .badge{background:var(--red);color:#fff;font-size:.72rem;font-weight:700;letter-spacing:.06em;padding:5px 10px;border-radius:5px}
-.bul{list-style:none;padding:0;margin:0 0 18px;display:grid;gap:8px;font-weight:600;font-size:1rem}
+.bul{list-style:none;padding:0;margin:0 0 16px;display:grid;gap:10px;font-size:1rem}.bul li{display:flex;gap:10px;align-items:baseline}.bul li span{color:#555}.bul li b{color:#121212}
+.pill{display:inline-block;background:#fde7ea;border:1px solid #f3c2c9;color:#9d0c24;font-weight:600;font-size:.9rem;border-radius:999px;padding:7px 14px;margin:0 0 16px}
 .low{display:flex;align-items:center;gap:12px;font-weight:700;font-size:.9rem;margin:6px 0 14px}.low:before,.low:after{content:'';flex:1;height:1px;background:#e9c3c8}
 .tiers{display:grid;gap:12px}
 .tier{position:relative;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:16px 18px;border:2px solid #f3d6d9;background:#fdeaec;border-radius:8px;cursor:pointer}
@@ -93,7 +94,8 @@ export function productPage({ origin, tiers, images, reviewImages, logo, store }
     <h1>Bubble Blowing ClauseFart</h1>
     <div class="rating">${STARS}<span>4.85/5 | 1,450+ Reviews</span></div>
     <div class="price"><span class="now" id="pnow">${money(t1.price)}</span><span class="was" id="pwas">${money(t1.compare)}</span><span class="badge">🎁 SPECIAL OFFER</span></div>
-    <ul class="bul"><li>💨 Mrs. Claus Farts, Real Bubbles</li><li>😂 The Gag Gift Winner</li><li>🎄 Steals Every Christmas Party</li><li>&nbsp;&nbsp;&nbsp; Free Bubble Solution Included</li></ul>
+    <div class="pill">🎁 A cheeky gift for Secret Santa &amp; family swaps</div>
+    <ul class="bul"><li>🤧 <span><b>Sneeze-ready</b> — tissues pop out of his rear</span></li><li>🧸 <span><b>Super-soft plush</b> — cute enough to keep out all year</span></li><li>😂 <span><b>Instant laugh</b> — every guest will reach for one</span></li></ul>
     <div class="low">Low Stock - Selling Fast</div>
     <div class="tiers" id="tiers">${tiers.map(tier).join('')}</div>
     <div class="saving" id="saving">→ You're saving ${money(tiers[0].compare - tiers[0].price)} on this order</div>
@@ -105,10 +107,12 @@ export function productPage({ origin, tiers, images, reviewImages, logo, store }
   </div>
 </section>
 <section class="faq">
-  <details><summary>${ICON.check} Does it need batteries?</summary><p>Yes, it takes 3 AA batteries (not included). Pop them in, flick the switch, and Mrs. Claus handles the rest with bubbles, music and a cheeky fart or two.</p></details>
-  <details><summary>${ICON.check} Does it come with bubble solution?</summary><p>Yes! A 60ml bottle of bubble solution is included, so ClauseFart is ready to rip right out of the box. Once it runs out, any standard bubble solution works as a refill.</p></details>
-  <details><summary>${ICON.check} Shipping</summary><p>Orders are dispatched within 1–3 business days and delivered worldwide in 2–3 weeks, with free shipping and tracking on every order.</p></details>
-  <details><summary>${ICON.check} Our Guarantee</summary><p>We truly believe we offer some of the funniest gifts in the world, and we back them with a risk-free 30-day money-back guarantee.</p></details>
+  <details><summary>${ICON.check} What tissues does it take?</summary><p>A standard flat tissue pack slips inside through the opening underneath. Pull the first tissue through his rear and you're set.</p></details>
+  <details><summary>${ICON.check} How big is it?</summary><p>Approximately 30 cm long × 14 cm wide (11.8 × 5.5 inches).</p></details>
+  <details><summary>${ICON.check} Is it soft or hard?</summary><p>Fully soft plush, so he's safe to toss on the sofa and fun to squeeze between sneezes.</p></details>
+  <details><summary>${ICON.check} Is it a good gift?</summary><p>It's the gag gift people actually keep using. Perfect for Secret Santa, white elephant swaps and stocking stuffers.</p></details>
+  <details><summary>${ICON.check} When will my order arrive?</summary><p>Estimated delivery is 8–15 business days from ordering, including preparation and shipping. Business days exclude weekends and public holidays. We'll email your tracking details when your order ships.</p></details>
+  <details><summary>${ICON.check} Does it make a sound when I pull out a tissue?</summary><p>This tissue holder does not make fart sounds when you pull out a tissue. Sound effects in our promotional videos are for entertainment and are not a product feature.</p></details>
 </section>
 <section class="feat"><img src="${esc(reviewImages[0])}" alt="ClauseFart on the Christmas dinner table"><div><h2>Surprise your friends</h2><p>Perfect if you need some laughs in your boring family. Set her on the table, flick the switch, and watch the room lose it.</p></div></section>
 <section class="feat"><img src="${esc(images[1])}" alt="ClauseFart dimensions and box"><div><h2>Load Her Up. Let Her Rip.</h2><p>Three AAs, a splash of bubble solution, and one flick of the switch. Zero skill required, maximum chaos delivered. 🎄</p></div></section>
