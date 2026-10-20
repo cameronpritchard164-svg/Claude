@@ -69,7 +69,7 @@ const POLICY_PAGES = policyPages({ store: 'DiddyTissues', product: 'The Grumpy B
 const SHOP_PATHS = ['/', '/collections/all', '/collections', '/products', '/shop']
 
 // Contact and newsletter submissions are written to the site's server logs
-// (`whop apps logs app_gwec5GNyJmGmsm --query contact_form`).
+// (`whop apps logs app_nhtM5t8OxjtOoD --query contact_form`).
 async function handleForm(request, url) {
   const form = await request.formData()
   const type = String(form.get('form_type') || 'contact')
