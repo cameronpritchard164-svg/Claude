@@ -21,10 +21,10 @@ const CSS = `
 *{box-sizing:border-box}html{scroll-behavior:smooth}
 body{margin:0;font-family:Poppins,-apple-system,"Segoe UI",Roboto,sans-serif;color:#121212;background:#fff;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}img{max-width:100%;display:block}
-.hdr{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 20px;max-width:1300px;margin:0 auto}
+.hdr{display:flex;justify-content:space-between;align-items:center;padding:10px 24px;background:#fff;border-bottom:1px solid #eee}
 .hdr nav{display:flex;gap:18px;font-size:.9rem;font-weight:600}
-.hdr .logo img{height:56px;width:auto}
-.hdr .cart{justify-self:end;display:flex;align-items:center;gap:6px;color:#121212}
+.hdr .logo img{height:64px;width:auto}@media(max-width:600px){.hdr .logo img{height:48px}}
+.hdr .cart{display:grid;place-items:center;width:44px;height:44px;border-radius:10px;background:#121212;color:#fff}
 .marq{background:var(--red);color:#fff;font-weight:700;font-size:.95rem;letter-spacing:.04em;overflow:hidden;white-space:nowrap;padding:14px 0}
 .marq div{display:inline-block;animation:marq 28s linear infinite}.marq span{margin:0 56px}
 @keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -84,7 +84,7 @@ export function productPage({ origin, tiers, images, reviewImages, logo, store }
     return `<label class="tier${i === 0 ? ' on' : ''}" data-qty="${t.qty}" data-price="${t.price}" data-compare="${t.compare}">${tag ? `<span class="tag">${tag}</span>` : ''}<span class="rad"></span><span><span class="t">Buy ${t.qty}</span><br><span class="s">${i === 0 ? 'Standard Price' : `Save ${save}%`}</span></span><span class="p"><b>${money(t.price)}</b><span>${money(t.compare)}</span></span></label>`
   }
   const body = `
-<header class="hdr"><nav><a href="/">Shop</a><a href="/pages/contact">Contact</a></nav><a class="logo" href="/"><img src="${esc(logo)}" alt="${esc(store)}"></a><a class="cart" href="${CHECKOUT_PATH}?key=1:" aria-label="Cart">${ICON.cart}</a></header>
+<header class="hdr"><a class="logo" href="/"><img src="${esc(logo)}" alt="ClauseTissues"></a><a class="cart" href="${CHECKOUT_PATH}?key=1:" aria-label="Cart">${ICON.cart}</a></header>
 <div class="marq"><div>${'<span>24/7 CUSTOMER SUPPORT</span><span>FREE RETURNS</span><span>30 DAY GUARANTEE</span>'.repeat(6)}</div></div>
 <main class="wrap">
 <section class="prod">
