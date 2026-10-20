@@ -65,7 +65,7 @@ const htmlResponse = (html, status = 200) =>
   })
 
 const CONTACT_PATH = '/pages/contact'
-const POLICY_PAGES = policyPages({ store: 'DiddyTissues', product: 'The Grumpy Bum Tissue Holder', season: 'Christmas' })
+const POLICY_PAGES = policyPages({ store: 'DiddyTissues', product: 'The Diddy Bum Tissue Holder', season: 'Christmas' })
 const SHOP_PATHS = ['/', '/collections/all', '/collections', '/products', '/shop']
 
 // Contact and newsletter submissions are written to the site's server logs
