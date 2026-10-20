@@ -1,5 +1,5 @@
 // @ts-nocheck
-// ClauseFart product page (the shop's only page), laid out like the reference
+// DiddyTissues product page (the shop's only page), laid out like the reference
 // store: gallery, price, benefit bullets, Buy 1/2/3 selector, trust icons,
 // review ticker, FAQ, marquee, two feature sections and testimonials.
 import { CHECKOUT_PATH } from './checkout'
@@ -25,7 +25,7 @@ a{color:inherit;text-decoration:none}img{max-width:100%;display:block}
 .hdr nav{display:flex;gap:18px;font-size:.9rem;font-weight:600}
 .hdr .logo img{height:58px;width:auto}@media(max-width:600px){.hdr .logo img{height:44px}}
 .hdr .cart{display:grid;place-items:center;width:44px;height:44px;border-radius:10px;background:#121212;color:#fff}
-.marq{background:var(--red);color:#fff;font-weight:700;font-size:.95rem;letter-spacing:.04em;overflow:hidden;white-space:nowrap;padding:14px 0}
+.marq{background:var(--baby);color:var(--babyink);font-weight:700;font-size:.95rem;letter-spacing:.04em;overflow:hidden;white-space:nowrap;padding:14px 0}
 .marq div{display:inline-block;animation:marq 28s linear infinite}.marq span{margin:0 56px}
 @keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .wrap{max-width:1300px;margin:0 auto;padding:0 20px}
@@ -38,11 +38,11 @@ h1{font-size:2.4rem;line-height:1.1;margin:0 0 8px;font-weight:700}
 .price{display:flex;align-items:center;gap:10px;margin:0 0 16px}.price .now{color:var(--red);font-weight:700;font-size:1.5rem}.price .was{color:#737373;text-decoration:line-through;font-size:1.1rem}
 .badge{background:var(--red);color:#fff;font-size:.72rem;font-weight:700;letter-spacing:.06em;padding:5px 10px;border-radius:5px}
 .bul{list-style:none;padding:0;margin:0 0 16px;display:grid;gap:10px;font-size:1rem}.bul li{display:flex;gap:10px;align-items:baseline}.bul li span{color:#555}.bul li b{color:#121212}
-.pill{display:inline-block;background:#fde7ea;border:1px solid #f3c2c9;color:#9d0c24;font-weight:600;font-size:.9rem;border-radius:999px;padding:7px 14px;margin:0 0 16px}
-.low{display:flex;align-items:center;gap:12px;font-weight:700;font-size:.9rem;margin:6px 0 14px}.low:before,.low:after{content:'';flex:1;height:1px;background:#e9c3c8}
+.pill{display:inline-block;background:#fce4ec;border:1px solid #f6bfd1;color:#a3134a;font-weight:600;font-size:.9rem;border-radius:999px;padding:7px 14px;margin:0 0 16px}
+.low{display:flex;align-items:center;gap:12px;font-weight:700;font-size:.9rem;margin:6px 0 14px}.low:before,.low:after{content:'';flex:1;height:1px;background:#f3bfd0}
 .tiers{display:grid;gap:12px}
-.tier{position:relative;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:16px 18px;border:2px solid #f3d6d9;background:#fdeaec;border-radius:8px;cursor:pointer}
-.tier.on{border-color:var(--red);background:#fde7ea}
+.tier{position:relative;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:16px 18px;border:2px solid #f6c9d7;background:#fdeef3;border-radius:8px;cursor:pointer}
+.tier.on{border-color:var(--red);background:#fce4ec}
 .tier .rad{width:22px;height:22px;border-radius:50%;border:2px solid #d9d9d9;background:#fff;display:grid;place-items:center}.tier.on .rad{border-color:var(--red)}.tier.on .rad:after{content:'';width:12px;height:12px;border-radius:50%;background:var(--red)}
 .tier .t{font-weight:700;font-size:1.15rem}.tier .s{font-size:.85rem;color:#444}
 .tier .p{text-align:right}.tier .p b{font-size:1.25rem}.tier .p span{display:block;color:#737373;text-decoration:line-through;font-size:.85rem}
@@ -67,12 +67,12 @@ h1{font-size:2.4rem;line-height:1.1;margin:0 0 8px;font-weight:700}
 .card .b{padding:26px 24px 20px;position:relative}.card .q{position:absolute;right:16px;top:-24px;width:48px;height:48px;border-radius:50%;background:var(--red);color:#fff;font-size:1.8rem;font-weight:700;display:grid;place-items:center;font-family:Georgia,serif}
 .card:not(.img) .q{top:12px}.card:not(.img) .b{padding-top:34px}
 .card h3{font-size:1.2rem;margin:8px 0 10px}.card p{margin:0;line-height:1.7;color:#333}.card .n{margin-top:18px;padding-top:12px;border-top:1px solid #e6e6e6;font-weight:600;font-style:italic;font-size:.9rem}
-.ft{position:relative;background:var(--red);color:#fff;text-align:center;margin-top:30px}
+.ft{position:relative;background:var(--baby);color:var(--babyink);text-align:center;margin-top:30px}
 .waves{position:absolute;left:0;right:0;top:-70px;height:72px;overflow:hidden}.waves svg{position:absolute;left:0;top:0;width:200%;height:100%}
-.waves path{fill:var(--red)}.w1{opacity:.35;animation:wave 14s linear infinite}.w2{opacity:.55;animation:wave 10s linear infinite reverse}.w3{opacity:1;animation:wave 18s linear infinite}
+.waves path{fill:var(--baby)}.w1{opacity:.35;animation:wave 14s linear infinite}.w2{opacity:.55;animation:wave 10s linear infinite reverse}.w3{opacity:1;animation:wave 18s linear infinite}
 @keyframes wave{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .ftin{padding:60px 20px 40px;max-width:600px;margin:0 auto}.ftin h2{font-size:1.7rem;margin:0 0 12px}.ftin p{margin:0 0 24px;font-family:Georgia,serif}
-.sub{display:flex;max-width:360px;margin:0 auto 60px;border:1px solid rgba(255,255,255,.8);border-radius:4px;padding:0 4px 0 18px}.sub input{flex:1;background:none;border:0;color:#fff;font:inherit;font-family:Georgia,serif;font-size:1rem;padding:14px 0;outline:none}.sub input::placeholder{color:rgba(255,255,255,.85)}.sub button{background:none;border:0;color:#fff;font-size:1.3rem;cursor:pointer;padding:0 10px}
+.sub{display:flex;max-width:360px;margin:0 auto 60px;border:1px solid var(--babyink);background:#fff;border-radius:4px;padding:0 4px 0 18px}.sub input{flex:1;background:none;border:0;color:#121212;font:inherit;font-family:Georgia,serif;font-size:1rem;padding:14px 0;outline:none}.sub input::placeholder{color:#8a6070}.sub button{background:none;border:0;color:var(--babyink);font-size:1.3rem;cursor:pointer;padding:0 10px}
 .ftpay{margin:0 0 18px}.copy{font-family:Georgia,serif;font-size:.85rem;margin:0 0 14px}.ft nav{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;font-size:.8rem;opacity:.9}
 `
 
@@ -102,7 +102,7 @@ export function productPage({ origin, tiers, images, reviewImages, logo, store }
     <button class="atc" id="atc" type="button">ADD TO CART</button>
     <div class="pay">${PAY}</div>
     <div class="trust"><div>${ICON.heart}<b>Satisfaction Guarantee</b></div><div>${ICON.returns}<b>Free Returns</b></div><div>${ICON.truck}<b>Free Shipping</b></div></div>
-    <div class="tick" id="tick"><img src="${esc(reviewImages[2])}" alt=""><p id="tickp">The funniest gift ever 😂 Everyone was dying laughing!<small>Julia M.</small></p></div>
+    <div class="tick" id="tick"><img src="${esc(images[2])}" alt=""><p id="tickp">The funniest gift ever 😂 Everyone was dying laughing!<small>Julia M.</small></p></div>
     <div class="dots" id="dots"><i class="on"></i><i></i><i></i></div>
   </div>
 </section>
@@ -114,13 +114,13 @@ export function productPage({ origin, tiers, images, reviewImages, logo, store }
   <details><summary>${ICON.check} When will my order arrive?</summary><p>Estimated delivery is 8–15 business days from ordering, including preparation and shipping. Business days exclude weekends and public holidays. We'll email your tracking details when your order ships.</p></details>
   <details><summary>${ICON.check} Does it make a sound when I pull out a tissue?</summary><p>This tissue holder does not make fart sounds when you pull out a tissue. Sound effects in our promotional videos are for entertainment and are not a product feature.</p></details>
 </section>
-<section class="feat"><img src="${esc(images[3])}" alt="Tissue coming out of the Diddy Bum"><div><h2>Surprise your friends</h2><p>Perfect if you need some laughs in your boring family. Pop her on the table, wait for someone to reach for a tissue, and watch the room lose it.</p></div></section>
-<section class="feat"><img src="${esc(images[4])}" alt="Diddy Bum size: 30 cm long"><div><h2>Load Her Up. Pull One Out.</h2><p>Slip a standard flat tissue pack in through the opening underneath, pull the first tissue through her rear, and she's ready for duty. No batteries, no setup, maximum giggles. 🎄</p></div></section>
+<section class="feat"><img src="${esc(images[3])}" alt="Tissue coming out of the Diddy Bum"><div><h2>Surprise your friends</h2><p>Perfect if you need some laughs in your boring family. Set him on the table, wait for someone to reach for a tissue, and watch the room lose it.</p></div></section>
+<section class="feat"><img src="${esc(images[4])}" alt="Diddy Bum size: 30 cm long"><div><h2>Load Him Up. Pull One Out.</h2><p>Unzip the pocket underneath, slip in a standard flat tissue pack, pull the first tissue through his rear, and he's ready for duty. No batteries, no setup, maximum giggles. 🎄</p></div></section>
 <section class="testi"><h2>Testimonials</h2>
 <div class="cards">
-  <div class="card img"><img src="${esc(reviewImages[1])}" alt=""><div class="b"><span class="q">”</span>${STARS}<h3>Dad hasn't stopped laughing!</h3><p>Got this for my dad as a joke Christmas present and he hasn't put her down since 😂 Every time someone needs a tissue he hands her over and makes them pull one out. She's soft, she's cheeky, and she's now a permanent fixture next to his recliner.</p><div class="n">Jessica F.</div></div></div>
-  <div class="card img"><img src="${esc(reviewImages[0])}" alt=""><div class="b"><span class="q">”</span>${STARS}<h3>The office loves her!</h3><p>Won our Secret Santa with this one. She sits on my desk now and everyone comes over to grab a tissue just to see the reaction from whoever hasn't seen her yet. Great quality plush too, way softer than I expected for the price.</p><div class="n">Michael C.</div></div></div>
-  <div class="card img"><img src="${esc(reviewImages[2])}" alt=""><div class="b"><span class="q">”</span>${STARS}<h3>Perfect gift for someone with a silly sense of humor</h3><p>I was looking for something different from the usual socks, chocolates and gift cards, and this was exactly it. The cheeky Mrs. Claus design is hilarious and she actually works as a tissue holder, so it's not just a joke that ends up in a drawer. She lives next to our tree now and every guest asks about her.</p><div class="n">Daniel A.</div></div></div>
+  <div class="card img"><img src="${esc(images[2])}" alt=""><div class="b"><span class="q">”</span>${STARS}<h3>I couldn't stop laughing!</h3><p>Bought this as a joke for our family Christmas and I was crying laughing before I even wrapped it 😂 Every time someone reaches for a tissue the whole table loses it. He's super soft too and the zip makes swapping tissue packs easy.</p><div class="n">Jessica F.</div></div></div>
+  <div class="card"><div class="b"><span class="q">”</span>${STARS}<h3>The office loves him!</h3><p>Won our Secret Santa with this one. He sits on my desk now and everyone comes over to grab a tissue just to see the reaction from whoever hasn't seen him yet. Great quality plush too, way softer than I expected for the price.</p><div class="n">Michael C.</div></div></div>
+  <div class="card"><div class="b"><span class="q">”</span>${STARS}<h3>Perfect gift for someone with a silly sense of humor</h3><p>I was looking for something different from the usual socks, chocolates and gift cards, and this was exactly it. The design is hilarious and he actually works as a tissue holder, so it's not just a joke that ends up in a drawer. He lives next to our tree now and every guest asks about him.</p><div class="n">Daniel A.</div></div></div>
 </div></section>
 </main>
 <footer class="ft"><div class="waves" aria-hidden="true"><svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path class="w1" d="M0 70 C240 20 480 20 720 70 S1200 120 1440 70 L1440 120 L0 120Z"/><path class="w2" d="M0 90 C300 40 600 40 900 90 S1300 130 1440 90 L1440 120 L0 120Z"/><path class="w3" d="M0 100 C360 60 720 60 1080 100 S1380 130 1440 100 L1440 120 L0 120Z"/></svg></div>
@@ -139,8 +139,8 @@ export function productPage({ origin, tiers, images, reviewImages, logo, store }
   }));
   $('#atc').addEventListener('click', () => { location.href = ${JSON.stringify(CHECKOUT_PATH)} + '?key=' + qty + ':'; });
   document.querySelectorAll('.thumbs button').forEach((b) => b.addEventListener('click', () => { document.querySelectorAll('.thumbs button').forEach((x) => x.classList.remove('on')); b.classList.add('on'); $('#mainimg').src = b.dataset.src; }));
-  const ticks = [['The funniest gift ever 😂 Everyone was dying laughing!', 'Julia M.'], ['My dad laughed so hard he cried. Worth every cent.', 'Chris B.'], ['Tissues out the bum, kids obsessed, grandma mortified. 10/10.', 'Amanda K.']];
+  const ticks = [['The funniest gift ever 😂 Everyone was dying laughing!', 'Julia M.'], ['My dad laughed so hard he cried. Worth every cent.', 'Chris B.'], ['Tissues out the bum, guests obsessed, grandma mortified. 10/10.', 'Amanda K.']];
   let ti = 0; setInterval(() => { ti = (ti + 1) % ticks.length; $('#tickp').innerHTML = ticks[ti][0] + '<small>' + ticks[ti][1] + '</small>'; document.querySelectorAll('#dots i').forEach((d, i) => d.classList.toggle('on', i === ti)); }, 4000);
 </script>`
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Diddy Bum Tissue Holder – ${esc(store)}</title><meta name="description" content="The cheeky Mrs. Claus plush tissue holder: tissues pop out of her rear. The gag gift for Secret Santa and family swaps."><link rel="icon" href="/images/favicon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"><style>:root{--red:#c8102e}${CSS}</style></head><body>${body}</body></html>`
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Diddy Bum Tissue Holder – ${esc(store)}</title><meta name="description" content="The cheeky Diddy plush tissue holder: tissues pop out of his rear. The gag gift for Secret Santa and family swaps."><link rel="icon" href="/images/favicon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"><style>:root{--red:#e8175d;--baby:#f9cfdc;--babyink:#a3134a}${CSS}</style></head><body>${body}</body></html>`
 }

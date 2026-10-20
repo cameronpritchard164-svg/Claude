@@ -6,7 +6,7 @@ export const WHOP_PRODUCT_ID = 'prod_zy6YwWsnOqJaP'
 export const WHOP_PLAN_ID = 'plan_MB8NquNCULt08'
 export const PRODUCT_HANDLE = 'clausefart'
 // Product photos are served from this site rather than Whop's gallery.
-export const LOCAL_PRODUCT = { title: 'The Diddy Bum Tissue Holder', images: ['/images/gt-1.webp', '/images/gt-2.webp', '/images/gt-3.webp', '/images/gt-4.webp', '/images/gt-5.webp'] }
+export const LOCAL_PRODUCT = { title: 'The Diddy Bum Tissue Holder', images: ['/images/dt-1.webp', '/images/dt-2.webp', '/images/dt-3.webp', '/images/dt-4.webp', '/images/dt-5.webp'] }
 const API = 'https://api.whop.com/api/v1'
 const CACHE_MS = 60_000
 

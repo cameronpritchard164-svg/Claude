@@ -10,7 +10,7 @@
             "background": "#FFFFFF",
             "background_gradient": "",
             "text": "#121212",
-            "button": "#C8102E",
+            "button": "#E8175D",
             "button_label": "#FFFFFF",
             "secondary_button_label": "#121212",
             "shadow": "#121212"
@@ -40,11 +40,11 @@
         },
         "scheme-4": {
           "settings": {
-            "background": "#C8102E",
+            "background": "#E8175D",
             "background_gradient": "",
             "text": "#FFFFFF",
             "button": "#FFFFFF",
-            "button_label": "#C8102E",
+            "button_label": "#E8175D",
             "secondary_button_label": "#FFFFFF",
             "shadow": "#121212"
           }
@@ -191,7 +191,7 @@
           }
         }
       },
-      "mt_accent": "#C8102E",
+      "mt_accent": "#E8175D",
       "mt_accent2": "#0F5132",
       "mt_star": "#F5B82E",
       "mt_store_name": "DiddyTissues",

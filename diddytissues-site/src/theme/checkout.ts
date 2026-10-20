@@ -398,7 +398,7 @@ export function checkoutPage({ key, store, product, origin, accent, logo, sale =
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Checkout – ${esc(store)}</title><meta name="robots" content="noindex"><style>:root{--accent:${esc(accentHex(accent))}}${CSS}</style></head><body>${body}</body></html>`
 }
 
-const accentHex = (a) => ({ pink: '#F06A9F', red: '#C8102E', crimson: '#C8102E' })[a] || '#F06A9F'
+const accentHex = (a) => ({ pink: '#E8175D', red: '#C8102E', crimson: '#C8102E' })[a] || '#F06A9F'
 
 export function returnPage({ store, logo, status, paymentId, key, accent = 'pink' }) {
   const ok = status === 'succeeded'

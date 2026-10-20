@@ -94,16 +94,16 @@ export async function handleRequest(request: Request): Promise<Response> {
 
   if (path === '/cart') return Response.redirect(new URL(CHECKOUT_PATH + '?key=1:', url.origin).toString(), 302)
   if (path === CHECKOUT_PATH) {
-    const html = checkoutPage({ key: url.searchParams.get('key') || '1:', store: 'DiddyTissues', product: store.product, origin: url.origin, accent: 'red', logo: '/images/logo.webp', sale: 'Special offer', country: request.headers.get('cf-ipcountry') || '' })
+    const html = checkoutPage({ key: url.searchParams.get('key') || '1:', store: 'DiddyTissues', product: store.product, origin: url.origin, accent: 'pink', logo: '/images/logo.webp', sale: 'Special offer', country: request.headers.get('cf-ipcountry') || '' })
     if (!html) return Response.redirect(new URL(CHECKOUT_PATH + '?key=1:', url.origin).toString(), 302)
     return htmlResponse(html)
   }
   if (path === CHECKOUT_PATH + '/return')
-    return htmlResponse(returnPage({ store: 'DiddyTissues', accent: 'red', logo: '/images/logo.webp', status: url.searchParams.get('status') || '', paymentId: url.searchParams.get('payment') || '', key: url.searchParams.get('key') || '1:' }))
+    return htmlResponse(returnPage({ store: 'DiddyTissues', accent: 'pink', logo: '/images/logo.webp', status: url.searchParams.get('status') || '', paymentId: url.searchParams.get('payment') || '', key: url.searchParams.get('key') || '1:' }))
   // No separate home page: the shop is the product page.
   if (SHOP_PATHS.includes(path) || path === '/products/clausegrab') return Response.redirect(new URL(PRODUCT_PATH, url.origin).toString(), 302)
   if (path === PRODUCT_PATH)
-    return htmlResponse(productPage({ origin: url.origin, tiers: bundleConfig.tiers, images: ['/images/gt-1.webp', '/images/gt-2.webp', '/images/gt-3.webp', '/images/gt-4.webp', '/images/gt-5.webp'], reviewImages: ['/images/gt-r2.webp', '/images/gt-r1.webp', '/images/gt-r3.webp'], logo: '/images/logo.webp', store: 'DiddyTissues' }))
+    return htmlResponse(productPage({ origin: url.origin, tiers: bundleConfig.tiers, images: ['/images/dt-1.webp', '/images/dt-2.webp', '/images/dt-3.webp', '/images/dt-4.webp', '/images/dt-5.webp'], reviewImages: ['/images/gt-r2.webp', '/images/gt-r1.webp', '/images/gt-r3.webp'], logo: '/images/logo.webp', store: 'DiddyTissues' }))
 
   const engine = createEngine(store)
   const pages = {
