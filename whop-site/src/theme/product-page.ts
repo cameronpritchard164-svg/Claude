@@ -23,7 +23,7 @@ body{margin:0;font-family:Poppins,-apple-system,"Segoe UI",Roboto,sans-serif;col
 a{color:inherit;text-decoration:none}img{max-width:100%;display:block}
 .hdr{display:flex;justify-content:space-between;align-items:center;padding:10px 24px;background:#fff;border-bottom:1px solid #eee}
 .hdr nav{display:flex;gap:18px;font-size:.9rem;font-weight:600}
-.hdr .logo img{height:64px;width:auto}@media(max-width:600px){.hdr .logo img{height:48px}}
+.hdr .logo img{height:58px;width:auto}@media(max-width:600px){.hdr .logo img{height:44px}}
 .hdr .cart{display:grid;place-items:center;width:44px;height:44px;border-radius:10px;background:#121212;color:#fff}
 .marq{background:var(--red);color:#fff;font-weight:700;font-size:.95rem;letter-spacing:.04em;overflow:hidden;white-space:nowrap;padding:14px 0}
 .marq div{display:inline-block;animation:marq 28s linear infinite}.marq span{margin:0 56px}
@@ -31,8 +31,8 @@ a{color:inherit;text-decoration:none}img{max-width:100%;display:block}
 .wrap{max-width:1300px;margin:0 auto;padding:0 20px}
 .prod{display:grid;grid-template-columns:1fr;gap:28px;padding:28px 0 20px}
 @media(min-width:900px){.prod{grid-template-columns:1.25fr 1fr;gap:48px;padding:44px 0 30px}}
-.gal .main{border-radius:12px;overflow:hidden;background:#f5f5f5}.gal .main img{width:100%;aspect-ratio:1/1;object-fit:cover}
-.thumbs{display:flex;gap:10px;margin-top:12px}.thumbs button{width:92px;height:92px;padding:0;border:2px solid #e5e5e5;border-radius:8px;overflow:hidden;background:#fff;cursor:pointer}.thumbs button.on{border-color:#121212}.thumbs img{width:100%;height:100%;object-fit:cover}
+.prod>*{min-width:0}.gal .main{border-radius:12px;overflow:hidden;background:#f5f5f5}.gal .main img{width:100%;aspect-ratio:1/1;object-fit:cover}
+.thumbs{display:flex;gap:10px;margin-top:12px;overflow-x:auto}.thumbs button{flex:none;width:92px;height:92px;padding:0;border:2px solid #e5e5e5;border-radius:8px;overflow:hidden;background:#fff;cursor:pointer}.thumbs button.on{border-color:#121212}.thumbs img{width:100%;height:100%;object-fit:cover}
 h1{font-size:2.4rem;line-height:1.1;margin:0 0 8px;font-weight:700}
 .rating{display:flex;align-items:center;gap:8px;font-size:.95rem;margin:0 0 10px}.stars{color:#ffc107;letter-spacing:1px;font-size:1.05rem}
 .price{display:flex;align-items:center;gap:10px;margin:0 0 16px}.price .now{color:var(--red);font-weight:700;font-size:1.5rem}.price .was{color:#737373;text-decoration:line-through;font-size:1.1rem}
