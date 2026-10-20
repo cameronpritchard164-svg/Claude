@@ -88,10 +88,10 @@ export function productPage({ origin, tiers, images, reviewImages, logo, store }
 <div class="marq"><div>${'<span>24/7 CUSTOMER SUPPORT</span><span>FREE RETURNS</span><span>30 DAY GUARANTEE</span>'.repeat(6)}</div></div>
 <main class="wrap">
 <section class="prod">
-  <div class="gal"><div class="main"><img id="mainimg" src="${esc(images[0])}" alt="Bubble Blowing ClauseFart"></div>
+  <div class="gal"><div class="main"><img id="mainimg" src="${esc(images[0])}" alt="The Grumpy Bum Tissue Holder"></div>
     <div class="thumbs">${images.map((src, i) => `<button type="button" class="${i === 0 ? 'on' : ''}" data-src="${esc(src)}"><img src="${esc(src)}" alt=""></button>`).join('')}</div></div>
   <div class="info">
-    <h1>Bubble Blowing ClauseFart</h1>
+    <h1>The Grumpy Bum Tissue Holder</h1>
     <div class="rating">${STARS}<span>4.85/5 | 1,450+ Reviews</span></div>
     <div class="price"><span class="now" id="pnow">${money(t1.price)}</span><span class="was" id="pwas">${money(t1.compare)}</span><span class="badge">🎁 SPECIAL OFFER</span></div>
     <div class="pill">🎁 A cheeky gift for Secret Santa &amp; family swaps</div>
@@ -114,8 +114,8 @@ export function productPage({ origin, tiers, images, reviewImages, logo, store }
   <details><summary>${ICON.check} When will my order arrive?</summary><p>Estimated delivery is 8–15 business days from ordering, including preparation and shipping. Business days exclude weekends and public holidays. We'll email your tracking details when your order ships.</p></details>
   <details><summary>${ICON.check} Does it make a sound when I pull out a tissue?</summary><p>This tissue holder does not make fart sounds when you pull out a tissue. Sound effects in our promotional videos are for entertainment and are not a product feature.</p></details>
 </section>
-<section class="feat"><img src="${esc(reviewImages[0])}" alt="ClauseFart on the Christmas dinner table"><div><h2>Surprise your friends</h2><p>Perfect if you need some laughs in your boring family. Set her on the table, flick the switch, and watch the room lose it.</p></div></section>
-<section class="feat"><img src="${esc(images[1])}" alt="ClauseFart dimensions and box"><div><h2>Load Her Up. Let Her Rip.</h2><p>Three AAs, a splash of bubble solution, and one flick of the switch. Zero skill required, maximum chaos delivered. 🎄</p></div></section>
+<section class="feat"><img src="${esc(images[3])}" alt="Tissue coming out of the Grumpy Bum"><div><h2>Surprise your friends</h2><p>Perfect if you need some laughs in your boring family. Set her on the table, flick the switch, and watch the room lose it.</p></div></section>
+<section class="feat"><img src="${esc(images[4])}" alt="Grumpy Bum size: 30 cm long"><div><h2>Load Her Up. Let Her Rip.</h2><p>Three AAs, a splash of bubble solution, and one flick of the switch. Zero skill required, maximum chaos delivered. 🎄</p></div></section>
 <section class="testi"><h2>Testimonials</h2>
 <div class="cards">
   <div class="card img"><img src="${esc(reviewImages[1])}" alt=""><div class="b"><span class="q">”</span>${STARS}<h3>Absolutely hilarious Christmas gift!</h3><p>I bought this for our family Christmas party as a joke, and honestly, it was the best decision ever 😂 Everyone started laughing the second Mrs. Claus bent over. The bubbles made it even funnier, and even the adults wanted a go. Such a ridiculous gift in the best possible way!</p><div class="n">Jessica F.</div></div></div>
@@ -142,5 +142,5 @@ export function productPage({ origin, tiers, images, reviewImages, logo, store }
   const ticks = [['The funniest gift ever 😂 Everyone was dying laughing!', 'Julia M.'], ['My dad laughed so hard he cried. Worth every cent.', 'Chris B.'], ['Bubbles everywhere, kids obsessed, grandma mortified. 10/10.', 'Amanda K.']];
   let ti = 0; setInterval(() => { ti = (ti + 1) % ticks.length; $('#tickp').innerHTML = ticks[ti][0] + '<small>' + ticks[ti][1] + '</small>'; document.querySelectorAll('#dots i').forEach((d, i) => d.classList.toggle('on', i === ti)); }, 4000);
 </script>`
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bubble Blowing ClauseFart – ${esc(store)}</title><meta name="description" content="The farting, bubble-blowing Mrs. Claus that steals every Christmas party. Plays music, blows bubbles, bubble solution included."><link rel="icon" href="/images/favicon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"><style>:root{--red:#c8102e}${CSS}</style></head><body>${body}</body></html>`
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Grumpy Bum Tissue Holder – ${esc(store)}</title><meta name="description" content="The farting, bubble-blowing Mrs. Claus that steals every Christmas party. Plays music, blows bubbles, bubble solution included."><link rel="icon" href="/images/favicon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"><style>:root{--red:#c8102e}${CSS}</style></head><body>${body}</body></html>`
 }

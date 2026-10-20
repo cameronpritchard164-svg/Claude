@@ -65,7 +65,7 @@ const htmlResponse = (html, status = 200) =>
   })
 
 const CONTACT_PATH = '/pages/contact'
-const POLICY_PAGES = policyPages({ store: 'ClauseGrab', product: 'Bubble Blowing ClauseFart', season: 'Christmas' })
+const POLICY_PAGES = policyPages({ store: 'ClauseGrab', product: 'The Grumpy Bum Tissue Holder', season: 'Christmas' })
 const SHOP_PATHS = ['/', '/collections/all', '/collections', '/products', '/shop']
 
 // Contact and newsletter submissions are written to the site's server logs
@@ -103,7 +103,7 @@ export async function handleRequest(request: Request): Promise<Response> {
   // No separate home page: the shop is the product page.
   if (SHOP_PATHS.includes(path) || path === '/products/clausegrab') return Response.redirect(new URL(PRODUCT_PATH, url.origin).toString(), 302)
   if (path === PRODUCT_PATH)
-    return htmlResponse(productPage({ origin: url.origin, tiers: bundleConfig.tiers, images: ['/images/cf-1.webp', '/images/cf-2.webp'], reviewImages: ['/images/cf-r1.webp', '/images/cf-r2.webp', '/images/cf-r3.webp'], logo: '/images/logo.webp', store: 'ClauseGrab' }))
+    return htmlResponse(productPage({ origin: url.origin, tiers: bundleConfig.tiers, images: ['/images/gt-1.webp', '/images/gt-2.webp', '/images/gt-3.webp', '/images/gt-4.webp', '/images/gt-5.webp'], reviewImages: ['/images/cf-r1.webp', '/images/cf-r2.webp', '/images/cf-r3.webp'], logo: '/images/logo.webp', store: 'ClauseGrab' }))
 
   const engine = createEngine(store)
   const pages = {

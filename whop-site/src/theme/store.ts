@@ -6,14 +6,14 @@ export const WHOP_PRODUCT_ID = 'prod_yZNPGTaTAEeFK'
 export const WHOP_PLAN_ID = 'plan_MHxHOvBlT5YC5'
 export const PRODUCT_HANDLE = 'clausefart'
 // Product photos are served from this site rather than Whop's gallery.
-export const LOCAL_PRODUCT = { title: 'Bubble Blowing ClauseFart', images: ['/images/cf-1.webp', '/images/cf-2.webp'] }
+export const LOCAL_PRODUCT = { title: 'The Grumpy Bum Tissue Holder', images: ['/images/gt-1.webp', '/images/gt-2.webp', '/images/gt-3.webp', '/images/gt-4.webp', '/images/gt-5.webp'] }
 const API = 'https://api.whop.com/api/v1'
 const CACHE_MS = 60_000
 
 // Used if Whop can't be reached.
 const FALLBACK = {
   product: {
-    title: 'Bubble Blowing ClauseFart',
+    title: 'The Grumpy Bum Tissue Holder',
     description: '',
     gallery_images: [
       { id: 'file_FxH3XJ9wJNEBD', url: 'https://assets-2-prod.whop.com/public/uploads/2026-10-13/d5928f10-cd86-4dd7-abf4-6c609ef296a1/image.jpg', content_type: 'image/jpeg', width: 1121, height: 1403 },
