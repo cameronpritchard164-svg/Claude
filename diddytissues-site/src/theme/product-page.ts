@@ -62,6 +62,9 @@ h1{font-size:2.4rem;line-height:1.1;margin:0 0 8px;font-weight:700}
 .testi h2{text-align:center;font-size:2.4rem;margin:30px 0 30px}
 .cards{display:grid;grid-template-columns:1fr;gap:28px;align-items:start;padding-bottom:60px}
 @media(min-width:900px){.cards{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:899px){.cards{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:0 -20px;padding:0 20px 24px;scroll-padding:0 20px}.cards::-webkit-scrollbar{display:none}.card{flex:0 0 84%;scroll-snap-align:start}}
+.sdots{display:none;justify-content:center;gap:8px;margin:-10px 0 50px}.sdots i{width:8px;height:8px;border-radius:50%;background:#ccc;transition:background .2s}.sdots i.on{background:var(--red)}
+@media(max-width:899px){.sdots{display:flex}}
 .card{background:#f7f7f7;border-radius:16px;overflow:hidden;text-align:center;position:relative}
 .card img{width:100%;aspect-ratio:1/1;object-fit:cover}
 .card .b{padding:26px 24px 20px;position:relative}.card .q{position:absolute;right:16px;top:-24px;width:48px;height:48px;border-radius:50%;background:var(--red);color:#fff;font-size:1.8rem;font-weight:700;display:grid;place-items:center;font-family:Georgia,serif}
@@ -121,7 +124,7 @@ export function productPage({ origin, tiers, images, reviewImages, logo, store }
   <div class="card img"><img src="${esc(images[2])}" alt=""><div class="b"><span class="q">”</span>${STARS}<h3>I couldn't stop laughing!</h3><p>Bought this as a joke for our family Christmas and I was crying laughing before I even wrapped it 😂 Every time someone reaches for a tissue the whole table loses it. He's super soft too and the zip makes swapping tissue packs easy.</p><div class="n">Jessica F.</div></div></div>
   <div class="card"><div class="b"><span class="q">”</span>${STARS}<h3>The office loves him!</h3><p>Won our Secret Santa with this one. He sits on my desk now and everyone comes over to grab a tissue just to see the reaction from whoever hasn't seen him yet. Great quality plush too, way softer than I expected for the price.</p><div class="n">Michael C.</div></div></div>
   <div class="card"><div class="b"><span class="q">”</span>${STARS}<h3>Perfect gift for someone with a silly sense of humor</h3><p>I was looking for something different from the usual socks, chocolates and gift cards, and this was exactly it. The design is hilarious and he actually works as a tissue holder, so it's not just a joke that ends up in a drawer. He lives next to our tree now and every guest asks about him.</p><div class="n">Daniel A.</div></div></div>
-</div></section>
+</div><div class="sdots" id="sdots"><i class="on"></i><i></i><i></i></div></section>
 </main>
 <footer class="ft"><div class="waves" aria-hidden="true"><svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path class="w1" d="M0 70 C240 20 480 20 720 70 S1200 120 1440 70 L1440 120 L0 120Z"/><path class="w2" d="M0 90 C300 40 600 40 900 90 S1300 130 1440 90 L1440 120 L0 120Z"/><path class="w3" d="M0 100 C360 60 720 60 1080 100 S1380 130 1440 100 L1440 120 L0 120Z"/></svg></div>
 <div class="ftin"><h2>Subscribe to our emails</h2><p>Join our list for exclusive offers and first look at new drops.</p>
@@ -139,6 +142,8 @@ export function productPage({ origin, tiers, images, reviewImages, logo, store }
   }));
   $('#atc').addEventListener('click', () => { location.href = ${JSON.stringify(CHECKOUT_PATH)} + '?key=' + qty + ':'; });
   document.querySelectorAll('.thumbs button').forEach((b) => b.addEventListener('click', () => { document.querySelectorAll('.thumbs button').forEach((x) => x.classList.remove('on')); b.classList.add('on'); $('#mainimg').src = b.dataset.src; }));
+  const cardsEl = document.querySelector('.cards'), sd = document.querySelectorAll('#sdots i');
+  if (cardsEl) cardsEl.addEventListener('scroll', () => { const c = cardsEl.children[0]; if (!c) return; const i = Math.round(cardsEl.scrollLeft / (c.offsetWidth + 14)); sd.forEach((d, k) => d.classList.toggle('on', k === i)); }, { passive: true });
   const ticks = [['The funniest gift ever 😂 Everyone was dying laughing!', 'Julia M.'], ['My dad laughed so hard he cried. Worth every cent.', 'Chris B.'], ['Tissues out the bum, guests obsessed, grandma mortified. 10/10.', 'Amanda K.']];
   let ti = 0; setInterval(() => { ti = (ti + 1) % ticks.length; $('#tickp').innerHTML = ticks[ti][0] + '<small>' + ticks[ti][1] + '</small>'; document.querySelectorAll('#dots i').forEach((d, i) => d.classList.toggle('on', i === ti)); }, 4000);
 </script>`
