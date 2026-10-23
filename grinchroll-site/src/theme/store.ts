@@ -2,8 +2,8 @@
 // Store data for the theme. The product's title, photos and prices are read
 // live from Whop, so changing them in the Whop dashboard updates the site.
 
-export const WHOP_PRODUCT_ID = 'prod_yZNPGTaTAEeFK'
-export const WHOP_PLAN_ID = 'plan_MHxHOvBlT5YC5'
+export const WHOP_PRODUCT_ID = 'prod_0cxMLB55XOnBc'
+export const WHOP_PLAN_ID = 'plan_qmf0Dzxv5Q3j6'
 export const PRODUCT_HANDLE = 'grinchroll'
 // Product photos are served from this site rather than Whop's gallery.
 export const LOCAL_PRODUCT = { title: 'The Grinch Roll Toilet Paper Holder', images: ['/images/gr-1.webp', '/images/gr-2.webp', '/images/gr-3.webp', '/images/gr-4.webp'] }
