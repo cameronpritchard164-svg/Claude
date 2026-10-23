@@ -7,18 +7,18 @@
   "tiers": [
     {
       "qty": 1,
-      "price": 37.99,
-      "compare": 75.98
+      "price": 34.99,
+      "compare": 69.98
     },
     {
       "qty": 2,
-      "price": 69.99,
-      "compare": 151.96
+      "price": 64.99,
+      "compare": 139.96
     },
     {
       "qty": 3,
-      "price": 99.99,
-      "compare": 227.94
+      "price": 89.99,
+      "compare": 209.94
     }
   ],
   "addons": [],

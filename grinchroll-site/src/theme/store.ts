@@ -21,8 +21,8 @@ const FALLBACK = {
     ],
   },
   plan: {
-    initial_price: 37.99,
-    strike_through_initial_price: 75.98,
+    initial_price: 34.99,
+    strike_through_initial_price: 69.98,
     currency: 'usd',
     purchase_url: `https://whop.com/checkout/${WHOP_PLAN_ID}`,
   },
