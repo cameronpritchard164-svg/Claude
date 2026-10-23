@@ -1,0 +1,153 @@
+<div class="mt-size section-{{ section.id }}-padding">
+  <div class="page-width">
+    {% render 'mt-heading', accent: section.settings.heading_accent, heading: section.settings.heading, sub: section.settings.sub, accent_end: section.settings.accent_end %}
+    <div class="mt-size__wrap">
+      <table class="mt-size__table">
+        <thead><tr>
+          {%- for i in (1..5) -%}{%- assign k = 'col_' | append: i -%}{%- if section.settings[k] != blank -%}<th>{{ section.settings[k] | escape }}</th>{%- endif -%}{%- endfor -%}
+        </tr></thead>
+        <tbody>
+          {%- for block in section.blocks -%}
+            <tr {{ block.shopify_attributes }}>
+              <td class="mt-size__key">{{ block.settings.c1 | escape }}</td>
+              {%- if section.settings.col_2 != blank -%}<td>{{ block.settings.c2 | escape }}</td>{%- endif -%}
+              {%- if section.settings.col_3 != blank -%}<td>{{ block.settings.c3 | escape }}</td>{%- endif -%}
+              {%- if section.settings.col_4 != blank -%}<td>{{ block.settings.c4 | escape }}</td>{%- endif -%}
+              {%- if section.settings.col_5 != blank -%}<td>{{ block.settings.c5 | escape }}</td>{%- endif -%}
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    </div>
+    {%- if section.settings.footnote != blank -%}<p class="mt-size__note">{{ section.settings.footnote | escape }}</p>{%- endif -%}
+  </div>
+</div>
+{%- style -%}
+  .section-{{ section.id }}-padding { padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px; }
+{%- endstyle -%}
+{% schema %}
+{
+  "name": "Size table",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading_accent",
+      "label": "Heading (accent part)",
+      "default": "Find Your "
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading (rest)",
+      "default": "Size"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_end",
+      "label": "Accent part goes after the heading",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "sub",
+      "label": "Subheading",
+      "default": "Pick your usual size for the baggy look. Height is a guide."
+    },
+    {
+      "type": "text",
+      "id": "col_1",
+      "label": "Column 1",
+      "default": "SIZE"
+    },
+    {
+      "type": "text",
+      "id": "col_2",
+      "label": "Column 2",
+      "default": "USUAL SIZE"
+    },
+    {
+      "type": "text",
+      "id": "col_3",
+      "label": "Column 3",
+      "default": "HEIGHT"
+    },
+    {
+      "type": "text",
+      "id": "col_4",
+      "label": "Column 4",
+      "default": "HEIGHT (CM)"
+    },
+    {
+      "type": "text",
+      "id": "col_5",
+      "label": "Column 5",
+      "default": "FIT"
+    },
+    {
+      "type": "text",
+      "id": "footnote",
+      "label": "Footnote"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "c1",
+          "label": "Column 1",
+          "default": "S"
+        },
+        {
+          "type": "text",
+          "id": "c2",
+          "label": "Column 2"
+        },
+        {
+          "type": "text",
+          "id": "c3",
+          "label": "Column 3"
+        },
+        {
+          "type": "text",
+          "id": "c4",
+          "label": "Column 4"
+        },
+        {
+          "type": "text",
+          "id": "c5",
+          "label": "Column 5"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "Size table"
+    }
+  ]
+}
+{% endschema %}
