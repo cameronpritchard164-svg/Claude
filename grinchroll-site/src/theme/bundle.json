@@ -1,24 +1,41 @@
 {
-  "heading": "BUY MORE & SAVE MORE!",
-  "noun": "GrinchRoll",
-  "product_name": "The Grinch Roll Toilet Paper Holder",
+  "heading": "BUNDLE & SAVE",
+  "noun": "Sprayer",
+  "product_name": "The Grinch Pee Car Sprayer",
   "popular_tier": 2,
   "best_tier": 3,
   "tiers": [
     {
       "qty": 1,
-      "price": 34.99,
-      "compare": 69.98
+      "price": 59.98,
+      "compare": 90,
+      "name": "One Sprayer",
+      "sub": "Standard price"
     },
     {
       "qty": 2,
-      "price": 64.99,
-      "compare": 139.96
+      "price": 101.97,
+      "compare": 180,
+      "name": "Two Sprayer",
+      "sub": "One to keep, one to give",
+      "tag": "Most Popular",
+      "ship": true
     },
     {
       "qty": 3,
-      "price": 89.99,
-      "compare": 209.94
+      "price": 143.95,
+      "compare": 270,
+      "name": "The Trio",
+      "sub": "For the whole family",
+      "ship": true
+    },
+    {
+      "qty": 4,
+      "price": 179.94,
+      "compare": 360,
+      "name": "For The Fam",
+      "sub": "You save $180.06",
+      "ship": true
     }
   ],
   "addons": [],

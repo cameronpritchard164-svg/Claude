@@ -346,7 +346,7 @@ export function checkoutPage({ key, store, product, origin, accent, logo, sale =
   const body = `<header class="hdr"><a class="logo" href="/"><img src="${esc(logo)}" alt="${esc(store)}"></a><a class="bag" href="/products/${esc(product.handle)}" aria-label="Cart">${BAG}</a></header>
 <div class="wrap">
 <div class="right"><details class="sum" open><summary class="msum"><span class="os">Order summary ${CHEV}</span><b>${money(total)}</b></summary>
-  <div class="item"><div class="img"><img src="${esc(img)}" alt=""><b>${tier.qty}</b></div><div><div class="n">${esc(product.title)}</div><div class="v">${tier.qty > 1 ? `${tier.qty} units · ` : ''}Soft plush toilet roll holder · ${esc(sale)}</div></div><div class="pr">${money(tier.price)}<span class="was">${money(tier.compare)}</span></div></div>
+  <div class="item"><div class="img"><img src="${esc(img)}" alt=""><b>${tier.qty}</b></div><div><div class="n">${esc(product.title)}</div><div class="v">${tier.qty > 1 ? `${tier.qty} sprayers · ` : ''}Car window sprayer · ${esc(sale)}</div></div><div class="pr">${money(tier.price)}<span class="was">${money(tier.compare)}</span></div></div>
   <div class="tot">
     <div class="r"><span>Subtotal · ${tier.qty} item${tier.qty > 1 ? 's' : ''}</span><span>${money(tier.price)}</span></div>
     ${addons.map((a) => `<div class="r"><span>${esc(a.title)}</span><span>${money(a.price)}</span></div>`).join('')}

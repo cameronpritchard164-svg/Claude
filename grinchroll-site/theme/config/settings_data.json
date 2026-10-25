@@ -194,7 +194,7 @@
       "mt_accent": "#1F7A2E",
       "mt_accent2": "#0F5132",
       "mt_star": "#F5B82E",
-      "mt_store_name": "GrinchRoll",
+      "mt_store_name": "Grinch Pee",
       "mt_product_noun": "costume",
       "mt_dispatch_time": "1 to 3 business days",
       "mt_delivery_time": "2 to 3 weeks",
@@ -213,14 +213,14 @@
         "width": 1647,
         "height": 493,
         "aspect_ratio": 3.340770791075051,
-        "alt": "GrinchRoll"
+        "alt": "Grinch Pee"
       },
       "favicon": {
         "src": "/images/favicon.png",
         "width": 64,
         "height": 64,
         "aspect_ratio": 1.0,
-        "alt": "GrinchRoll"
+        "alt": "Grinch Pee"
       }
     }
   }

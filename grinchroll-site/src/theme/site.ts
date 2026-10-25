@@ -65,7 +65,7 @@ const htmlResponse = (html, status = 200) =>
   })
 
 const CONTACT_PATH = '/pages/contact'
-const POLICY_PAGES = policyPages({ store: 'GrinchRoll', product: 'The Grinch Roll Toilet Paper Holder', season: 'Christmas' })
+const POLICY_PAGES = policyPages({ store: 'Grinch Pee', product: 'The Grinch Pee Car Sprayer', season: 'Christmas' })
 const SHOP_PATHS = ['/', '/collections/all', '/collections', '/products', '/shop']
 
 // Contact and newsletter submissions are written to the site's server logs
@@ -94,29 +94,29 @@ export async function handleRequest(request: Request): Promise<Response> {
 
   if (path === '/cart') return Response.redirect(new URL(CHECKOUT_PATH + '?key=1:', url.origin).toString(), 302)
   if (path === CHECKOUT_PATH) {
-    const html = checkoutPage({ key: url.searchParams.get('key') || '1:', store: 'GrinchRoll', product: store.product, origin: url.origin, accent: 'green', logo: '/images/logo.webp', sale: 'Made to order', country: request.headers.get('cf-ipcountry') || '' })
+    const html = checkoutPage({ key: url.searchParams.get('key') || '1:', store: 'Grinch Pee', product: store.product, origin: url.origin, accent: 'green', logo: '/images/logo.webp', sale: 'Made to order', country: request.headers.get('cf-ipcountry') || '' })
     if (!html) return Response.redirect(new URL(CHECKOUT_PATH + '?key=1:', url.origin).toString(), 302)
     return htmlResponse(html)
   }
   if (path === CHECKOUT_PATH + '/return')
-    return htmlResponse(returnPage({ store: 'GrinchRoll', accent: 'green', logo: '/images/logo.webp', status: url.searchParams.get('status') || '', paymentId: url.searchParams.get('payment') || '', key: url.searchParams.get('key') || '1:' }))
+    return htmlResponse(returnPage({ store: 'Grinch Pee', accent: 'green', logo: '/images/logo.webp', status: url.searchParams.get('status') || '', paymentId: url.searchParams.get('payment') || '', key: url.searchParams.get('key') || '1:' }))
   // No separate home page: the shop is the product page.
   if (SHOP_PATHS.includes(path) || path === '/products/clausegrab') return Response.redirect(new URL(PRODUCT_PATH, url.origin).toString(), 302)
   if (path === PRODUCT_PATH)
-    return htmlResponse(productPage({ origin: url.origin, tiers: bundleConfig.tiers, images: ['/images/gr-1.webp', '/images/gr-2.webp', '/images/gr-3.webp', '/images/gr-4.webp'], reviewImages: ['/images/gt-r2.webp', '/images/gt-r1.webp', '/images/gt-r3.webp'], logo: '/images/logo.webp', store: 'GrinchRoll' }))
+    return htmlResponse(productPage({ origin: url.origin, tiers: bundleConfig.tiers, images: ['/images/gp-1.webp', '/images/gp-2.webp', '/images/gp-3.webp', '/images/gp-4.webp'], reviewImages: ['/images/gt-r2.webp', '/images/gt-r1.webp', '/images/gt-r3.webp'], logo: '/images/logo.webp', store: 'Grinch Pee' }))
 
   const engine = createEngine(store)
   const pages = {
-    [PRODUCT_PATH]: ['product', `${store.product.title} – GrinchRoll`],
-    [CONTACT_PATH]: ['page.contact', 'Contact – GrinchRoll'],
-    '/pages/refund-policy': ['page', 'Refund policy – GrinchRoll'],
-    '/pages/shipping': ['page', 'Shipping – GrinchRoll'],
-    '/contact': ['page.contact', 'Contact – GrinchRoll'],
+    [PRODUCT_PATH]: ['product', `${store.product.title} – Grinch Pee`],
+    [CONTACT_PATH]: ['page.contact', 'Contact – Grinch Pee'],
+    '/pages/refund-policy': ['page', 'Refund policy – Grinch Pee'],
+    '/pages/shipping': ['page', 'Shipping – Grinch Pee'],
+    '/contact': ['page.contact', 'Contact – Grinch Pee'],
   }
   const page = pages[path]
   if (!page) {
     const html = await engine.renderPage('404', { path, page_title: 'Page not found' })
-    return htmlResponse(finalize(html, store, 'Page not found – GrinchRoll'), 404)
+    return htmlResponse(finalize(html, store, 'Page not found – Grinch Pee'), 404)
   }
   const [template, title] = page
   const posted_forms = []

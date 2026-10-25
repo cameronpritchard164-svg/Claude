@@ -1,5 +1,5 @@
 // @ts-nocheck
-// GrinchRoll product page (the shop's only page), laid out like the reference
+// Grinch Pee product page (the shop's only page), laid out like the reference
 // store: gallery, price, benefit bullets, Buy 1/2/3 selector, trust icons,
 // review ticker, FAQ, marquee, two feature sections and testimonials.
 import { CHECKOUT_PATH } from './checkout'
@@ -44,9 +44,9 @@ h1{font-size:2.4rem;line-height:1.1;margin:0 0 8px;font-weight:700}
 .tier{position:relative;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:16px 18px;border:2px solid #cfe3b0;background:#f2f8e8;border-radius:8px;cursor:pointer}
 .tier.on{border-color:var(--red);background:#e6f2d4}
 .tier .rad{width:22px;height:22px;border-radius:50%;border:2px solid #d9d9d9;background:#fff;display:grid;place-items:center}.tier.on .rad{border-color:var(--red)}.tier.on .rad:after{content:'';width:12px;height:12px;border-radius:50%;background:var(--red)}
-.tier .t{font-weight:700;font-size:1.15rem}.tier .s{font-size:.85rem;color:#444}
+.tier .t{font-weight:700;font-size:1.15rem}.tier .fs{display:inline-block;margin-left:8px;vertical-align:2px;border:1.5px solid var(--red);color:var(--red);border-radius:6px;font-size:.72rem;font-weight:700;padding:2px 7px}.tier .s{font-size:.85rem;color:#444}
 .tier .p{text-align:right}.tier .p b{font-size:1.25rem}.tier .p span{display:block;color:#737373;text-decoration:line-through;font-size:.85rem}
-.tier .tag{position:absolute;right:12px;top:-12px;background:var(--red);color:#fff;font-size:.7rem;font-weight:700;letter-spacing:.05em;padding:4px 10px;border-radius:4px}
+.tier .tag{position:absolute;right:-6px;top:-14px;font-size:.8rem !important;padding:5px 14px !important;transform:rotate(2deg);background:var(--red);color:#fff;font-size:.7rem;font-weight:700;letter-spacing:.05em;padding:4px 10px;border-radius:4px}
 .saving{margin:14px 0 12px;border:1px solid #9ad3a8;background:#f1faf3;border-radius:6px;padding:12px 16px;font-size:.92rem;color:#1a5c2a}
 .atc{display:block;width:100%;border:0;background:var(--red);color:#fff;font:inherit;font-weight:700;font-size:1.15rem;letter-spacing:.06em;padding:17px;border-radius:6px;cursor:pointer}
 .pay{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:14px 0 24px}
@@ -81,27 +81,24 @@ h1{font-size:2.4rem;line-height:1.1;margin:0 0 8px;font-weight:700}
 
 export function productPage({ origin, tiers, images, reviewImages, logo, store }) {
   const t1 = tiers[0]
-  const tier = (t, i) => {
-    const save = Math.round(((t.compare - t.price) / t.compare) * 100)
-    const tag = i === 1 ? 'MOST POPULAR' : i === 2 ? 'BEST VALUE' : ''
-    return `<label class="tier${i === 0 ? ' on' : ''}" data-qty="${t.qty}" data-price="${t.price}" data-compare="${t.compare}">${tag ? `<span class="tag">${tag}</span>` : ''}<span class="rad"></span><span><span class="t">Buy ${t.qty}</span><br><span class="s">${i === 0 ? 'Standard Price' : `Save ${save}%`}</span></span><span class="p"><b>${money(t.price)}</b><span>${money(t.compare)}</span></span></label>`
-  }
+  const def = Math.max(0, tiers.findIndex((t) => t.tag))
+  const tier = (t, i) => `<label class="tier${i === def ? ' on' : ''}" data-qty="${t.qty}" data-price="${t.price}" data-compare="${t.compare}">${t.tag ? `<span class="tag">${esc(t.tag)}</span>` : ''}<span class="rad"></span><span><span class="t">${esc(t.name || `Buy ${t.qty}`)}</span>${t.ship ? '<span class="fs">Free Shipping</span>' : ''}<br><span class="s">${esc(t.sub || '')}</span></span><span class="p"><b>${money(t.price)}</b><span>${money(t.compare)}</span></span></label>`
   const body = `
-<header class="hdr"><a class="logo" href="/"><img src="${esc(logo)}" alt="GrinchRoll"></a><a class="cart" href="${CHECKOUT_PATH}?key=1:" aria-label="Cart">${ICON.cart}</a></header>
-<div class="marq"><div>${'<span>MADE TO ORDER</span><span>FREE SHIPPING</span><span>24/7 CUSTOMER SUPPORT</span><span>TRACKING ON EVERY ORDER</span>'.repeat(5)}</div></div>
+<header class="hdr"><a class="logo" href="/"><img src="${esc(logo)}" alt="Grinch Pee"></a><a class="cart" href="${CHECKOUT_PATH}?key=1:" aria-label="Cart">${ICON.cart}</a></header>
+<div class="marq"><div>${'<span>MADE TO ORDER</span><span>FREE SHIPPING ON BUNDLES</span><span>24/7 CUSTOMER SUPPORT</span><span>TRACKING ON EVERY ORDER</span>'.repeat(5)}</div></div>
 <main class="wrap">
 <section class="prod">
-  <div class="gal"><div class="main"><img id="mainimg" src="${esc(images[0])}" alt="The Grinch Roll Toilet Paper Holder"></div>
+  <div class="gal"><div class="main"><img id="mainimg" src="${esc(images[0])}" alt="The Grinch Pee Car Sprayer"></div>
     <div class="thumbs">${images.map((src, i) => `<button type="button" class="${i === 0 ? 'on' : ''}" data-src="${esc(src)}"><img src="${esc(src)}" alt=""></button>`).join('')}</div></div>
   <div class="info">
-    <h1>The Grinch Roll Toilet Paper Holder</h1>
+    <h1>The Grinch Pee Car Sprayer</h1>
     <div class="rating">${STARS}<span>4.85/5 | 1,450+ Reviews</span></div>
-    <div class="price"><span class="now" id="pnow">${money(t1.price)}</span><span class="was" id="pwas">${money(t1.compare)}</span><span class="badge">🎁 SPECIAL OFFER</span></div>
-    <div class="pill">🎄 The Christmas bathroom gag everyone talks about</div>
-    <ul class="bul"><li>🧻 <span><b>Roll-ready</b> — the toilet paper comes out of his rear</span></li><li>💪 <span><b>Hangs on any rail</b> — he grips your towel bar or holder</span></li><li>😂 <span><b>Instant laugh</b> — every guest will be talking about him</span></li></ul>
-    <div class="low">Low Stock - Selling Fast</div>
+    <div class="price"><span class="now" id="pnow">${money(tiers[def].price)}</span><span class="was" id="pwas">${money(tiers[def].compare)}</span><span class="badge" id="psave">SAVE ${Math.round((1 - tiers[def].price / tiers[def].compare) * 100)}%</span></div>
+    <div class="pill">🎄 The funniest car accessory this Christmas</div>
+    <ul class="bul"><li>💦 <span><b>He really pees</b> — a cheeky stream of water out the back of your car</span></li><li>🚗 <span><b>Sticks right on</b> — a suction cup holds him to your rear window</span></li><li>😂 <span><b>Traffic-stopping laughs</b> — every driver behind you will lose it</span></li></ul>
+    <div class="low">BUNDLE &amp; SAVE</div>
     <div class="tiers" id="tiers">${tiers.map(tier).join('')}</div>
-    <div class="saving" id="saving">→ You're saving ${money(tiers[0].compare - tiers[0].price)} on this order</div>
+    <div class="saving" id="saving">→ You're saving ${money(tiers[def].compare - tiers[def].price)} on this order</div>
     <button class="atc" id="atc" type="button">ADD TO CART</button>
     <div class="pay">${PAY}</div>
     <div class="trust"><div>${ICON.heart}<b>Satisfaction Guarantee</b></div><div>${ICON.returns}<b>Free Returns</b></div><div>${ICON.truck}<b>Free Shipping</b></div></div>
@@ -110,20 +107,20 @@ export function productPage({ origin, tiers, images, reviewImages, logo, store }
   </div>
 </section>
 <section class="faq">
-  <details><summary>${ICON.check} What rolls does it take?</summary><p>Any standard toilet paper roll. Unzip the pocket on his back, pop the roll inside, and pull the first sheet out through his rear.</p></details>
-  <details><summary>${ICON.check} How does it hang?</summary><p>His hands grip a towel bar, toilet roll bar or rail. Just loop his arms over the bar and he holds on by himself. No drilling needed.</p></details>
-  <details><summary>${ICON.check} Is it soft or hard?</summary><p>Fully soft, fuzzy plush, so he looks just like the Grinch and is safe to squeeze.</p></details>
-  <details><summary>${ICON.check} Is it a good gift?</summary><p>It's the gag gift people actually use. Perfect for Secret Santa, white elephant swaps and anyone who loves the Grinch.</p></details>
-  <details><summary>${ICON.check} When will my order arrive?</summary><p>Every GrinchRoll is made to order, so it is produced after you buy. Delivery times vary with production and shipping, so we don't promise a fixed date. We'll email you tracking details as soon as your order ships.</p></details>
+  <details><summary>${ICON.check} How does it attach?</summary><p>A strong suction cup on his back sticks him to the outside of your rear window. Press it onto clean, dry glass and he stays put.</p></details>
+  <details><summary>${ICON.check} How does he pee?</summary><p>Water travels through a small tube to his hands, so he sprays a cheeky stream out the back of your car. Full setup steps come in the box.</p></details>
+  <details><summary>${ICON.check} Will it damage my car?</summary><p>No. He attaches with a suction cup only, so there is no drilling, glue or tape. Take him off before going through a car wash.</p></details>
+  <details><summary>${ICON.check} Is it a good gift?</summary><p>It's the gag gift that gets a reaction every time. Perfect for Secret Santa, white elephant swaps and anyone who loves the Grinch.</p></details>
+  <details><summary>${ICON.check} When will my order arrive?</summary><p>Every Grinch Pee is made to order, so it is produced after you buy. Delivery times vary with production and shipping, so we don't promise a fixed date. We'll email you tracking details as soon as your order ships.</p></details>
   <details><summary>${ICON.check} Does it make a sound?</summary><p>No. He doesn't make any sounds. Any sound effects in our videos are for fun and are not a product feature.</p></details>
 </section>
-<section class="feat"><img src="${esc(images[3])}" alt="GrinchRoll hanging in the bathroom"><div><h2>Surprise your guests</h2><p>Hang him on the bathroom rail and wait. The first guest who reaches for the toilet paper is in for the laugh of the season.</p></div></section>
-<section class="feat"><img src="${esc(images[2])}" alt="Zip pocket holding a toilet roll"><div><h2>Load Him Up. Roll It Out.</h2><p>Unzip the pocket on his back, drop in any standard toilet roll, and pull the first sheet out through his rear. No batteries, no drilling, maximum giggles. 🎄</p></div></section>
+<section class="feat"><img src="${esc(images[3])}" alt="Grinch Pee on the back of a car"><div><h2>Stop traffic</h2><p>Stick him on your rear window and watch the cars behind you. Every red light turns into the funniest moment of someone's day.</p></div></section>
+<section class="feat"><img src="${esc(images[2])}" alt="Suction cup on his back"><div><h2>Stick Him On. Let Him Go.</h2><p>Press the suction cup on his back onto your rear window and he's ready. No drilling, no glue, no tools, maximum giggles. 🎄</p></div></section>
 <section class="testi"><h2>Testimonials</h2>
 <div class="cards">
-  <div class="card img"><img src="${esc(images[3])}" alt=""><div class="b"><span class="q">”</span>${STARS}<h3>Our guests can't stop laughing!</h3><p>Hung him in the guest bathroom for our Christmas party and every single person came out laughing 😂 He grips the towel bar perfectly and swapping the roll through the zip takes seconds.</p><div class="n">Jessica F.</div></div></div>
-  <div class="card img"><img src="/images/gr-r2.webp" alt=""><div class="b"><span class="q">”</span>${STARS}<h3>Best Secret Santa ever</h3><p>Won our office Secret Santa with this one. My coworker hung him in his bathroom the same night and sent the whole group chat a photo. Really soft, fuzzy plush and he looks just like the Grinch.</p><div class="n">Michael C.</div></div></div>
-  <div class="card img"><img src="/images/gr-r3.webp" alt=""><div class="b"><span class="q">”</span>${STARS}<h3>Perfect for the Grinch fan in your life</h3><p>My husband is obsessed with the Grinch and this was the funniest present under the tree. It's not just a joke that ends up in a drawer either, he actually holds the toilet paper and stays up all season.</p><div class="n">Daniel A.</div></div></div>
+  <div class="card img"><img src="${esc(images[3])}" alt=""><div class="b"><span class="q">”</span>${STARS}<h3>The whole street is laughing!</h3><p>Stuck him on the back of my SUV and the car behind me at the lights was in tears 😂 He's held on through weeks of driving and still gets a reaction every single time.</p><div class="n">Jessica F.</div></div></div>
+  <div class="card"><div class="b"><span class="q">”</span>${STARS}<h3>Best Secret Santa ever</h3><p>Won our office Secret Santa with this one. My coworker put him on his car in the parking lot straight away and sent the whole group chat a video. Great detail, he looks just like the Grinch.</p><div class="n">Michael C.</div></div></div>
+  <div class="card"><div class="b"><span class="q">”</span>${STARS}<h3>Perfect for the Grinch fan in your life</h3><p>My husband is obsessed with the Grinch and this was the funniest present under the tree. He drives around with it every day now and refuses to take it off.</p><div class="n">Daniel A.</div></div></div>
 </div><div class="sdots" id="sdots"><i class="on"></i><i></i><i></i></div></section>
 </main>
 <footer class="ft"><div class="waves" aria-hidden="true"><svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path class="w1" d="M0 70 C240 20 480 20 720 70 S1200 120 1440 70 L1440 120 L0 120Z"/><path class="w2" d="M0 90 C300 40 600 40 900 90 S1300 130 1440 90 L1440 120 L0 120Z"/><path class="w3" d="M0 100 C360 60 720 60 1080 100 S1380 130 1440 100 L1440 120 L0 120Z"/></svg></div>
@@ -133,19 +130,20 @@ export function productPage({ origin, tiers, images, reviewImages, logo, store }
 <script>
   const $ = (s) => document.querySelector(s);
   const money = (n) => '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  let qty = 1;
+  let qty = ${tiers[def].qty};
   document.querySelectorAll('.tier').forEach((t) => t.addEventListener('click', () => {
     document.querySelectorAll('.tier').forEach((x) => x.classList.remove('on')); t.classList.add('on');
     qty = Number(t.dataset.qty);
     $('#pnow').textContent = money(t.dataset.price); $('#pwas').textContent = money(t.dataset.compare);
     $('#saving').textContent = "→ You're saving " + money(t.dataset.compare - t.dataset.price) + ' on this order';
+    $('#psave').textContent = 'SAVE ' + Math.round((1 - t.dataset.price / t.dataset.compare) * 100) + '%';
   }));
   $('#atc').addEventListener('click', () => { location.href = ${JSON.stringify(CHECKOUT_PATH)} + '?key=' + qty + ':'; });
   document.querySelectorAll('.thumbs button').forEach((b) => b.addEventListener('click', () => { document.querySelectorAll('.thumbs button').forEach((x) => x.classList.remove('on')); b.classList.add('on'); $('#mainimg').src = b.dataset.src; }));
   const cardsEl = document.querySelector('.cards'), sd = document.querySelectorAll('#sdots i');
   if (cardsEl) cardsEl.addEventListener('scroll', () => { const c = cardsEl.children[0]; if (!c) return; const i = Math.round(cardsEl.scrollLeft / (c.offsetWidth + 14)); sd.forEach((d, k) => d.classList.toggle('on', k === i)); }, { passive: true });
-  const ticks = [['The funniest gift ever 😂 Everyone was dying laughing!', 'Julia M.'], ['My dad laughed so hard he cried. Worth every cent.', 'Chris B.'], ['Toilet roll out the bum, kids obsessed, grandma mortified. 10/10.', 'Amanda K.']];
+  const ticks = [['The funniest gift ever 😂 Everyone was dying laughing!', 'Julia M.'], ['My dad laughed so hard he cried. Worth every cent.', 'Chris B.'], ['Kids obsessed, other drivers crying laughing, grandma mortified. 10/10.', 'Amanda K.']];
   let ti = 0; setInterval(() => { ti = (ti + 1) % ticks.length; $('#tickp').innerHTML = ticks[ti][0] + '<small>' + ticks[ti][1] + '</small>'; document.querySelectorAll('#dots i').forEach((d, i) => d.classList.toggle('on', i === ti)); }, 4000);
 </script>`
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Grinch Roll Toilet Paper Holder – ${esc(store)}</title><meta name="description" content="The Grinch toilet paper holder: he hangs on your rail and the roll comes out of his rear. Made to order, the Christmas bathroom gag gift."><link rel="icon" href="/images/favicon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"><style>:root{--red:#1f7a2e;--baby:#e8f3d6;--babyink:#14501f}${CSS}</style></head><body>${body}</body></html>`
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Grinch Pee Car Sprayer – ${esc(store)}</title><meta name="description" content="The Grinch Pee car sprayer: he sticks to your rear window and sprays a cheeky stream of water. The funniest Christmas car accessory. Made to order."><link rel="icon" href="/images/favicon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"><style>:root{--red:#1f7a2e;--baby:#e8f3d6;--babyink:#14501f}${CSS}</style></head><body>${body}</body></html>`
 }

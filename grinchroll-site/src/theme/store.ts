@@ -4,16 +4,16 @@
 
 export const WHOP_PRODUCT_ID = 'prod_0cxMLB55XOnBc'
 export const WHOP_PLAN_ID = 'plan_qmf0Dzxv5Q3j6'
-export const PRODUCT_HANDLE = 'grinchroll'
+export const PRODUCT_HANDLE = 'grinchpee'
 // Product photos are served from this site rather than Whop's gallery.
-export const LOCAL_PRODUCT = { title: 'The Grinch Roll Toilet Paper Holder', images: ['/images/gr-1.webp', '/images/gr-2.webp', '/images/gr-3.webp', '/images/gr-4.webp'] }
+export const LOCAL_PRODUCT = { title: 'The Grinch Pee Car Sprayer', images: ['/images/gp-1.webp', '/images/gp-2.webp', '/images/gp-3.webp', '/images/gp-4.webp'] }
 const API = 'https://api.whop.com/api/v1'
 const CACHE_MS = 60_000
 
 // Used if Whop can't be reached.
 const FALLBACK = {
   product: {
-    title: 'The Grinch Roll Toilet Paper Holder',
+    title: 'The Grinch Pee Car Sprayer',
     description: '',
     gallery_images: [
       { id: 'file_FxH3XJ9wJNEBD', url: 'https://assets-2-prod.whop.com/public/uploads/2026-10-13/d5928f10-cd86-4dd7-abf4-6c609ef296a1/image.jpg', content_type: 'image/jpeg', width: 1121, height: 1403 },
@@ -21,8 +21,8 @@ const FALLBACK = {
     ],
   },
   plan: {
-    initial_price: 34.99,
-    strike_through_initial_price: 69.98,
+    initial_price: 59.98,
+    strike_through_initial_price: 90,
     currency: 'usd',
     purchase_url: `https://whop.com/checkout/${WHOP_PLAN_ID}`,
   },
@@ -159,8 +159,8 @@ export function buildStore(data, origin) {
     handle: PRODUCT_HANDLE,
     url,
     description: wp.description ? `<p>${wp.description}</p>` : '',
-    vendor: 'GrinchRoll',
-    type: 'Bathroom',
+    vendor: 'Grinch Pee',
+    type: 'Car accessory',
     tags: [],
     media,
     images: media,
@@ -227,7 +227,7 @@ export function buildStore(data, origin) {
       footer: { title: 'Footer', handle: 'footer', levels: 1, links: [] },
     },
     shop: {
-      name: 'GrinchRoll',
+      name: 'Grinch Pee',
       url: origin,
       secure_url: origin,
       domain: new URL(origin).host,
