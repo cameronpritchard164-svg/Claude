@@ -112,7 +112,6 @@ export function productPage({ origin, tiers, images, reviewImages, logo, store }
   <details><summary>${ICON.check} Will it damage my car?</summary><p>No. He attaches with a suction cup only, so there is no drilling, glue or tape. Take him off before going through a car wash.</p></details>
   <details><summary>${ICON.check} Is it a good gift?</summary><p>It's the gag gift that gets a reaction every time. Perfect for Secret Santa, white elephant swaps and anyone who loves the Grinch.</p></details>
   <details><summary>${ICON.check} When will my order arrive?</summary><p>Every Grinch Pee is made to order, so it is produced after you buy. Delivery times vary with production and shipping, so we don't promise a fixed date. We'll email you tracking details as soon as your order ships.</p></details>
-  <details><summary>${ICON.check} Does it make a sound?</summary><p>No. He doesn't make any sounds. Any sound effects in our videos are for fun and are not a product feature.</p></details>
 </section>
 <section class="feat"><img src="${esc(images[3])}" alt="Grinch Pee on the back of a car"><div><h2>Stop traffic</h2><p>Stick him on your rear window and watch the cars behind you. Every red light turns into the funniest moment of someone's day.</p></div></section>
 <section class="feat"><img src="${esc(images[2])}" alt="Suction cup on his back"><div><h2>Stick Him On. Let Him Go.</h2><p>Press the suction cup on his back onto your rear window and he's ready. No drilling, no glue, no tools, maximum giggles. 🎄</p></div></section>
