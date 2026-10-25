@@ -9,7 +9,7 @@ export const ACCOUNT_ID = env.WHOP_ACCOUNT_ID || 'biz_eBI3bCf0mqzUIk'
 const ORIGIN = env.WHOP_API_ORIGIN || 'https://api.whop.com'
 
 export const STORES = {
-  grinchroll: { key: 'grinchroll', name: 'GrinchRoll', host: 'grinchroll.whop.site', color: '#5fb04b', products: ['prod_0cxMLB55XOnBc'] },
+  grinchroll: { key: 'grinchroll', name: 'Grinch Pee', host: 'grinchpee.whop.site', color: '#5fb04b', products: ['prod_0cxMLB55XOnBc'] },
   diddytissues: { key: 'diddytissues', name: 'DiddyTissues', host: 'diddytissues.whop.site', color: '#3fb5a3', products: ['prod_zy6YwWsnOqJaP'] },
   clausegrab: { key: 'clausegrab', name: 'ClauseGrab', host: 'clausetissues.whop.site', color: '#e66767', products: ['prod_yZNPGTaTAEeFK', 'prod_63epfH2IUlzYn'] },
   diddygrab: { key: 'diddygrab', name: 'DiddyGrab', host: 'diddygrab.whop.site', color: '#9085e9', products: ['prod_Ek1iCKY3X54ue', 'prod_aUltblm4k46SE'] },
