@@ -7,34 +7,34 @@
   "tiers": [
     {
       "qty": 1,
-      "price": 49.99,
-      "compare": 99.98,
+      "price": 79.99,
+      "compare": 150,
       "name": "One Hammer",
-      "sub": "Standard price"
+      "sub": "You save $70.01"
     },
     {
       "qty": 2,
-      "price": 89.98,
-      "compare": 199.96,
+      "price": 149.98,
+      "compare": 300,
       "name": "Two Hammers",
-      "sub": "One to keep, one to give",
+      "sub": "You save $150.02",
       "tag": "Most Popular",
       "ship": true
     },
     {
       "qty": 3,
-      "price": 124.97,
-      "compare": 299.94,
+      "price": 219.97,
+      "compare": 450,
       "name": "The Trio",
-      "sub": "A hammer for every room",
+      "sub": "You save $230.03",
       "ship": true
     },
     {
       "qty": 4,
-      "price": 149.96,
-      "compare": 399.92,
+      "price": 284.96,
+      "compare": 600,
       "name": "For The Fam",
-      "sub": "You save $249.96",
+      "sub": "You save $315.04",
       "ship": true
     }
   ],

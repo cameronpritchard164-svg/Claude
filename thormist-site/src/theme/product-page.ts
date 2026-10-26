@@ -94,7 +94,7 @@ export function productPage({ origin, tiers, images, reviewImages, logo, store }
     <h1>ThorMist Hammer Humidifier</h1>
     <div class="rating">${STARS}<span>4.85/5 | 1,450+ Reviews</span></div>
     <div class="price"><span class="now" id="pnow">${money(tiers[def].price)}</span><span class="was" id="pwas">${money(tiers[def].compare)}</span><span class="badge" id="psave">SAVE ${Math.round((1 - tiers[def].price / tiers[def].compare) * 100)}%</span></div>
-    <div class="pill">⚡ The desk upgrade every hero fan wants</div>
+    
     <ul class="bul"><li>⚡ <span><b>Worthy of the gods</b> — a hammer-shaped humidifier that looks epic on any desk</span></li><li>💧 <span><b>Cool mist</b> — fill it with water and it breathes a soft mist into the room</span></li><li>🌙 <span><b>Glowing lightning</b> — blue LED cracks light up your desk or bedroom</span></li></ul>
     <div class="low">BUNDLE &amp; SAVE</div>
     <div class="tiers" id="tiers">${tiers.map(tier).join('')}</div>
