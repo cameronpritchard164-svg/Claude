@@ -35,7 +35,26 @@
       "sub": "You save $315.04"
     }
   ],
-  "addons": [],
+  "addons": [
+    {
+      "key": "guarantee",
+      "title": "30-Day Money-Back Guarantee",
+      "short": "MBG",
+      "price": 4.99,
+      "compare": 7.99,
+      "badge": "",
+      "image": "/images/addon-guarantee.webp"
+    },
+    {
+      "key": "protection",
+      "title": "Shipping Protection",
+      "short": "Ship",
+      "price": 4.99,
+      "compare": 7.99,
+      "badge": "",
+      "image": "/images/addon-shipping.webp"
+    }
+  ],
   "shipping": [
     {
       "key": "free",

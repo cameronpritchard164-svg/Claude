@@ -48,7 +48,7 @@ h1{font-size:2.4rem;line-height:1.1;margin:0 0 8px;font-weight:700}
 .tier .p{text-align:right}.tier .p b{font-size:1.25rem}.tier .p span{display:block;color:#737373;text-decoration:line-through;font-size:.85rem}
 .tier .tag{position:absolute;right:-6px;top:-14px;font-size:.8rem !important;padding:5px 14px !important;transform:rotate(2deg);background:var(--red);color:#fff;font-size:.7rem;font-weight:700;letter-spacing:.05em;padding:4px 10px;border-radius:4px}
 .saving{margin:14px 0 12px;border:1px solid #9db8f7;background:#f1f5ff;border-radius:6px;padding:12px 16px;font-size:.92rem;color:#0b1633}
-.atc{display:block;width:100%;border:0;background:var(--red);color:#fff;font:inherit;font-weight:700;font-size:1.15rem;letter-spacing:.06em;padding:17px;border-radius:6px;cursor:pointer}
+.ups{margin:4px 0 16px}.up{display:flex;align-items:center;gap:12px;padding:10px 0;cursor:pointer}.up img{width:52px;height:52px;border-radius:10px;flex:none}.up .ut{flex:1;font-weight:700;font-size:.98rem}.up-p{text-align:right;font-size:.95rem}.up-p s{display:block;color:#737373;font-size:.82rem}.up input{display:none}.sw{flex:none;width:48px;height:28px;border-radius:14px;background:#d9d9d9;position:relative;transition:.2s}.sw:after{content:'';position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 1px 3px #0003}.up input:checked+.sw{background:var(--red)}.up input:checked+.sw:after{left:23px}.atc{display:block;width:100%;border:0;background:var(--red);color:#fff;font:inherit;font-weight:700;font-size:1.15rem;letter-spacing:.06em;padding:17px;border-radius:6px;cursor:pointer}
 .pay{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:14px 0 24px}
 .trust{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center;color:var(--red);margin:0 0 20px}.trust b{display:block;color:#121212;font-size:1rem;margin-top:6px}
 .tick{display:flex;gap:14px;align-items:center;border-bottom:1px solid #eee;padding:8px 0 10px}.tick img{width:50px;height:50px;border-radius:50%;object-fit:cover}.tick p{margin:0;font-size:.95rem}.tick small{display:block;color:#737373;font-style:italic;margin-top:2px}
@@ -79,7 +79,7 @@ h1{font-size:2.4rem;line-height:1.1;margin:0 0 8px;font-weight:700}
 .ftpay{margin:0 0 18px}.copy{font-family:Georgia,serif;font-size:.85rem;margin:0 0 14px}.ft nav{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;font-size:.8rem;opacity:.9}
 `
 
-export function productPage({ origin, tiers, images, reviewImages, logo, store }) {
+export function productPage({ origin, tiers, addons = [], images, reviewImages, logo, store }) {
   const t1 = tiers[0]
   const def = 0
   const tier = (t, i) => `<label class="tier${i === def ? ' on' : ''}" data-qty="${t.qty}" data-price="${t.price}" data-compare="${t.compare}">${t.tag ? `<span class="tag">${esc(t.tag)}</span>` : ''}<span class="rad"></span><span><span class="t">${esc(t.name || `Buy ${t.qty}`)}</span>${t.ship ? '<span class="fs">Free Shipping</span>' : ''}<br><span class="s">${esc(t.sub || '')}</span></span><span class="p"><b>${money(t.price)}</b><span>${money(t.compare)}</span></span></label>`
@@ -99,6 +99,7 @@ export function productPage({ origin, tiers, images, reviewImages, logo, store }
     <div class="low">BUNDLE &amp; SAVE</div>
     <div class="tiers" id="tiers">${tiers.map(tier).join('')}</div>
     <div class="saving" id="saving">→ You're saving ${money(tiers[def].compare - tiers[def].price)} on this order</div>
+    <div class="ups">${addons.map((a) => `<label class="up"><img src="${esc(a.image)}" alt=""><span class="ut">${esc(a.title)}</span><span class="up-p"><b>${money(a.price)}</b><s>${money(a.compare)}</s></span><input type="checkbox" data-key="${esc(a.key)}"><span class="sw"></span></label>`).join('')}</div>
     <button class="atc" id="atc" type="button">ADD TO CART</button>
     <div class="pay">${PAY}</div>
     <div class="trust"><div>${ICON.heart}<b>Satisfaction Guarantee</b></div><div>${ICON.returns}<b>Free Returns</b></div><div>${ICON.truck}<b>Free Shipping</b></div></div>
@@ -136,7 +137,7 @@ export function productPage({ origin, tiers, images, reviewImages, logo, store }
     $('#saving').textContent = "→ You're saving " + money(t.dataset.compare - t.dataset.price) + ' on this order';
     $('#psave').textContent = 'SAVE ' + Math.round((1 - t.dataset.price / t.dataset.compare) * 100) + '%';
   }));
-  $('#atc').addEventListener('click', () => { location.href = ${JSON.stringify(CHECKOUT_PATH)} + '?key=' + qty + ':'; });
+  $('#atc').addEventListener('click', () => { const ad = [...document.querySelectorAll('.up input:checked')].map((x) => x.dataset.key).join(','); location.href = ${JSON.stringify(CHECKOUT_PATH)} + '?key=' + qty + ':' + ad; });
   document.querySelectorAll('.thumbs button').forEach((b) => b.addEventListener('click', () => { document.querySelectorAll('.thumbs button').forEach((x) => x.classList.remove('on')); b.classList.add('on'); $('#mainimg').src = b.dataset.src; }));
   const cardsEl = document.querySelector('.cards'), sd = document.querySelectorAll('#sdots i');
   if (cardsEl) cardsEl.addEventListener('scroll', () => { const c = cardsEl.children[0]; if (!c) return; const i = Math.round(cardsEl.scrollLeft / (c.offsetWidth + 14)); sd.forEach((d, k) => d.classList.toggle('on', k === i)); }, { passive: true });
