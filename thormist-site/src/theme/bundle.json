@@ -18,24 +18,21 @@
       "compare": 300,
       "name": "Two Hammers",
       "sub": "You save $150.02",
-      "tag": "Most Popular",
-      "ship": true
+      "tag": "Most Popular"
     },
     {
       "qty": 3,
       "price": 219.97,
       "compare": 450,
       "name": "The Trio",
-      "sub": "You save $230.03",
-      "ship": true
+      "sub": "You save $230.03"
     },
     {
       "qty": 4,
       "price": 284.96,
       "compare": 600,
       "name": "For The Fam",
-      "sub": "You save $315.04",
-      "ship": true
+      "sub": "You save $315.04"
     }
   ],
   "addons": [],

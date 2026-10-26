@@ -85,7 +85,7 @@ export function productPage({ origin, tiers, images, reviewImages, logo, store }
   const tier = (t, i) => `<label class="tier${i === def ? ' on' : ''}" data-qty="${t.qty}" data-price="${t.price}" data-compare="${t.compare}">${t.tag ? `<span class="tag">${esc(t.tag)}</span>` : ''}<span class="rad"></span><span><span class="t">${esc(t.name || `Buy ${t.qty}`)}</span>${t.ship ? '<span class="fs">Free Shipping</span>' : ''}<br><span class="s">${esc(t.sub || '')}</span></span><span class="p"><b>${money(t.price)}</b><span>${money(t.compare)}</span></span></label>`
   const body = `
 <header class="hdr"><a class="logo" href="/"><img src="${esc(logo)}" alt="ThorMist"></a><a class="cart" href="${CHECKOUT_PATH}?key=1:" aria-label="Cart">${ICON.cart}</a></header>
-<div class="marq"><div>${'<span>MADE TO ORDER</span><span>FREE SHIPPING ON BUNDLES</span><span>24/7 CUSTOMER SUPPORT</span><span>TRACKING ON EVERY ORDER</span>'.repeat(5)}</div></div>
+<div class="marq"><div>${'<span>MADE TO ORDER</span><span>FREE SHIPPING</span><span>24/7 CUSTOMER SUPPORT</span><span>TRACKING ON EVERY ORDER</span>'.repeat(5)}</div></div>
 <main class="wrap">
 <section class="prod">
   <div class="gal"><div class="main"><img id="mainimg" src="${esc(images[0])}" alt="ThorMist Hammer Humidifier"></div>
