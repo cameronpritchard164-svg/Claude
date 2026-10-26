@@ -7,32 +7,32 @@
   "tiers": [
     {
       "qty": 1,
-      "price": 79.99,
+      "price": 99.99,
       "compare": 150,
       "name": "One Hammer",
-      "sub": "You save $70.01"
+      "sub": "You save $50.01"
     },
     {
       "qty": 2,
-      "price": 149.98,
+      "price": 169.98,
       "compare": 300,
       "name": "Two Hammers",
-      "sub": "You save $150.02",
+      "sub": "You save $130.02",
       "tag": "Most Popular"
     },
     {
       "qty": 3,
-      "price": 219.97,
+      "price": 239.97,
       "compare": 450,
       "name": "The Trio",
-      "sub": "You save $230.03"
+      "sub": "You save $210.03"
     },
     {
       "qty": 4,
-      "price": 284.96,
+      "price": 304.96,
       "compare": 600,
       "name": "For The Fam",
-      "sub": "You save $315.04"
+      "sub": "You save $295.04"
     }
   ],
   "addons": [
