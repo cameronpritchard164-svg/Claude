@@ -1,0 +1,50 @@
+{
+  "heading": "BUNDLE & SAVE",
+  "noun": "Hammer",
+  "product_name": "ThorMist Hammer Humidifier",
+  "popular_tier": 2,
+  "best_tier": 3,
+  "tiers": [
+    {
+      "qty": 1,
+      "price": 49.99,
+      "compare": 99.98,
+      "name": "One Hammer",
+      "sub": "Standard price"
+    },
+    {
+      "qty": 2,
+      "price": 89.98,
+      "compare": 199.96,
+      "name": "Two Hammers",
+      "sub": "One to keep, one to give",
+      "tag": "Most Popular",
+      "ship": true
+    },
+    {
+      "qty": 3,
+      "price": 124.97,
+      "compare": 299.94,
+      "name": "The Trio",
+      "sub": "A hammer for every room",
+      "ship": true
+    },
+    {
+      "qty": 4,
+      "price": 149.96,
+      "compare": 399.92,
+      "name": "For The Fam",
+      "sub": "You save $249.96",
+      "ship": true
+    }
+  ],
+  "addons": [],
+  "shipping": [
+    {
+      "key": "free",
+      "label": "Free Shipping",
+      "eta": "Delivers in 2\u20133 weeks \u00b7 tracking emailed",
+      "price": 0
+    }
+  ]
+}

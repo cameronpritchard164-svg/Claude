@@ -1,0 +1,191 @@
+<div class="mt-cmp section-{{ section.id }}-padding">
+  <div class="page-width">
+    {% render 'mt-heading', accent: section.settings.heading_accent, heading: section.settings.heading, sub: section.settings.sub, accent_end: section.settings.accent_end %}
+    <div class="mt-cmp__wrap">
+      <table class="mt-cmp__table">
+        <thead><tr>
+          <th></th>
+          <th class="mt-cmp__ours"><span class="mt-cmp__ourslabel">{{ section.settings.ours | escape }}</span><span class="mt-cmp__tag">{{ section.settings.ours_tag | escape }}</span></th>
+          <th class="mt-cmp__theirs"><span>{{ section.settings.theirs | escape }}</span><small>{{ section.settings.theirs_tag | escape }}</small></th>
+        </tr></thead>
+        <tbody>
+          {%- for block in section.blocks -%}
+            <tr {{ block.shopify_attributes }}>
+              <td class="mt-cmp__label">{% render 'mt-icon', icon: block.settings.icon %}{{ block.settings.label | escape }}</td>
+              <td class="mt-cmp__ours"><span class="mt-cmp__mark {% if block.settings.ours %}is-yes{% else %}is-no{% endif %}">{% if block.settings.ours %}{% render 'mt-icon', icon: 'check' %}{% else %}{% render 'mt-icon', icon: 'cross' %}{% endif %}</span></td>
+              <td><span class="mt-cmp__mark {% if block.settings.theirs %}is-yes{% else %}is-no{% endif %}">{% if block.settings.theirs %}{% render 'mt-icon', icon: 'check' %}{% else %}{% render 'mt-icon', icon: 'cross' %}{% endif %}</span></td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{%- style -%}
+  .section-{{ section.id }}-padding { padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px; }
+{%- endstyle -%}
+{% schema %}
+{
+  "name": "Comparison table",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading_accent",
+      "label": "Heading (accent part)"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading (rest)",
+      "default": "Why Not Just A Plain Hoodie?"
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_end",
+      "label": "Accent part goes after the heading",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "sub",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "ours",
+      "label": "Our column",
+      "default": "Power Hoodie"
+    },
+    {
+      "type": "text",
+      "id": "ours_tag",
+      "label": "Our column tag",
+      "default": "Ours"
+    },
+    {
+      "type": "text",
+      "id": "theirs",
+      "label": "Their column",
+      "default": "Plain Hoodie"
+    },
+    {
+      "type": "text",
+      "id": "theirs_tag",
+      "label": "Their column tag",
+      "default": "Basic"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Row",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "return",
+              "label": "Return arrow"
+            },
+            {
+              "value": "truck",
+              "label": "Truck"
+            },
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "gift",
+              "label": "Gift"
+            },
+            {
+              "value": "star",
+              "label": "Star"
+            },
+            {
+              "value": "lock",
+              "label": "Lock"
+            },
+            {
+              "value": "checkbox",
+              "label": "Checkbox"
+            },
+            {
+              "value": "ruler",
+              "label": "Ruler"
+            },
+            {
+              "value": "hood",
+              "label": "Hood"
+            },
+            {
+              "value": "sparkle",
+              "label": "Sparkle"
+            },
+            {
+              "value": "moon",
+              "label": "Moon"
+            },
+            {
+              "value": "check",
+              "label": "Tick"
+            }
+          ],
+          "default": "checkbox"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Feature",
+          "default": "Feature"
+        },
+        {
+          "type": "checkbox",
+          "id": "ours",
+          "label": "Ours has it",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "theirs",
+          "label": "Theirs has it",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Comparison table"
+    }
+  ]
+}
+{% endschema %}
