@@ -103,7 +103,13 @@ function toWoo(o: WooOrder, siteUrl: string) {
 function authed(request: Request, url: URL) {
   const { consumer_key, consumer_secret } = WOOCOMMERCE
   const qk = url.searchParams.get('consumer_key'), qs = url.searchParams.get('consumer_secret')
-  if (qk && qs) return qk === consumer_key && qs === consumer_secret
+  if (qk && qs) {
+    // Keys copied from a chat app often pick up spaces or invisible characters; ignore them.
+    const clean = (v: string) => v.replace(/[\s\u200b-\u200d\ufeff]/g, '')
+    const ok = clean(qk) === consumer_key && clean(qs) === consumer_secret
+    if (!ok) console.log(`[woo] bad keys: key len ${qk.length} ${qk.slice(0, 5)}..${qk.slice(-3)} match=${clean(qk) === consumer_key}; secret len ${qs.length} ${qs.slice(0, 5)}..${qs.slice(-3)} match=${clean(qs) === consumer_secret}`)
+    return ok
+  }
   const h = request.headers.get('authorization') || ''
   if (/^basic /i.test(h)) {
     try { const [u, p] = atob(h.slice(6)).split(':'); return u === consumer_key && p === consumer_secret } catch { return false }
