@@ -1,0 +1,11 @@
+{
+  "name": "diddygrab-orders",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "main": "./worker/index.ts",
+  "assets": {
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": true
+  }
+}

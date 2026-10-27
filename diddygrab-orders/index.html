@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orders</title>
+<style>
+  :root{--bg:#f4f5f7;--card:#fff;--ink:#14171f;--mute:#6b7280;--line:#e5e7eb;--accent:#4C9A2A;--accent-ink:#fff;--red:#C8102E;--amber:#b45309;--amber-bg:#fef3c7;--green-bg:#dcfce7;--red-bg:#fee2e2;--blue-bg:#dbeafe;--blue:#1d4ed8}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif}
+  header{background:var(--card);border-bottom:1px solid var(--line);padding:12px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;position:sticky;top:0;z-index:5}
+  header h1{font-size:17px;margin:0;display:flex;align-items:center;gap:8px}
+  header h1 span{background:var(--accent);color:#fff;border-radius:6px;padding:2px 7px;font-size:11px;letter-spacing:.04em}
+  .tabs{display:flex;gap:4px;background:var(--bg);padding:3px;border-radius:9px}
+  .tabs button{border:0;background:transparent;padding:6px 12px;border-radius:7px;cursor:pointer;font-weight:600;color:var(--mute)}
+  .tabs button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+  .grow{flex:1}
+  .sync{color:var(--mute);font-size:12px}
+  button.btn,a.btn{border:1px solid var(--line);background:var(--card);padding:7px 12px;border-radius:8px;cursor:pointer;font-weight:600;color:var(--ink);text-decoration:none;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+  button.btn:hover{background:#fafafa}
+  button.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  button.btn.primary:hover{filter:brightness(.95)}
+  button.btn:disabled{opacity:.5;cursor:default}
+  main{padding:18px 20px;max-width:1500px;margin:0 auto}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+  .stat b{display:block;font-size:24px;line-height:1.1}
+  .stat small{color:var(--mute);font-weight:600;text-transform:uppercase;letter-spacing:.05em;font-size:11px}
+  .stat.countries{grid-column:span 2}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+  .chip{border:1px solid var(--line);border-radius:999px;padding:2px 9px;font-size:12px;cursor:pointer;background:var(--bg)}
+  .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+  .bar input[type=search],.bar select{padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);font:inherit}
+  .bar input[type=search]{min-width:240px}
+  .menu{position:relative}
+  .menu .dd{display:none;position:absolute;left:0;top:calc(100% + 4px);background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);min-width:280px;padding:6px;z-index:6}
+  .menu.open .dd{display:block}
+  .dd a,.dd label{display:block;padding:8px 10px;border-radius:7px;text-decoration:none;color:var(--ink);cursor:pointer}
+  .dd a:hover{background:var(--bg)}
+  .dd small{display:block;color:var(--mute);font-weight:400}
+  .dd hr{border:0;border-top:1px solid var(--line);margin:4px 0}
+  #table{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{width:100%;min-width:820px;border-collapse:separate;border-spacing:0;background:var(--card);border:1px solid var(--line);border-radius:12px}
+  th:first-child{border-top-left-radius:12px}th:last-child{border-top-right-radius:12px}
+  th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mute);text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);background:#fafafa}
+  td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:0}
+  tr.sel td{background:#f0fdf4}
+  tr.dim td{opacity:.55}
+  .ref{font-weight:700;font-variant-numeric:tabular-nums}
+  .sub{color:var(--mute);font-size:12px}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
+  .badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.02em}
+  .b-ship{background:var(--amber-bg);color:var(--amber)}.b-done{background:var(--green-bg);color:#166534}.b-ref{background:var(--red-bg);color:var(--red)}.b-sent{background:var(--blue-bg);color:var(--blue)}
+  .addon{display:inline-block;background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:0 6px;font-size:11px;margin:2px 2px 0 0}
+  .track{display:flex;gap:6px;align-items:center}
+  .track input{padding:6px 8px;border:1px solid var(--line);border-radius:7px;font:inherit;width:170px}
+  .track button{padding:6px 10px}
+  .tnum{display:flex;align-items:center;gap:6px}
+  .tnum a{color:var(--blue);text-decoration:none;font-weight:600}
+  .edit{border:0;background:transparent;color:var(--mute);cursor:pointer;font-size:12px;padding:0}
+  .empty{text-align:center;padding:40px;color:var(--mute)}
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;align-items:center;justify-content:center;z-index:20;padding:16px}
+  .modal.open{display:flex}
+  .box{background:var(--card);border-radius:14px;max-width:760px;width:100%;max-height:90vh;overflow:auto;padding:20px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+  .box h2{margin:0 0 6px;font-size:18px}
+  .box textarea{width:100%;min-height:160px;font-family:ui-monospace,Menlo,monospace;font-size:12px;padding:10px;border:1px solid var(--line);border-radius:8px}
+  .box .row{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+  .res{font-size:13px;margin-top:10px;max-height:300px;overflow:auto}
+  .res div{padding:4px 0;border-bottom:1px solid var(--line)}
+  .ok{color:#166534}.bad{color:var(--red)}
+  .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:10px;font-weight:600;display:none;z-index:30}
+  @media (max-width:900px){th{position:static}.stat.countries{grid-column:1 / -1}.hide-sm{display:none}main{padding:14px 16px}header{padding:10px 16px}}
+</style>
+</head>
+<body>
+<header>
+  <h1><span id="store-name">Store</span> Orders <span id="role-tag" hidden>SUPPLIER</span></h1>
+  <div class="grow"></div>
+  <span class="sync" id="sync"></span>
+  <button class="btn" id="refresh">↻ Refresh</button>
+  <a class="btn" href="/api/logout">Log out</a>
+</header>
+<main>
+  <div class="stats" id="stats"></div>
+  <div class="bar">
+    <div class="tabs" id="filters">
+      <button data-f="unshipped" class="on">To ship</button>
+      <button data-f="shipped">Shipped</button>
+      <button data-f="refunded">Refunded</button>
+      <button data-f="all">All</button>
+    </div>
+    <select id="country"><option value="">All countries</option></select>
+    <input type="search" id="q" placeholder="Search name, email, city, order, tracking…">
+    <div class="grow"></div>
+    <button class="btn" id="bulk">⇪ Paste tracking numbers</button>
+    <div class="menu" id="export">
+      <button class="btn primary">⬇ Export CSV ▾</button>
+      <div class="dd">
+        <a id="x-supplier-unshipped" href="#">Supplier CSV — all orders to ship<small>Names, addresses, quantities. No emails or payment info.</small></a>
+        <a id="x-supplier-view" href="#">Supplier CSV — what's on screen<small>Current filter, country and search.</small></a>
+        <a id="x-supplier-selected" href="#">Supplier CSV — selected rows only</a>
+        <hr>
+        <a id="x-full" href="#" class="owner">Full CSV — everything<small>Adds emails, totals, refunds, paid dates. For you.</small></a>
+        
+        
+      </div>
+    </div>
+  </div>
+  <div id="table"></div>
+</main>
+
+<div class="modal" id="bulk-modal">
+  <div class="box">
+    <h2>Paste tracking numbers</h2>
+    <p class="sub">Paste the supplier's CSV back in (any file with an <b>Order</b> or <b>Payment ID</b> column and a <b>Tracking</b> column), or one per line like <span class="mono">1042 LX123456789CN</span>. Nothing is sent to Whop until you press Apply.</p>
+    <textarea id="bulk-text" placeholder="Order,Tracking Number&#10;1042,LX123456789CN"></textarea>
+    <div class="res" id="bulk-res"></div>
+    <div class="row">
+      <button class="btn" id="bulk-close">Close</button>
+      <button class="btn" id="bulk-preview">Preview</button>
+      <button class="btn primary" id="bulk-apply" disabled>Apply to Whop</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = (s, el = document) => el.querySelector(s)
+const params = new URLSearchParams(location.search)
+let SUPPLIER = false
+
+const state = { data: null, filter: 'unshipped', country: '', q: '', sel: new Set() }
+const flag = (cc) => cc && cc.length === 2 ? String.fromCodePoint(...[...cc.toUpperCase()].map(c => 0x1F1E6 + c.charCodeAt(0) - 65)) : ''
+const fmt = (iso) => iso ? new Date(iso).toLocaleDateString('en-AU', { day: 'numeric', month: 'short' }) : ''
+const money = (n, c) => (c === 'USD' ? 'US$' : c + ' ') + Number(n).toFixed(2)
+const trackUrl = (t) => `https://parcelsapp.com/en/tracking/${encodeURIComponent(t)}`
+const toast = (m, bad) => { const t = $('#toast'); t.textContent = m; t.style.background = bad ? 'var(--red)' : 'var(--ink)'; t.style.display = 'block'; clearTimeout(toast.h); toast.h = setTimeout(() => t.style.display = 'none', 3000) }
+const api = async (path, opts) => { const r = await fetch(path, opts); if (r.status === 401) { location.reload(); throw new Error('login required') } const j = await r.json(); if (!r.ok) throw new Error(j.error || r.statusText); return j }
+
+async function loadMe() {
+  const me = await api('/api/me')
+  SUPPLIER = me.role === 'supplier'
+  if (me.store?.name) { $('#store-name').textContent = me.store.name; document.title = me.store.name + ' Orders' }
+  if (SUPPLIER) { $('#role-tag').hidden = false; document.querySelectorAll('.owner').forEach(e => e.remove()) }
+}
+async function load(refresh) {
+  $('#sync').textContent = 'Loading orders from Whop…'
+  $('#refresh').disabled = true
+  try {
+    state.data = await api('/api/orders')
+    render()
+  } catch (e) { toast(e.message, true); $('#sync').textContent = 'Error: ' + e.message }
+  finally { $('#refresh').disabled = false }
+}
+function visible() {
+  const q = state.q.toLowerCase()
+  return state.data.orders.filter(o => {
+    if (state.filter === 'unshipped' && (o.shipped || o.refunded)) return false
+    if (state.filter === 'shipped' && !o.shipped) return false
+    if (state.filter === 'refunded' && !o.refunded) return false
+    if (state.country && o.country !== state.country) return false
+    if (q && ![o.ref, o.id, String(o.seq), o.name, o.email, o.city, o.state, o.postal_code, o.country_name, o.tracking, o.phone].join(' ').toLowerCase().includes(q)) return false
+    return true
+  })
+}
+function render() {
+  const { orders, fetched_at, store } = state.data
+  $('#sync').textContent = `Synced ${new Date(fetched_at).toLocaleTimeString('en-AU', { hour: 'numeric', minute: '2-digit' })}`
+  const toShip = orders.filter(o => !o.shipped && !o.refunded)
+  const counts = {}
+  for (const o of orders) counts[o.country] = (counts[o.country] || 0) + 1
+  const countries = Object.entries(counts).sort((a, b) => b[1] - a[1])
+  $('#stats').innerHTML = `
+    <div class="stat"><small>Paid orders</small><b>${orders.length}</b></div>
+    <div class="stat"><small>To ship</small><b>${toShip.length}</b><span class="sub">${toShip.reduce((s, o) => s + o.qty, 0)} units</span></div>
+    <div class="stat"><small>Shipped</small><b>${orders.filter(o => o.shipped).length}</b></div>
+    <div class="stat"><small>Refunded</small><b>${orders.filter(o => o.refunded).length}</b></div>
+    <div class="stat countries"><small>Countries</small><div class="chips">${countries.map(([c, n]) => `<span class="chip ${state.country === c ? 'on' : ''}" data-c="${c}">${flag(c)} ${c} · ${n}</span>`).join('')}</div></div>`
+  $('#stats').onclick = (e) => { const ch = e.target.closest('.chip'); if (!ch) return; state.country = state.country === ch.dataset.c ? '' : ch.dataset.c; $('#country').value = state.country; render() }
+  const sel = $('#country'); const cur = sel.value
+  sel.innerHTML = '<option value="">All countries</option>' + countries.map(([c, n]) => `<option value="${c}">${flag(c)} ${orders.find(o => o.country === c).country_name} (${n})</option>`).join('')
+  sel.value = state.country || cur
+
+  const rows = visible()
+  if (!rows.length) { $('#table').innerHTML = `<div class="empty">No orders here.</div>`; return }
+  $('#table').innerHTML = `<table><thead><tr>
+    <th><input type="checkbox" id="selall" ${rows.every(o => state.sel.has(o.id)) ? 'checked' : ''}></th>
+    <th>Order</th><th>Customer</th><th>Items</th><th>Ship to</th>${SUPPLIER ? '' : '<th class="hide-sm">Total</th>'}<th>Tracking</th><th>Status</th></tr></thead><tbody>
+    ${rows.map(o => `<tr data-id="${o.id}" class="${state.sel.has(o.id) ? 'sel' : ''} ${o.refunded ? 'dim' : ''}">
+      <td><input type="checkbox" class="pick" ${state.sel.has(o.id) ? 'checked' : ''}></td>
+      <td><div class="ref">#${o.seq}</div><div class="sub">${fmt(o.created_at)}</div><div class="sub mono" title="${o.id}">${o.ref}</div></td>
+      <td><div><b>${esc(o.name)}</b></div>${SUPPLIER ? '' : `<div class="sub">${esc(o.email)}</div>`}<div class="sub">${esc(o.phone)}</div></td>
+      <td><div><b>${o.qty}×</b> ${esc(o.product)}</div><div class="sub">${esc(o.plan_title)}</div>${o.addons.map(a => `<span class="addon">${esc(a)}</span>`).join('')}</td>
+      <td><div>${esc(o.line1)}${o.line2 ? ', ' + esc(o.line2) : ''}</div><div>${esc(o.city)}${o.state ? ', ' + esc(o.state) : ''} ${esc(o.postal_code)}</div><div><b>${flag(o.country)} ${esc(o.country_name)}</b></div></td>
+      ${SUPPLIER ? '' : `<td class="hide-sm">${money(o.total, o.currency)}${o.refunded ? `<div class="sub">-${money(o.refunded_amount, o.currency)} refunded</div>` : ''}</td>`}
+      <td>${o.tracking ? `<div class="tnum"><a href="${trackUrl(o.tracking)}" target="_blank" rel="noopener" class="mono">${esc(o.tracking)}</a><button class="edit" data-edit="${o.id}">edit</button></div><div class="sub">${esc(o.shipment_status || '')}</div>`
+        : o.refunded ? '<span class="sub">—</span>' : `<div class="track"><input placeholder="Tracking number" data-id="${o.id}"><button class="btn" data-save="${o.id}">Save</button></div>`}</td>
+      <td>${badge(o)}</td>
+    </tr>`).join('')}</tbody></table>`
+  $('#selall').onchange = (e) => { for (const o of rows) e.target.checked ? state.sel.add(o.id) : state.sel.delete(o.id); render() }
+}
+function badge(o) {
+  if (o.refunded) return '<span class="badge b-ref">Refunded</span>'
+  if (o.disputed) return '<span class="badge b-ref">Disputed</span>'
+  if (o.shipped) return '<span class="badge b-done">Shipped</span>'
+  return '<span class="badge b-ship">To ship</span>'
+}
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]))
+
+async function saveTracking(id, tracking, btn) {
+  if (!tracking.trim()) return toast('Type a tracking number first', true)
+  if (btn) { btn.disabled = true; btn.textContent = 'Saving…' }
+  try {
+    await api('/api/tracking', { method: 'POST', body: JSON.stringify({ id, tracking }) })
+    const o = state.data.orders.find(x => x.id === id); o.tracking = tracking.trim(); o.shipped = true; o.shipment_status = 'pre_transit'
+    toast(`Tracking saved for #${o.seq} — customer can see it on Whop`); render()
+  } catch (e) { toast(e.message, true); if (btn) { btn.disabled = false; btn.textContent = 'Save' } }
+}
+$('#table').addEventListener('click', (e) => {
+  const save = e.target.closest('[data-save]')
+  if (save) return saveTracking(save.dataset.save, $(`input[data-id="${save.dataset.save}"]`, save.closest('td')).value, save)
+  const edit = e.target.closest('[data-edit]')
+  if (edit) { const o = state.data.orders.find(x => x.id === edit.dataset.edit); const t = prompt(`New tracking number for #${o.seq}`, o.tracking); if (t && t.trim() !== o.tracking) saveTracking(o.id, t); return }
+  const pick = e.target.closest('.pick')
+  if (pick) { const id = pick.closest('tr').dataset.id; pick.checked ? state.sel.add(id) : state.sel.delete(id); pick.closest('tr').classList.toggle('sel', pick.checked) }
+})
+$('#table').addEventListener('keydown', (e) => {
+  if (e.key !== 'Enter') return
+  if (e.target.matches('.track input')) saveTracking(e.target.dataset.id, e.target.value, e.target.nextElementSibling)
+})
+$('#filters').onclick = (e) => { const b = e.target.closest('button'); if (!b) return; state.filter = b.dataset.f; document.querySelectorAll('#filters button').forEach(x => x.classList.toggle('on', x === b)); render() }
+$('#country').onchange = (e) => { state.country = e.target.value; render() }
+$('#q').oninput = (e) => { state.q = e.target.value; render() }
+$('#refresh').onclick = () => load(true)
+
+// export menu
+$('#export').onclick = (e) => { if (e.target.closest('.btn')) $('#export').classList.toggle('open') }
+document.addEventListener('click', (e) => { if (!e.target.closest('#export')) $('#export').classList.remove('open') })
+function exportUrl(view, filter, ids) {
+  const p = new URLSearchParams({ view, filter })
+  if (ids) p.set('ids', ids.join(','))
+  return '/api/export.csv?' + p
+}
+const dl = (url) => { location.href = url; $('#export').classList.remove('open') }
+$('#x-supplier-unshipped').onclick = (e) => { e.preventDefault(); dl(exportUrl('supplier', 'unshipped')) }
+$('#x-supplier-view').onclick = (e) => { e.preventDefault(); const ids = visible().map(o => o.id); if (!ids.length) return toast('Nothing on screen to export', true); dl(exportUrl('supplier', 'all', ids)) }
+$('#x-supplier-selected').onclick = (e) => { e.preventDefault(); if (!state.sel.size) return toast('Tick some orders first', true); dl(exportUrl('supplier', 'all', [...state.sel])) }
+$('#x-full')?.addEventListener('click', (e) => { e.preventDefault(); dl(exportUrl('full', 'all')) })
+
+// bulk tracking
+let bulkItems = []
+$('#bulk').onclick = () => { $('#bulk-modal').classList.add('open'); $('#bulk-res').innerHTML = ''; $('#bulk-apply').disabled = true }
+$('#bulk-close').onclick = () => $('#bulk-modal').classList.remove('open')
+$('#bulk-preview').onclick = async () => {
+  const text = $('#bulk-text').value
+  const r = await api('/api/tracking/bulk', { method: 'POST', body: JSON.stringify({ text, dry: true }) }).catch(e => ({ error: e.message }))
+  if (r.error) return toast(r.error, true)
+  bulkItems = r.results.filter(x => x.ok)
+  $('#bulk-res').innerHTML = (r.results.length ? r.results.map(x => `<div class="${x.ok ? 'ok' : 'bad'}">${x.ok ? '✓' : '✗'} ${x.ref ? '#' + x.ref + ' ' + esc(x.name) : esc(x.id)} → <span class="mono">${esc(x.tracking)}</span>${x.replaces ? ` <span class="sub">(replaces ${esc(x.replaces)})</span>` : ''}${x.error ? ' — ' + esc(x.error) : ''}</div>`).join('') : '<div class="bad">Could not find any order + tracking pairs in that text.</div>')
+  $('#bulk-apply').disabled = !bulkItems.length
+  $('#bulk-apply').textContent = `Apply ${bulkItems.length} to Whop`
+}
+$('#bulk-apply').onclick = async () => {
+  $('#bulk-apply').disabled = true; $('#bulk-apply').textContent = 'Sending to Whop…'
+  const r = await api('/api/tracking/bulk', { method: 'POST', body: JSON.stringify({ text: $('#bulk-text').value }) }).catch(e => ({ error: e.message }))
+  if (r.error) { toast(r.error, true); $('#bulk-apply').disabled = false; return }
+  const good = r.results.filter(x => x.ok).length
+  $('#bulk-res').innerHTML = r.results.map(x => `<div class="${x.ok ? 'ok' : 'bad'}">${x.ok ? '✓ saved' : '✗ failed'} #${x.ref || ''} ${esc(x.name || x.id)} → <span class="mono">${esc(x.tracking)}</span>${x.error ? ' — ' + esc(x.error) : ''}</div>`).join('')
+  $('#bulk-apply').textContent = `Done — ${good}/${r.results.length} saved`
+  toast(`${good} tracking numbers saved to Whop`)
+  load(false)
+}
+
+loadMe().then(() => load(false)).catch(e => toast(e.message, true))
+</script>
+</body>
+</html>
