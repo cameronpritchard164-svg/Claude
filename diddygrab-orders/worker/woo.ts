@@ -210,8 +210,9 @@ export async function handleWoo(request: Request, env: unknown, deps: Deps): Pro
     const body = (await request.json().catch(() => ({}))) as any
     const note = String(body.note || '')
     // Pull the first thing that looks like a carrier number out of the note text.
-    const m = note.match(/\b([A-Z]{1,3}\d{8,}[A-Z]{0,2}|\d{10,}|[A-Z0-9]{10,})\b/i)
-    if (m) await deps.saveTracking(o.id, m[1], orders)
+    // It must contain digits: notes also hold words like "wanbexpress" or "decoration".
+    const m = (note.match(/\b[A-Z0-9-]{8,}\b/gi) || []).filter((w) => /\d{4,}/.test(w)).sort((a, b) => b.length - a.length)[0]
+    if (m) await deps.saveTracking(o.id, m, orders)
     else console.log(`[woo] note without tracking for ${o.id}: ${note.slice(0, 120)}`)
     return withHeaders({ id: Date.now(), author: 'erp', date_created: new Date().toISOString(), date_created_gmt: new Date().toISOString(), note, customer_note: Boolean(body.customer_note), added_by_user: false }, {}, 201)
   }
