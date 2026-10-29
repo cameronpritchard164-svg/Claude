@@ -2,8 +2,8 @@
 // Store data for the theme. The product's title, photos and prices are read
 // live from Whop, so changing them in the Whop dashboard updates the site.
 
-export const WHOP_PRODUCT_ID = 'prod_eZlZohGzg7yLC'
-export const WHOP_PLAN_ID = 'plan_fIK5Sv7UUv2xg'
+export const WHOP_PRODUCT_ID = 'prod_ShkamxBrPk3Wq'
+export const WHOP_PLAN_ID = 'plan_6K8QrRZntxQab'
 export const PRODUCT_HANDLE = 'dbzlights'
 // Product photos are served from this site rather than Whop's gallery.
 export const LOCAL_PRODUCT = { title: 'DBZ Lights Dragon Ball Projector', images: ['/images/dz-1.webp', '/images/dz-2.webp', '/images/dz-3.webp'] }
