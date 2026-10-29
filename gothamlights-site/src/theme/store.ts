@@ -2,8 +2,8 @@
 // Store data for the theme. The product's title, photos and prices are read
 // live from Whop, so changing them in the Whop dashboard updates the site.
 
-export const WHOP_PRODUCT_ID = 'prod_Z9D6h5l4ejG5x'
-export const WHOP_PLAN_ID = 'plan_3qbhr1ukC9kQz'
+export const WHOP_PRODUCT_ID = 'prod_eZlZohGzg7yLC'
+export const WHOP_PLAN_ID = 'plan_fIK5Sv7UUv2xg'
 export const PRODUCT_HANDLE = 'gothamlights'
 // Product photos are served from this site rather than Whop's gallery.
 export const LOCAL_PRODUCT = { title: 'Gotham Lights Bat Wing Projector', images: ['/images/gl-1.webp', '/images/gl-2.webp', '/images/gl-3.webp'] }
