@@ -1,0 +1,48 @@
+{
+  "heading": "BIKER DEAL",
+  "noun": "Set",
+  "product_name": "Gotham Lights Bat Wing Projector",
+  "popular_tier": 2,
+  "best_tier": 3,
+  "tiers": [
+    {
+      "qty": 1,
+      "price": 44,
+      "compare": 66,
+      "name": "Buy 1 set",
+      "sub": "Standard Price"
+    },
+    {
+      "qty": 2,
+      "price": 74.8,
+      "compare": 132,
+      "name": "Buy 2 sets",
+      "sub": "You save $57.20",
+      "tag": "Most Popular"
+    },
+    {
+      "qty": 3,
+      "price": 105.6,
+      "compare": 198,
+      "name": "Buy 3 sets",
+      "sub": "You save $92.40"
+    },
+    {
+      "qty": 4,
+      "price": 123.2,
+      "compare": 264,
+      "name": "Buy 4 sets",
+      "sub": "You save $140.80",
+      "tag": "Best Deal"
+    }
+  ],
+  "addons": [],
+  "shipping": [
+    {
+      "key": "free",
+      "label": "Free Shipping",
+      "eta": "Delivers in 2\u20133 weeks \u00b7 tracking emailed",
+      "price": 0
+    }
+  ]
+}

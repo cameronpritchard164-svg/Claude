@@ -1,0 +1,63 @@
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "mt-sale-bar": {
+      "type": "mt-sale-bar",
+      "blocks": {
+        "m1": {
+          "type": "message",
+          "settings": {
+            "text": "Christmas Sale: 50% Off Ends Soon!"
+          }
+        },
+        "m2": {
+          "type": "message",
+          "settings": {
+            "text": "50% OFF TODAY ONLY!"
+          }
+        },
+        "m3": {
+          "type": "message",
+          "settings": {
+            "text": "Secure & Reliable World-Wide Shipping!"
+          }
+        }
+      },
+      "block_order": [
+        "m1",
+        "m2",
+        "m3"
+      ],
+      "settings": {
+        "title": "CHRISTMAS SALE!",
+        "subtitle": "Sale ends in:",
+        "end_date": "",
+        "utc_offset": "+08:00",
+        "speed": 60
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "menu_color_scheme": "scheme-1",
+        "logo_position": "middle-center",
+        "menu": "main-menu",
+        "menu_type_desktop": "dropdown",
+        "sticky_header_type": "on-scroll-up",
+        "show_line_separator": true,
+        "enable_country_selector": false,
+        "enable_language_selector": false,
+        "mobile_logo_position": "center",
+        "margin_bottom": 0,
+        "padding_top": 12,
+        "padding_bottom": 12
+      }
+    }
+  },
+  "order": [
+    "mt-sale-bar",
+    "header"
+  ]
+}
