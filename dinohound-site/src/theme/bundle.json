@@ -1,0 +1,69 @@
+{
+  "heading": "BUNDLE &amp; SAVE",
+  "noun": "Pack",
+  "product_name": "DinoHound T-Rex Dog Costume",
+  "popular_tier": 2,
+  "best_tier": 3,
+  "tiers": [
+    {
+      "qty": 1,
+      "price": 44.99,
+      "compare": 44.99,
+      "name": "1 pack",
+      "sub": "Standard price"
+    },
+    {
+      "qty": 2,
+      "price": 81.0,
+      "compare": 89.98,
+      "name": "2 pack",
+      "sub": "Save 10%!",
+      "tag": "Most Popular"
+    },
+    {
+      "qty": 3,
+      "price": 114.75,
+      "compare": 134.97,
+      "name": "3 pack",
+      "sub": "Save 15%!",
+      "tag": "Best Value"
+    }
+  ],
+  "addons": [
+    {
+      "key": "S",
+      "title": "Size S",
+      "short": "S",
+      "price": 0,
+      "compare": 0,
+      "badge": "",
+      "image": ""
+    },
+    {
+      "key": "M",
+      "title": "Size M",
+      "short": "M",
+      "price": 0,
+      "compare": 0,
+      "badge": "",
+      "image": ""
+    },
+    {
+      "key": "L",
+      "title": "Size L",
+      "short": "L",
+      "price": 0,
+      "compare": 0,
+      "badge": "",
+      "image": ""
+    }
+  ],
+  "shipping": [
+    {
+      "key": "free",
+      "label": "Free Shipping",
+      "eta": "Delivers in 2\u20133 weeks \u00b7 tracking emailed",
+      "price": 0
+    }
+  ]
+}
