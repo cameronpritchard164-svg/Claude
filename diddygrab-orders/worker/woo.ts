@@ -31,7 +31,7 @@ const splitName = (name: string) => { const parts = name.trim().split(/\s+/); re
 const money = (n: number) => n.toFixed(2)
 const SKU = (STORE as any).sku || STORE.name.toUpperCase().replace(/[^A-Z0-9]+/g, '-') + '-1'
 
-const STATUS_RESET_AT = '2026-10-30T07:40:00.000Z'
+const STATUS_RESET_AT = '2026-10-30T07:41:00.000Z'
 const maxIso = (a: string, b: string) => (Date.parse(a) > Date.parse(b) ? a : b)
 
 function toWoo(o: WooOrder, siteUrl: string) {
