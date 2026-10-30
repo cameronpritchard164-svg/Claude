@@ -48,7 +48,7 @@ h1{font-size:2.4rem;line-height:1.1;margin:0 0 8px;font-weight:700}
 .tier .p{text-align:right}.tier .p b{font-size:1.25rem}.tier .p span{display:block;color:#737373;text-decoration:line-through;font-size:.85rem}
 .tier .tag{position:absolute;right:-6px;top:-14px;font-size:.8rem !important;padding:5px 14px !important;transform:rotate(2deg);background:#7CB342;color:#fff;font-size:.7rem;font-weight:700;letter-spacing:.05em;padding:4px 10px;border-radius:4px}
 .saving{margin:14px 0 12px;border:1px solid #a5d6a7;background:#f5fbf1;border-radius:6px;padding:12px 16px;font-size:.92rem;color:#111111}
-.sz{margin:0 0 18px}.szl{font-weight:700;margin-bottom:10px}.szc{font-weight:500;font-size:.85rem;color:var(--red);margin-left:8px}.szb{display:flex;gap:10px}.szb button{min-width:64px;padding:11px 18px;border:1.5px solid #cfcfcf;border-radius:10px;background:#fff;font:inherit;font-weight:600;cursor:pointer}.szb button.on{background:#1b5e20;border-color:#1b5e20;color:#fff}.ups{margin:4px 0 16px}.up{display:flex;align-items:center;gap:12px;padding:10px 0;cursor:pointer}.up img{width:60px;height:60px;border-radius:10px;flex:none;object-fit:contain;background:#fff}.up .ut{flex:1;font-weight:700;font-size:.98rem}.up-p{text-align:right;font-size:.95rem}.up-p s{display:block;color:#737373;font-size:.82rem}.up input{display:none}.sw{flex:none;width:48px;height:28px;border-radius:14px;background:#d9d9d9;position:relative;transition:.2s}.sw:after{content:'';position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 1px 3px #0003}.up input:checked+.sw{background:var(--red)}.up input:checked+.sw:after{left:23px}.atc{display:block;width:100%;border:0;background:#2E7D32;color:#fff;font:inherit;font-weight:700;font-size:1.15rem;letter-spacing:.06em;padding:17px;border-radius:6px;cursor:pointer}
+.sz{margin:0 0 18px}.szl{font-weight:700;margin-bottom:10px}.szc{font-weight:500;font-size:.85rem;color:var(--red);margin-left:8px}.szb{display:flex;gap:10px}.szr{display:flex;align-items:center;gap:14px;margin:0 0 10px}.szr>span{min-width:62px;font-weight:600;font-size:.95rem}.sz{margin:16px 0}.szb button{min-width:64px;padding:11px 18px;border:1.5px solid #cfcfcf;border-radius:10px;background:#fff;font:inherit;font-weight:600;cursor:pointer}.szb button.on{background:#1b5e20;border-color:#1b5e20;color:#fff}.ups{margin:4px 0 16px}.up{display:flex;align-items:center;gap:12px;padding:10px 0;cursor:pointer}.up img{width:60px;height:60px;border-radius:10px;flex:none;object-fit:contain;background:#fff}.up .ut{flex:1;font-weight:700;font-size:.98rem}.up-p{text-align:right;font-size:.95rem}.up-p s{display:block;color:#737373;font-size:.82rem}.up input{display:none}.sw{flex:none;width:48px;height:28px;border-radius:14px;background:#d9d9d9;position:relative;transition:.2s}.sw:after{content:'';position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 1px 3px #0003}.up input:checked+.sw{background:var(--red)}.up input:checked+.sw:after{left:23px}.atc{display:block;width:100%;border:0;background:#2E7D32;color:#fff;font:inherit;font-weight:700;font-size:1.15rem;letter-spacing:.06em;padding:17px;border-radius:6px;cursor:pointer}
 .pay{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:14px 0 24px}
 .trust{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center;color:var(--red);margin:0 0 20px}.trust b{display:block;color:#121212;font-size:1rem;margin-top:6px}
 .tick{display:flex;gap:14px;align-items:center;border-bottom:1px solid #eee;padding:8px 0 10px}.tick img{width:50px;height:50px;border-radius:50%;object-fit:cover}.tick p{margin:0;font-size:.95rem}.tick small{display:block;color:#737373;font-style:italic;margin-top:2px}
@@ -96,10 +96,10 @@ export function productPage({ origin, tiers, addons = [], images, reviewImages, 
     <div class="price"><span class="now" id="pnow">${money(tiers[def].price)}</span><span class="was" id="pwas">${money(tiers[def].compare)}</span><span class="badge" id="psave">SAVE ${Math.round((1 - tiers[def].price / tiers[def].compare) * 100)}%</span></div>
     
     <ul class="bul"><li>🦖 <span><b>Instant T-Rex</b> — big open jaws, teeth, tail and little dino arms</span></li><li>🐶 <span><b>Easy on, easy off</b> — slips over the head with straps under the belly</span></li><li>📸 <span><b>Photo-ready</b> — the funniest costume at every party, walk and Halloween</span></li></ul>
-    <div class="sz"><div class="szl">Size - <span id="szn">S</span> <a href="#sizechart" class="szc">Size chart</a></div><div class="szb">${['S', 'M', 'L'].map((k, i) => `<button type="button" class="${i === 0 ? 'on' : ''}" data-size="${k}">${k}</button>`).join('')}</div></div>
     <div class="low">BUNDLE &amp; SAVE</div>
     <div class="tiers" id="tiers">${tiers.map(tier).join('')}</div>
     <div class="ups">${addons.map((a) => `<label class="up"><img src="${esc(a.image)}" alt=""><span class="ut">${esc(a.title)}</span><span class="up-p"><b>${money(a.price)}</b><s>${money(a.compare)}</s></span><input type="checkbox" data-key="${esc(a.key)}"><span class="sw"></span></label>`).join('')}</div>
+    <div class="sz" id="sizes"></div>
     <div class="saving" id="saving">→ You're saving ${money(tiers[def].compare - tiers[def].price)} on this order</div>
     <button class="atc" id="atc" type="button">ADD TO CART</button>
     <div class="pay">${PAY}</div>
@@ -111,7 +111,7 @@ export function productPage({ origin, tiers, addons = [], images, reviewImages, 
 <section class="faq" id="sizechart">
   <details><summary>${ICON.check} What size should I get?</summary><p>Measure your dog's chest girth (the widest part behind the front legs). S fits 18"–20", M fits 20"–22" and L fits 22"–24". If your dog is between sizes, choose the bigger one. The full size chart is in the photos.</p></details>
   <details><summary>${ICON.check} How does it go on?</summary><p>Slip the dino head over your dog's head, then fasten the straps under the belly. The little front arms sit on the chest.</p></details>
-  <details><summary>${ICON.check} Can I get different sizes in a bundle?</summary><p>Each bundle comes in the size you select. For different sizes, place a separate order for each size.</p></details>
+  <details><summary>${ICON.check} Can I get different sizes in a bundle?</summary><p>Yes. When you pick Buy 2 or Buy 3, choose a size for each dino, so every dog gets the right fit.</p></details>
   <details><summary>${ICON.check} When will my order arrive?</summary><p>Every order is made to order, so it is produced after you buy. Delivery times vary with production and shipping, so we don't promise a fixed date. We'll email you tracking details as soon as your order ships.</p></details>
 </section>
 <section class="feat"><img src="${esc(images[2])}" alt="Dog wearing the DinoHound T-Rex costume"><div><h2>Unleash The T-Rex</h2><p>One minute your pup, the next a tiny T-Rex stomping around the living room. Guaranteed laughs from everyone who sees it.</p></div></section>
@@ -131,19 +131,26 @@ export function productPage({ origin, tiers, addons = [], images, reviewImages, 
   const $ = (s) => document.querySelector(s);
   const money = (n) => '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   let qty = ${tiers[def].qty};
-  document.querySelectorAll('.szb button').forEach((b) => b.addEventListener('click', () => { document.querySelectorAll('.szb button').forEach((x) => x.classList.remove('on')); b.classList.add('on'); $('#szn').textContent = b.dataset.size; }));
+  // One S/M/L row per costume in the chosen bundle; picks are kept when the bundle changes.
+  const picks = [];
+  const drawSizes = () => {
+    while (picks.length < qty) picks.push('S');
+    $('#sizes').innerHTML = '<div class="szl">Choose your sizes <a href="#sizechart" class="szc">Size chart</a></div>' + Array.from({ length: qty }, (_, i) => '<div class="szr"><span>' + (qty > 1 ? 'Dino ' + (i + 1) : 'Size') + '</span><div class="szb">' + ['S', 'M', 'L'].map((k) => '<button type="button" data-i="' + i + '" data-size="' + k + '"' + (picks[i] === k ? ' class="on"' : '') + '>' + k + '</button>').join('') + '</div></div>').join('');
+    document.querySelectorAll('.szb button').forEach((b) => b.addEventListener('click', () => { picks[b.dataset.i] = b.dataset.size; drawSizes(); }));
+  };
+  drawSizes();
   document.querySelectorAll('.tier').forEach((t) => t.addEventListener('click', () => {
     document.querySelectorAll('.tier').forEach((x) => x.classList.remove('on')); t.classList.add('on');
-    qty = Number(t.dataset.qty);
+    qty = Number(t.dataset.qty); drawSizes();
     $('#pnow').textContent = money(t.dataset.price); $('#pwas').textContent = money(t.dataset.compare);
     $('#saving').textContent = "→ You're saving " + money(t.dataset.compare - t.dataset.price) + ' on this order';
     const pct = Math.round((1 - t.dataset.price / t.dataset.compare) * 100); $('#psave').textContent = 'SAVE ' + pct + '%'; $('#psave').style.display = pct > 0 ? '' : 'none'; $('#pwas').style.display = pct > 0 ? '' : 'none';
   }));
-  $('#atc').addEventListener('click', () => { const ad = document.querySelector('.szb button.on').dataset.size; location.href = ${JSON.stringify(CHECKOUT_PATH)} + '?key=' + qty + ':' + ad; });
+  $('#atc').addEventListener('click', () => { const ad = picks.slice(0, qty).sort((a, b) => 'SML'.indexOf(a) - 'SML'.indexOf(b)).join(','); location.href = ${JSON.stringify(CHECKOUT_PATH)} + '?key=' + qty + ':' + ad; });
   document.querySelectorAll('.thumbs button').forEach((b) => b.addEventListener('click', () => { document.querySelectorAll('.thumbs button').forEach((x) => x.classList.remove('on')); b.classList.add('on'); $('#mainimg').src = b.dataset.src; }));
   const cardsEl = document.querySelector('.cards'), sd = document.querySelectorAll('#sdots i');
   if (cardsEl) cardsEl.addEventListener('scroll', () => { const c = cardsEl.children[0]; if (!c) return; const i = Math.round(cardsEl.scrollLeft / (c.offsetWidth + 14)); sd.forEach((d, k) => d.classList.toggle('on', k === i)); }, { passive: true });
-  const ticks = [['Every rider at the meet wanted one 🦇', 'Julia M.'], ['So easy to put on and the fit is perfect.', 'Chris B.'], ['Funniest costume we've ever bought. 10/10.', 'Amanda K.']];
+  const ticks = [['My dog has never looked cuter 🦖', 'Julia M.'], ['So easy to put on and the fit is perfect.', 'Chris B.'], ['Funniest costume we have ever bought. 10/10.', 'Amanda K.']];
   let ti = 0; setInterval(() => { ti = (ti + 1) % ticks.length; $('#tickp').innerHTML = ticks[ti][0] + '<small>' + ticks[ti][1] + '</small>'; document.querySelectorAll('#dots i').forEach((d, i) => d.classList.toggle('on', i === ti)); }, 4000);
 </script>`
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DinoHound T-Rex Dog Costume – ${esc(store)}</title><meta name="description" content="DinoHound T-Rex dog costume: big jaws, teeth, tail and dino arms for small and medium dogs. Sizes S, M and L. Made to order."><link rel="icon" href="/images/favicon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"><style>:root{--red:#2E7D32;--baby:#eaf6e3;--babyink:#1b5e20}${CSS}</style></head><body>${body}</body></html>`

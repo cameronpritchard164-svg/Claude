@@ -18,11 +18,13 @@ export function parseKey(key) {
   const [q, a] = String(key || '1:').split(':')
   const qty = Math.max(1, Math.min(4, Number(q) || 1))
   const tier = bundle.tiers.find((t) => t.qty === qty) || bundle.tiers[0]
-  const wanted = (a || '').split(',').filter(Boolean)
-  // Every order needs a size; the header cart link sends none, so default it to S.
-  if (!wanted.length && bundle.addons.length) wanted.push(bundle.addons[0].key)
-  const addons = bundle.addons.filter((x) => wanted.includes(x.key))
-  const k = `${tier.qty}:${addons.map((x) => x.key).join(',')}`
+  // One size per costume, sorted S, M, L; missing sizes default to S.
+  const order = bundle.addons.map((x) => x.key)
+  const sizes = (a || '').split(',').filter((k) => order.includes(k)).slice(0, tier.qty)
+  while (sizes.length < tier.qty) sizes.push(order[0])
+  sizes.sort((x, y) => order.indexOf(x) - order.indexOf(y))
+  const addons = [{ key: sizes.join(','), title: `Size ${sizes.join(', ')}`, price: 0, compare: 0 }]
+  const k = `${tier.qty}:${sizes.join(',')}`
   return { tier, addons, key: k, plan: plans[k] }
 }
 

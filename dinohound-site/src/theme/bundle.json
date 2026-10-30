@@ -9,14 +9,14 @@
       "qty": 1,
       "price": 44.99,
       "compare": 44.99,
-      "name": "1 pack",
+      "name": "Buy 1",
       "sub": "Standard price"
     },
     {
       "qty": 2,
       "price": 81.0,
       "compare": 89.98,
-      "name": "2 pack",
+      "name": "Buy 2",
       "sub": "Save 10%!",
       "tag": "Most Popular"
     },
@@ -24,7 +24,7 @@
       "qty": 3,
       "price": 114.75,
       "compare": 134.97,
-      "name": "3 pack",
+      "name": "Buy 3",
       "sub": "Save 15%!",
       "tag": "Best Value"
     }
