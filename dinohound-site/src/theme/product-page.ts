@@ -95,7 +95,7 @@ export function productPage({ origin, tiers, addons = [], images, reviewImages, 
     <div class="rating">${STARS}<span>4.85/5 | 1,450+ Reviews</span></div>
     <div class="price"><span class="now" id="pnow">${money(tiers[def].price)}</span><span class="was" id="pwas">${money(tiers[def].compare)}</span><span class="badge" id="psave">SAVE ${Math.round((1 - tiers[def].price / tiers[def].compare) * 100)}%</span></div>
     
-    <ul class="bul"><li>🦖 <span><b>Instant T-Rex</b> — big open jaws, teeth, tail and little dino arms</span></li><li>🐶 <span><b>Easy on, easy off</b> — slips over the head with straps under the belly</span></li><li>📸 <span><b>Photo-ready</b> — the funniest costume at every party, walk and Halloween</span></li></ul>
+    <ul class="bul"><li>🦖 <span><b>Instant T-Rex</b> — big open jaws, teeth, tail and little dino arms</span></li><li>🐶 <span><b>Easy on, easy off</b> — slips over the head with straps under the belly</span></li><li>📸 <span><b>Photo-ready</b> — the funniest costume at every party, walk and dog park visit</span></li></ul>
     <div class="low">BUNDLE &amp; SAVE</div>
     <div class="tiers" id="tiers">${tiers.map(tier).join('')}</div>
     <div class="ups">${addons.map((a) => `<label class="up"><img src="${esc(a.image)}" alt=""><span class="ut">${esc(a.title)}</span><span class="up-p"><b>${money(a.price)}</b><s>${money(a.compare)}</s></span><input type="checkbox" data-key="${esc(a.key)}"><span class="sw"></span></label>`).join('')}</div>
@@ -119,7 +119,7 @@ export function productPage({ origin, tiers, addons = [], images, reviewImages, 
 <div class="cards">
   <div class="card"><div class="b"><span class="q">”</span>${STARS}<h3>The cutest dino ever!</h3><p>My cavoodle looks hilarious in it. Everyone at the dog park stopped to take photos of him.</p><div class="n">Jessica F.</div></div></div>
   <div class="card"><div class="b"><span class="q">”</span>${STARS}<h3>Fits perfectly</h3><p>Measured his chest like the chart said and the medium fits just right. The teeth and tail are so well made.</p><div class="n">Marcus T.</div></div></div>
-  <div class="card"><div class="b"><span class="q">”</span>${STARS}<h3>Halloween sorted</h3><p>Got the 2 pack for both my dogs. They were the hit of the street on Halloween night.</p><div class="n">Daniel A.</div></div></div>
+  <div class="card"><div class="b"><span class="q">”</span>${STARS}<h3>Double the dino fun</h3><p>Got the 2 pack for both my dogs. They were the hit of the dog park and everyone wanted photos.</p><div class="n">Daniel A.</div></div></div>
 </div><div class="sdots" id="sdots"><i class="on"></i><i></i><i></i></div></section>
 </main>
 <footer class="ft"><div class="waves" aria-hidden="true"><svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path class="w1" d="M0 70 C240 20 480 20 720 70 S1200 120 1440 70 L1440 120 L0 120Z"/><path class="w2" d="M0 90 C300 40 600 40 900 90 S1300 130 1440 90 L1440 120 L0 120Z"/><path class="w3" d="M0 100 C360 60 720 60 1080 100 S1380 130 1440 100 L1440 120 L0 120Z"/></svg></div>
