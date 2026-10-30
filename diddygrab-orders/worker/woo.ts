@@ -31,6 +31,9 @@ const splitName = (name: string) => { const parts = name.trim().split(/\s+/); re
 const money = (n: number) => n.toFixed(2)
 const SKU = (STORE as any).sku || STORE.name.toUpperCase().replace(/[^A-Z0-9]+/g, '-') + '-1'
 
+const STATUS_RESET_AT = '2026-10-30T07:40:00.000Z'
+const maxIso = (a: string, b: string) => (Date.parse(a) > Date.parse(b) ? a : b)
+
 function toWoo(o: WooOrder, siteUrl: string) {
   const id = wooId(o.id)
   // Never report 'completed' to the ERP: 店小秘 treats an order the platform already completed as
@@ -50,8 +53,9 @@ function toWoo(o: WooOrder, siteUrl: string) {
     currency: o.currency,
     date_created: o.created_at,
     date_created_gmt: o.created_at,
-    date_modified: o.modified_at || o.created_at,
-    date_modified_gmt: o.modified_at || o.created_at,
+    // Bumped once so 店小秘's next incremental sync (modified_after) re-reads every order as 'processing'.
+    date_modified: maxIso(o.modified_at || o.created_at, STATUS_RESET_AT),
+    date_modified_gmt: maxIso(o.modified_at || o.created_at, STATUS_RESET_AT),
     discount_total: '0.00', discount_tax: '0.00', shipping_total: '0.00', shipping_tax: '0.00', cart_tax: '0.00',
     total: money(o.total), total_tax: '0.00',
     prices_include_tax: false,
