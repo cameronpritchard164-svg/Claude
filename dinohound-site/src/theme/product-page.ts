@@ -103,7 +103,7 @@ export function productPage({ origin, tiers, addons = [], images, reviewImages, 
     <button class="atc" id="atc" type="button">ADD TO CART</button>
     <div class="pay">${PAY}</div>
     <div class="trust"><div>${ICON.heart}<b>Satisfaction Guarantee</b></div><div>${ICON.returns}<b>Free Returns</b></div><div>${ICON.truck}<b>Free Shipping</b></div></div>
-    <div class="tick" id="tick"><img src="${esc(images[1])}" alt=""><p id="tickp">My dog has never looked cuter 🦖<small>Julia M.</small></p></div>
+    <div class="tick" id="tick"><p id="tickp">My dog has never looked cuter 🦖<small>Julia M.</small></p></div>
     <div class="dots" id="dots"><i class="on"></i><i></i><i></i></div>
   </div>
 </section>
