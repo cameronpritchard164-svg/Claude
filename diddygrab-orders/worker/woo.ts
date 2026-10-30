@@ -33,7 +33,9 @@ const SKU = (STORE as any).sku || STORE.name.toUpperCase().replace(/[^A-Z0-9]+/g
 
 function toWoo(o: WooOrder, siteUrl: string) {
   const id = wooId(o.id)
-  const status = o.refunded ? 'refunded' : o.disputed ? 'on-hold' : o.shipped ? 'completed' : 'processing'
+  // Never report 'completed' to the ERP: 店小秘 treats an order the platform already completed as
+  // shipped elsewhere and drops it out of its review / tracking / print workflow.
+  const status = o.refunded ? 'refunded' : o.disputed ? 'on-hold' : 'processing'
   const addr = { ...splitName(o.name), company: '', address_1: o.line1, address_2: o.line2, city: o.city, state: o.state, postcode: o.postal_code, country: o.country }
   const unit = o.qty ? o.total / o.qty : o.total
   const addonNote = o.addons.length ? ` (+ ${o.addons.join(', ')})` : ''
@@ -64,8 +66,8 @@ function toWoo(o: WooOrder, siteUrl: string) {
     transaction_id: o.id,
     date_paid: o.paid_at || o.created_at,
     date_paid_gmt: o.paid_at || o.created_at,
-    date_completed: o.shipped ? o.created_at : null,
-    date_completed_gmt: o.shipped ? o.created_at : null,
+    date_completed: null,
+    date_completed_gmt: null,
     cart_hash: '',
     meta_data: [
       { id: 1, key: '_whop_payment_id', value: o.id },
