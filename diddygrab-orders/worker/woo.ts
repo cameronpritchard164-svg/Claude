@@ -111,8 +111,15 @@ function authed(request: Request, url: URL) {
     return ok
   }
   const h = request.headers.get('authorization') || ''
+  if (!/^basic /i.test(h)) console.log(`[woo] auth: no query keys, authorization scheme=${h.split(' ')[0] || 'none'} len=${h.length} headers=${[...request.headers.keys()].join(',')}`)
   if (/^basic /i.test(h)) {
-    try { const [u, p] = atob(h.slice(6)).split(':'); return u === consumer_key && p === consumer_secret } catch { return false }
+    try {
+      const [u, p] = atob(h.slice(6).trim()).split(':')
+      const clean = (v: string) => (v || '').replace(/[\s\u200b-\u200d\ufeff]/g, '')
+      const ok = clean(u) === consumer_key && clean(p) === consumer_secret
+      if (!ok) console.log(`[woo] bad basic auth: user ${String(u).slice(0, 5)}..${String(u).slice(-3)} len ${String(u).length}, pass len ${String(p).length}`)
+      return ok
+    } catch { return false }
   }
   return false
 }
