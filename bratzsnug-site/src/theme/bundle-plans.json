@@ -1,1 +1,290 @@
-{}
+{
+  "1:": {
+    "id": "plan_ICAqCaKTI3cA4",
+    "url": "https://whop.com/checkout/plan_ICAqCaKTI3cA4"
+  },
+  "1:protection": {
+    "id": "plan_oyeYw0xH9IkKM",
+    "url": "https://whop.com/checkout/plan_oyeYw0xH9IkKM"
+  },
+  "1:mystery": {
+    "id": "plan_ZfKfNuX1dEhNl",
+    "url": "https://whop.com/checkout/plan_ZfKfNuX1dEhNl"
+  },
+  "1:priority": {
+    "id": "plan_nMyLglGe5xJ7B",
+    "url": "https://whop.com/checkout/plan_nMyLglGe5xJ7B"
+  },
+  "1:protection,mystery": {
+    "id": "plan_qW0L0w7Mla76R",
+    "url": "https://whop.com/checkout/plan_qW0L0w7Mla76R"
+  },
+  "1:protection,priority": {
+    "id": "plan_zqL38xga9biQA",
+    "url": "https://whop.com/checkout/plan_zqL38xga9biQA"
+  },
+  "1:mystery,priority": {
+    "id": "plan_bdSdANcGYG4NE",
+    "url": "https://whop.com/checkout/plan_bdSdANcGYG4NE"
+  },
+  "1:protection,mystery,priority": {
+    "id": "plan_0vUpbExt7RDUC",
+    "url": "https://whop.com/checkout/plan_0vUpbExt7RDUC"
+  },
+  "1:L1": {
+    "id": "plan_4lLOK8Ef5zDSI",
+    "url": "https://whop.com/checkout/plan_4lLOK8Ef5zDSI"
+  },
+  "1:L1,protection": {
+    "id": "plan_pRpfszYpxwgCi",
+    "url": "https://whop.com/checkout/plan_pRpfszYpxwgCi"
+  },
+  "1:L1,mystery": {
+    "id": "plan_eVcMSxRogxC4h",
+    "url": "https://whop.com/checkout/plan_eVcMSxRogxC4h"
+  },
+  "1:L1,priority": {
+    "id": "plan_DuM36vxaLj1lN",
+    "url": "https://whop.com/checkout/plan_DuM36vxaLj1lN"
+  },
+  "1:L1,protection,mystery": {
+    "id": "plan_asoj8hXplDpMZ",
+    "url": "https://whop.com/checkout/plan_asoj8hXplDpMZ"
+  },
+  "1:L1,protection,priority": {
+    "id": "plan_zlxmxiDNBu4hf",
+    "url": "https://whop.com/checkout/plan_zlxmxiDNBu4hf"
+  },
+  "1:L1,mystery,priority": {
+    "id": "plan_exzHGQ1A4Xrap",
+    "url": "https://whop.com/checkout/plan_exzHGQ1A4Xrap"
+  },
+  "1:L1,protection,mystery,priority": {
+    "id": "plan_ldi3sp1OnkiAG",
+    "url": "https://whop.com/checkout/plan_ldi3sp1OnkiAG"
+  },
+  "2:": {
+    "id": "plan_bZuu0n2799GVX",
+    "url": "https://whop.com/checkout/plan_bZuu0n2799GVX"
+  },
+  "2:protection": {
+    "id": "plan_0RHgfxbq8AG4N",
+    "url": "https://whop.com/checkout/plan_0RHgfxbq8AG4N"
+  },
+  "2:mystery": {
+    "id": "plan_SYrmURXmRlbtE",
+    "url": "https://whop.com/checkout/plan_SYrmURXmRlbtE"
+  },
+  "2:priority": {
+    "id": "plan_LypQReyEaqF4t",
+    "url": "https://whop.com/checkout/plan_LypQReyEaqF4t"
+  },
+  "2:protection,mystery": {
+    "id": "plan_4lq7idfET0HeM",
+    "url": "https://whop.com/checkout/plan_4lq7idfET0HeM"
+  },
+  "2:protection,priority": {
+    "id": "plan_9mMTDu4B5XdpQ",
+    "url": "https://whop.com/checkout/plan_9mMTDu4B5XdpQ"
+  },
+  "2:mystery,priority": {
+    "id": "plan_y0iFAZmAag3zc",
+    "url": "https://whop.com/checkout/plan_y0iFAZmAag3zc"
+  },
+  "2:protection,mystery,priority": {
+    "id": "plan_YuaPDFazn0sLH",
+    "url": "https://whop.com/checkout/plan_YuaPDFazn0sLH"
+  },
+  "2:L1": {
+    "id": "plan_iCCKFAnqPRMRJ",
+    "url": "https://whop.com/checkout/plan_iCCKFAnqPRMRJ"
+  },
+  "2:L1,protection": {
+    "id": "plan_VsGkTwomn73a4",
+    "url": "https://whop.com/checkout/plan_VsGkTwomn73a4"
+  },
+  "2:L1,mystery": {
+    "id": "plan_LvCYJn9yKKVXN",
+    "url": "https://whop.com/checkout/plan_LvCYJn9yKKVXN"
+  },
+  "2:L1,priority": {
+    "id": "plan_NODJnFpI0fDB5",
+    "url": "https://whop.com/checkout/plan_NODJnFpI0fDB5"
+  },
+  "2:L1,protection,mystery": {
+    "id": "plan_HKUwrIv7pBS8L",
+    "url": "https://whop.com/checkout/plan_HKUwrIv7pBS8L"
+  },
+  "2:L1,protection,priority": {
+    "id": "plan_fwcxDfMapur6E",
+    "url": "https://whop.com/checkout/plan_fwcxDfMapur6E"
+  },
+  "2:L1,mystery,priority": {
+    "id": "plan_DV5Wu3IoYXDH8",
+    "url": "https://whop.com/checkout/plan_DV5Wu3IoYXDH8"
+  },
+  "2:L1,protection,mystery,priority": {
+    "id": "plan_GRie0vFv7AUTZ",
+    "url": "https://whop.com/checkout/plan_GRie0vFv7AUTZ"
+  },
+  "2:L2": {
+    "id": "plan_P4erSSJCv1ZVk",
+    "url": "https://whop.com/checkout/plan_P4erSSJCv1ZVk"
+  },
+  "2:L2,protection": {
+    "id": "plan_OKbRjnaV1RxiV",
+    "url": "https://whop.com/checkout/plan_OKbRjnaV1RxiV"
+  },
+  "2:L2,mystery": {
+    "id": "plan_UTw3dAPs0Uxf8",
+    "url": "https://whop.com/checkout/plan_UTw3dAPs0Uxf8"
+  },
+  "2:L2,priority": {
+    "id": "plan_7eIUiZDi1N8n3",
+    "url": "https://whop.com/checkout/plan_7eIUiZDi1N8n3"
+  },
+  "2:L2,protection,mystery": {
+    "id": "plan_plB4ddvDStZc0",
+    "url": "https://whop.com/checkout/plan_plB4ddvDStZc0"
+  },
+  "2:L2,protection,priority": {
+    "id": "plan_yBnQPsOnIw65A",
+    "url": "https://whop.com/checkout/plan_yBnQPsOnIw65A"
+  },
+  "2:L2,mystery,priority": {
+    "id": "plan_1IsydJ5jbVvXZ",
+    "url": "https://whop.com/checkout/plan_1IsydJ5jbVvXZ"
+  },
+  "2:L2,protection,mystery,priority": {
+    "id": "plan_BDGoQhIO11tpP",
+    "url": "https://whop.com/checkout/plan_BDGoQhIO11tpP"
+  },
+  "3:": {
+    "id": "plan_quaV7Qxq8CqT1",
+    "url": "https://whop.com/checkout/plan_quaV7Qxq8CqT1"
+  },
+  "3:protection": {
+    "id": "plan_LPme6SwlpTSgr",
+    "url": "https://whop.com/checkout/plan_LPme6SwlpTSgr"
+  },
+  "3:mystery": {
+    "id": "plan_uw3du9Ksxk1Bd",
+    "url": "https://whop.com/checkout/plan_uw3du9Ksxk1Bd"
+  },
+  "3:priority": {
+    "id": "plan_ag30LVnPCSUXT",
+    "url": "https://whop.com/checkout/plan_ag30LVnPCSUXT"
+  },
+  "3:protection,mystery": {
+    "id": "plan_54jTVCNPImjdo",
+    "url": "https://whop.com/checkout/plan_54jTVCNPImjdo"
+  },
+  "3:protection,priority": {
+    "id": "plan_WPITRqCA5XihH",
+    "url": "https://whop.com/checkout/plan_WPITRqCA5XihH"
+  },
+  "3:mystery,priority": {
+    "id": "plan_3GiSrnBtLCsPE",
+    "url": "https://whop.com/checkout/plan_3GiSrnBtLCsPE"
+  },
+  "3:protection,mystery,priority": {
+    "id": "plan_SHIlUhzsGuYjS",
+    "url": "https://whop.com/checkout/plan_SHIlUhzsGuYjS"
+  },
+  "3:L1": {
+    "id": "plan_jW29zxjGykX0y",
+    "url": "https://whop.com/checkout/plan_jW29zxjGykX0y"
+  },
+  "3:L1,protection": {
+    "id": "plan_tnYRs6oapy4Gc",
+    "url": "https://whop.com/checkout/plan_tnYRs6oapy4Gc"
+  },
+  "3:L1,mystery": {
+    "id": "plan_31b44gm5FpDGO",
+    "url": "https://whop.com/checkout/plan_31b44gm5FpDGO"
+  },
+  "3:L1,priority": {
+    "id": "plan_W8dR4lVTOqP4o",
+    "url": "https://whop.com/checkout/plan_W8dR4lVTOqP4o"
+  },
+  "3:L1,protection,mystery": {
+    "id": "plan_ikbrHSziQWOW6",
+    "url": "https://whop.com/checkout/plan_ikbrHSziQWOW6"
+  },
+  "3:L1,protection,priority": {
+    "id": "plan_pRR2LFl1WwQiT",
+    "url": "https://whop.com/checkout/plan_pRR2LFl1WwQiT"
+  },
+  "3:L1,mystery,priority": {
+    "id": "plan_oMNTmODjoThPC",
+    "url": "https://whop.com/checkout/plan_oMNTmODjoThPC"
+  },
+  "3:L1,protection,mystery,priority": {
+    "id": "plan_tqaean5E2TGsd",
+    "url": "https://whop.com/checkout/plan_tqaean5E2TGsd"
+  },
+  "3:L2": {
+    "id": "plan_LkoI6cuFQMZep",
+    "url": "https://whop.com/checkout/plan_LkoI6cuFQMZep"
+  },
+  "3:L2,protection": {
+    "id": "plan_z5AHS6Hv0iLet",
+    "url": "https://whop.com/checkout/plan_z5AHS6Hv0iLet"
+  },
+  "3:L2,mystery": {
+    "id": "plan_PgjLE7UmgtLzg",
+    "url": "https://whop.com/checkout/plan_PgjLE7UmgtLzg"
+  },
+  "3:L2,priority": {
+    "id": "plan_Kd1OxmnTKqI57",
+    "url": "https://whop.com/checkout/plan_Kd1OxmnTKqI57"
+  },
+  "3:L2,protection,mystery": {
+    "id": "plan_KDxKEZM4ea0ZV",
+    "url": "https://whop.com/checkout/plan_KDxKEZM4ea0ZV"
+  },
+  "3:L2,protection,priority": {
+    "id": "plan_gqLgFpS4YbRks",
+    "url": "https://whop.com/checkout/plan_gqLgFpS4YbRks"
+  },
+  "3:L2,mystery,priority": {
+    "id": "plan_ZDdP3KYdzjwDQ",
+    "url": "https://whop.com/checkout/plan_ZDdP3KYdzjwDQ"
+  },
+  "3:L2,protection,mystery,priority": {
+    "id": "plan_eqzXwLFHlpjfI",
+    "url": "https://whop.com/checkout/plan_eqzXwLFHlpjfI"
+  },
+  "3:L3": {
+    "id": "plan_GJUIeX6wZn3yI",
+    "url": "https://whop.com/checkout/plan_GJUIeX6wZn3yI"
+  },
+  "3:L3,protection": {
+    "id": "plan_50A3MtPka02K9",
+    "url": "https://whop.com/checkout/plan_50A3MtPka02K9"
+  },
+  "3:L3,mystery": {
+    "id": "plan_WvJaIgUqCyBF9",
+    "url": "https://whop.com/checkout/plan_WvJaIgUqCyBF9"
+  },
+  "3:L3,priority": {
+    "id": "plan_t5yHdH9otwXpo",
+    "url": "https://whop.com/checkout/plan_t5yHdH9otwXpo"
+  },
+  "3:L3,protection,mystery": {
+    "id": "plan_rR8fniUXZTK1G",
+    "url": "https://whop.com/checkout/plan_rR8fniUXZTK1G"
+  },
+  "3:L3,protection,priority": {
+    "id": "plan_i99uPKDlqueDD",
+    "url": "https://whop.com/checkout/plan_i99uPKDlqueDD"
+  },
+  "3:L3,mystery,priority": {
+    "id": "plan_FhkkmbjvaPiLX",
+    "url": "https://whop.com/checkout/plan_FhkkmbjvaPiLX"
+  },
+  "3:L3,protection,mystery,priority": {
+    "id": "plan_DneBWt81EsyjB",
+    "url": "https://whop.com/checkout/plan_DneBWt81EsyjB"
+  }
+}

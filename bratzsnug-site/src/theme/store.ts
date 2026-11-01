@@ -3,7 +3,7 @@
 // live from Whop, so changing them in the Whop dashboard updates the site.
 
 export const WHOP_PRODUCT_ID = 'prod_gywSLIKJ0u5eX'
-export const WHOP_PLAN_ID = 'PENDING'
+export const WHOP_PLAN_ID = 'plan_ICAqCaKTI3cA4'
 export const PRODUCT_HANDLE = 'bratzsnug'
 // Product photos are served from this site rather than Whop's gallery.
 export const LOCAL_PRODUCT = { title: 'BratzSnug Passenger Pillow', images: ['/images/bz-1.webp', '/images/bz-2.webp', '/images/bz-3.webp', '/images/bz-4.webp', '/images/bz-5.webp'] }

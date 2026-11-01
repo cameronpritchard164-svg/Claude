@@ -144,10 +144,11 @@ export function productPage({ origin, tiers, addons = [], images, reviewImages, 
     t.after($('#adb'));
   };
   document.querySelectorAll('.ad input, .tsz select').forEach((x) => x.addEventListener('change', refresh));
-  // Rolling sale timer: always ends at the next midnight two days from now.
-  const end = new Date(); end.setHours(24, 0, 0, 0); end.setDate(end.getDate() + 2);
+    // Same starting time on every visit (2h 20m 26s); restarts when it reaches zero.
+  const START = (2 * 3600 + 20 * 60 + 26) * 1000;
+  let end = Date.now() + START;
   const pad = (n) => String(n).padStart(2, '0');
-  const tick = () => { let d = Math.max(0, end - Date.now()) / 1000; $('#cdd').textContent = pad(Math.floor(d / 86400)); $('#cdh').textContent = pad(Math.floor(d / 3600) % 24); $('#cdm').textContent = pad(Math.floor(d / 60) % 60); $('#cds').textContent = pad(Math.floor(d) % 60); };
+  const tick = () => { if (end - Date.now() <= 0) end = Date.now() + START; let d = Math.max(0, end - Date.now()) / 1000; $('#cdd').textContent = pad(Math.floor(d / 86400)); $('#cdh').textContent = pad(Math.floor(d / 3600) % 24); $('#cdm').textContent = pad(Math.floor(d / 60) % 60); $('#cds').textContent = pad(Math.floor(d) % 60); };
   tick(); setInterval(tick, 1000);
   refresh();
   const rv = document.querySelector('.rvc'), rd = document.querySelectorAll('#rdots i');
