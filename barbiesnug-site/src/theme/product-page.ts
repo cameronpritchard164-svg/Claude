@@ -159,7 +159,7 @@ export function productPage({ origin, tiers, addons = [], images, reviewImages, 
     $('#saving').textContent = "→ You're saving " + money(t.dataset.compare - t.dataset.price) + ' on this order';
     $('#psave').textContent = 'SAVE ' + Math.round((1 - t.dataset.price / t.dataset.compare) * 100) + '%';
   }));
-  $('#atc').addEventListener('click', () => { const ad = [...document.querySelectorAll('.ad input:checked')].map((x) => x.dataset.key).sort().join(','); location.href = ${JSON.stringify(CHECKOUT_PATH)} + '?key=' + qty + ':' + ad; });
+  $('#atc').addEventListener('click', () => { const L = largeTotal() / ${LARGE_EXTRA}; const ad = (L ? ['L' + L] : []).concat([...document.querySelectorAll('.ad input:checked')].map((x) => x.dataset.key)).join(','); location.href = ${JSON.stringify(CHECKOUT_PATH)} + '?key=' + qty + ':' + ad; });
   document.querySelectorAll('.thumbs button').forEach((b) => b.addEventListener('click', () => { document.querySelectorAll('.thumbs button').forEach((x) => x.classList.remove('on')); b.classList.add('on'); $('#mainimg').src = b.dataset.src; }));
   const cardsEl = document.querySelector('.cards'), sd = document.querySelectorAll('#sdots i');
   if (cardsEl) cardsEl.addEventListener('scroll', () => { const c = cardsEl.children[0]; if (!c) return; const i = Math.round(cardsEl.scrollLeft / (c.offsetWidth + 14)); sd.forEach((d, k) => d.classList.toggle('on', k === i)); }, { passive: true });

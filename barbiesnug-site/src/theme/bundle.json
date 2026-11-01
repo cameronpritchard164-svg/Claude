@@ -32,25 +32,40 @@
   ],
   "addons": [
     {
+      "key": "L1",
+      "title": "Large size \u00d7 1",
+      "price": 22,
+      "compare": 22
+    },
+    {
+      "key": "L2",
+      "title": "Large size \u00d7 2",
+      "price": 44,
+      "compare": 44
+    },
+    {
+      "key": "L3",
+      "title": "Large size \u00d7 3",
+      "price": 66,
+      "compare": 66
+    },
+    {
       "key": "protection",
-      "title": "Add Shipping Protection",
+      "title": "Shipping Protection",
       "price": 8.99,
-      "compare": 8.99,
-      "on": true
+      "compare": 8.99
     },
     {
       "key": "mystery",
-      "title": "Add Mystery Gift",
+      "title": "Mystery Gift",
       "price": 18.99,
-      "compare": 18.99,
-      "on": false
+      "compare": 18.99
     },
     {
       "key": "priority",
-      "title": "Add Priority Shipping",
+      "title": "Priority Shipping",
       "price": 9.99,
-      "compare": 9.99,
-      "on": false
+      "compare": 9.99
     }
   ],
   "shipping": [
