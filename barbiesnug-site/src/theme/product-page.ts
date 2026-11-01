@@ -38,7 +38,7 @@ h1{font-size:2.4rem;line-height:1.1;margin:0 0 8px;font-weight:700}
 .price{display:flex;align-items:center;gap:10px;margin:0 0 16px}.price .now{color:var(--red);font-weight:700;font-size:1.5rem}.price .was{color:#737373;text-decoration:line-through;font-size:1.1rem}
 .badge{background:#FF69B4;color:#111;font-size:.72rem;font-weight:700;letter-spacing:.06em;padding:5px 10px;border-radius:5px}
 .bul{list-style:none;padding:0;margin:0 0 16px;display:grid;gap:10px;font-size:1rem}.bul li{display:flex;gap:10px;align-items:baseline}.bul li span{color:#555}.bul li b{color:#121212}
-.pill{display:inline-block;background:#ffe3f1;border:1px solid #f7a8cf;color:#111111;font-weight:600;font-size:.9rem;border-radius:999px;padding:7px 14px;margin:0 0 16px}
+.pill{display:inline-flex;align-items:center;gap:9px;background:#fff0f7;border:1px solid #f7c6dc;color:#4a4a4a;font-weight:500;font-size:.9rem;letter-spacing:.02em;border-radius:999px;padding:8px 16px;margin:0 0 16px}.pill b{color:#8a0047;font-weight:700}
 .low{display:flex;align-items:center;gap:12px;font-weight:700;font-size:.9rem;margin:6px 0 14px}.low:before,.low:after{content:'';flex:1;height:1px;background:#f7a8cf}
 .tiers{display:grid;gap:12px}
 .tier{position:relative;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:16px 18px;border:2px solid #f7a8cf;background:#fff5fa;border-radius:8px;cursor:pointer}
@@ -101,7 +101,7 @@ export function productPage({ origin, tiers, addons = [], images, reviewImages, 
     <div class="rating">${STARS}<span>(860+ Reviews)</span></div>
     <div class="price"><span class="now" id="pnow">${money(tiers[def].price)}</span><span class="cur">USD</span><span class="was" id="pwas">${money(tiers[def].compare)}</span><span class="badge" id="psave">SAVE ${Math.round((1 - tiers[def].price / tiers[def].compare) * 100)}%</span></div>
     
-    <div class="pill">💗 Made for comfort on every road trip</div>
+    <div class="pill"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#E0218A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6l8-3z"/><path d="M8.5 12.2l2.4 2.4 4.6-4.8"/></svg><span>Designed with <b>Orthopedic Specialists</b></span></div>
     <div class="fg"><div>💗<span>Wraparound Support</span></div><div>☁️<span>Soft &amp; Cozy</span></div><div>🌙<span>Head-to-Toe Comfort</span></div><div>🚗<span>Road Trip Ready</span></div></div>
     <div class="low">BUNDLE &amp; SAVE</div>
     <div class="tiers" id="tiers">${tiers.map(tier).join('')}</div>
