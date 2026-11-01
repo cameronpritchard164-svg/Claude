@@ -117,7 +117,7 @@ export function productPage({ origin, tiers, addons = [], images, reviewImages, 
     <div class="dots" id="dots"><i class="on"></i><i></i><i></i></div>
   </div>
 </section>
-<section class="jr"><h2>Comfort for Every Journey</h2><div class="heart">💗</div><div class="jcards">${[['ps-j1', 'Cozy Naps'], ['ps-j2', 'Room to Relax'], ['ps-j3', 'Full-Body Support'], ['ps-j4', 'Rest on the Go']].map(([f, t]) => `<div class="jc"><img src="/images/${f}.webp" alt=""><b>${t}</b></div>`).join('')}</div></section>
+<section class="jr"><h2>Comfort for Every Journey</h2><div class="heart">💗</div><div class="jcards">${[['ps-j1', 'Relax &amp; Unwind'], ['ps-j2', 'Cozy Naps'], ['ps-j3', 'Mom &amp; Baby'], ['ps-j4', 'After Long Shifts']].map(([f, t]) => `<div class="jc"><img src="/images/${f}.webp" alt=""><b>${t}</b></div>`).join('')}</div></section>
 <section class="faq2"><h2>Your Questions, Answered 💗</h2>
   <details><summary>What is the PowerSnugs Passenger Pillow designed for?</summary><p>The PowerSnugs is a full-body comfort pillow made for road trips and long car rides. Its wraparound shape gives you a cozy place to rest your head, neck and arms while you relax in the passenger seat.</p></details>
   <details><summary>Is the PowerSnugs soft and comfortable?</summary><p>Yes! It has a soft, plush cover and generous cushioning, so it's perfect for relaxing, lounging and getting cozy on road trips.</p></details>
