@@ -1,0 +1,64 @@
+{
+  "heading": "BUNDLE &amp; SAVE",
+  "noun": "Pillow",
+  "product_name": "BarbieSnug Passenger Pillow",
+  "popular_tier": 2,
+  "best_tier": 3,
+  "tiers": [
+    {
+      "qty": 1,
+      "price": 94.98,
+      "compare": 195.0,
+      "name": "Single",
+      "sub": "You save 51%"
+    },
+    {
+      "qty": 2,
+      "price": 153.99,
+      "compare": 342.0,
+      "name": "Buy 1 Get 1",
+      "sub": "You save 55%",
+      "tag": "Most Popular",
+      "badge": "SAVE $188.01"
+    },
+    {
+      "qty": 3,
+      "price": 205.99,
+      "compare": 513.0,
+      "name": "Buy 2 Get 1",
+      "sub": "You save 60%",
+      "badge": "SAVE $307.01"
+    }
+  ],
+  "addons": [
+    {
+      "key": "protection",
+      "title": "Add Shipping Protection",
+      "price": 8.99,
+      "compare": 8.99,
+      "on": true
+    },
+    {
+      "key": "mystery",
+      "title": "Add Mystery Gift",
+      "price": 18.99,
+      "compare": 18.99,
+      "on": false
+    },
+    {
+      "key": "case",
+      "title": "BarbieSnug\u2122 Pillowcase",
+      "price": 41.99,
+      "compare": 42.0,
+      "on": false
+    }
+  ],
+  "shipping": [
+    {
+      "key": "free",
+      "label": "Free Shipping",
+      "eta": "Delivers in 2\u20133 weeks \u00b7 tracking emailed",
+      "price": 0
+    }
+  ]
+}
