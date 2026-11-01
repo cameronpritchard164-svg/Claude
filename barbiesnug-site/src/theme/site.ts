@@ -103,7 +103,7 @@ export async function handleRequest(request: Request): Promise<Response> {
   // No separate home page: the shop is the product page.
   if (SHOP_PATHS.includes(path) || path === '/products/clausegrab') return Response.redirect(new URL(PRODUCT_PATH, url.origin).toString(), 302)
   if (path === PRODUCT_PATH)
-    return htmlResponse(productPage({ origin: url.origin, tiers: bundleConfig.tiers, addons: bundleConfig.addons, images: ['/images/bs-1.webp', '/images/bs-2.webp', '/images/bs-3.webp', '/images/bs-4.webp'], reviewImages: [], logo: '/images/logo.webp', store: 'BarbieSnug' }))
+    return htmlResponse(productPage({ origin: url.origin, tiers: bundleConfig.tiers, addons: bundleConfig.addons, images: ['/images/bs-1.webp', '/images/bs-2.webp', '/images/bs-3.webp', '/images/bs-4.webp', '/images/bs-5.webp'], reviewImages: [], logo: '/images/logo.webp', store: 'BarbieSnug' }))
 
   const engine = createEngine(store)
   const pages = {

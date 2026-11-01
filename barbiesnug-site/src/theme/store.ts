@@ -6,7 +6,7 @@ export const WHOP_PRODUCT_ID = 'prod_ShkamxBrPk3Wq'
 export const WHOP_PLAN_ID = 'plan_6K8QrRZntxQab'
 export const PRODUCT_HANDLE = 'barbiesnug'
 // Product photos are served from this site rather than Whop's gallery.
-export const LOCAL_PRODUCT = { title: 'BarbieSnug Passenger Pillow', images: ['/images/bs-1.webp', '/images/bs-2.webp', '/images/bs-3.webp', '/images/bs-4.webp'] }
+export const LOCAL_PRODUCT = { title: 'BarbieSnug Passenger Pillow', images: ['/images/bs-1.webp', '/images/bs-2.webp', '/images/bs-3.webp', '/images/bs-4.webp', '/images/bs-5.webp'] }
 const API = 'https://api.whop.com/api/v1'
 const CACHE_MS = 60_000
 
