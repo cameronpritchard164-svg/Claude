@@ -2,8 +2,8 @@
 // Store data for the theme. The product's title, photos and prices are read
 // live from Whop, so changing them in the Whop dashboard updates the site.
 
-export const WHOP_PRODUCT_ID = 'prod_ShkamxBrPk3Wq'
-export const WHOP_PLAN_ID = 'plan_6K8QrRZntxQab'
+export const WHOP_PRODUCT_ID = 'prod_DOFMfYgyoEIWv'
+export const WHOP_PLAN_ID = 'plan_j6yUA1nprQMeg'
 export const PRODUCT_HANDLE = 'barbiesnug'
 // Product photos are served from this site rather than Whop's gallery.
 export const LOCAL_PRODUCT = { title: 'BarbieSnug Passenger Pillow', images: ['/images/bs-1.webp', '/images/bs-2.webp', '/images/bs-3.webp', '/images/bs-4.webp', '/images/bs-5.webp'] }
