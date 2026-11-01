@@ -46,10 +46,10 @@
       "on": false
     },
     {
-      "key": "case",
-      "title": "BarbieSnug\u2122 Pillowcase",
-      "price": 41.99,
-      "compare": 42.0,
+      "key": "priority",
+      "title": "Add Priority Shipping",
+      "price": 9.99,
+      "compare": 9.99,
       "on": false
     }
   ],
@@ -60,5 +60,6 @@
       "eta": "Delivers in 2\u20133 weeks \u00b7 tracking emailed",
       "price": 0
     }
-  ]
+  ],
+  "large_extra": 22
 }
