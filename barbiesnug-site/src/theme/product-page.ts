@@ -105,7 +105,7 @@ export function productPage({ origin, tiers, addons = [], images, reviewImages, 
     <div class="fg"><div>💗<span>Wraparound Support</span></div><div>☁️<span>Soft &amp; Cozy</span></div><div>🌙<span>Head-to-Toe Comfort</span></div><div>🚗<span>Road Trip Ready</span></div></div>
     <div class="low">BUNDLE &amp; SAVE</div>
     <div class="tiers" id="tiers">${tiers.map(tier).join('')}</div>
-<div class="adb" id="adb"><label class="ad"><input type="checkbox" data-key="protection" data-price="8.99" checked><img class="adi" src="/images/ad-protection.png" alt=""><b>Add Shipping Protection (+$8.99)</b></label><label class="ad"><input type="checkbox" data-key="mystery" data-price="18.99"><img class="adi" src="/images/ad-mystery.png" alt=""><b>Add Mystery Gift (+$18.99)</b></label><label class="ad"><input type="checkbox" data-key="priority" data-price="9.99"><img class="adi" src="/images/ad-priority.png" alt=""><b>Add Priority Shipping (+$9.99)</b></label></div>
+<div class="adb" id="adb"><label class="ad"><input type="checkbox" data-key="protection" data-price="8.99"><img class="adi" src="/images/ad-protection.png" alt=""><b>Add Shipping Protection (+$8.99)</b></label><label class="ad"><input type="checkbox" data-key="mystery" data-price="18.99"><img class="adi" src="/images/ad-mystery.png" alt=""><b>Add Mystery Gift (+$18.99)</b></label><label class="ad"><input type="checkbox" data-key="priority" data-price="9.99"><img class="adi" src="/images/ad-priority.png" alt=""><b>Add Priority Shipping (+$9.99)</b></label></div>
     <div class="saving" id="saving" hidden>→ You're saving ${money(tiers[def].compare - tiers[def].price)} on this order</div>
     <button class="atc" id="atc" type="button">ADD TO CART</button>
     <div class="pay">${PAY}</div>
