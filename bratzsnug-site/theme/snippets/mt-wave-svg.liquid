@@ -1,0 +1,12 @@
+{%- comment -%} Three-layer animated wave. Accepts: animate, flip, speed {%- endcomment -%}
+<div class="mt-wave{% if animate %} mt-wave--animated{% endif %}{% if flip %} mt-wave--flip{% endif %}" style="--mt-wave-speed: {{ speed | default: 14 }}s;{% if colour == 'secondary' %} --mt-wave-fill: var(--mt-accent-2);{% endif %}" aria-hidden="true">
+  <svg class="mt-wave__layer mt-wave__layer--back" viewBox="0 0 2880 80" preserveAspectRatio="none" focusable="false">
+    <path d="M0 34 C 240 8, 480 8, 720 34 S 1200 60, 1440 34 S 1920 8, 2160 34 S 2640 60, 2880 34 V80 H0Z" fill="var(--mt-wave-fill, var(--mt-accent))"/>
+  </svg>
+  <svg class="mt-wave__layer mt-wave__layer--mid" viewBox="0 0 2880 80" preserveAspectRatio="none" focusable="false">
+    <path d="M0 40 C 120 22, 240 22, 360 40 S 600 58, 720 40 S 960 22, 1080 40 S 1320 58, 1440 40 S 1680 22, 1800 40 S 2040 58, 2160 40 S 2400 22, 2520 40 S 2760 58, 2880 40 V80 H0Z" fill="var(--mt-wave-fill, var(--mt-accent))"/>
+  </svg>
+  <svg class="mt-wave__layer mt-wave__layer--front" viewBox="0 0 2880 80" preserveAspectRatio="none" focusable="false">
+    <path d="M0 52 C 240 34, 480 34, 720 52 S 1200 70, 1440 52 S 1920 34, 2160 52 S 2640 70, 2880 52 V80 H0Z" fill="var(--mt-wave-fill, var(--mt-accent))"/>
+  </svg>
+</div>
