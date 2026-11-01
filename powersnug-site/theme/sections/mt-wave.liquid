@@ -1,0 +1,56 @@
+{% render 'mt-wave-svg', animate: section.settings.animate, flip: section.settings.flip, speed: section.settings.speed, colour: section.settings.colour %}
+
+{% schema %}
+{
+  "name": "Wave divider",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Curved edge leading into an accent-coloured section. Place it directly above one. Tick Flip to place it directly below one instead."
+    },
+    {
+      "type": "select",
+      "id": "colour",
+      "label": "Colour",
+      "options": [
+        {
+          "value": "accent",
+          "label": "Accent colour"
+        },
+        {
+          "value": "secondary",
+          "label": "Secondary colour"
+        }
+      ],
+      "default": "accent"
+    },
+    {
+      "type": "checkbox",
+      "id": "animate",
+      "label": "Animate the waves",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "flip",
+      "label": "Flip (use under an accent section)",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Speed (seconds per loop)",
+      "min": 6,
+      "max": 30,
+      "step": 1,
+      "unit": "s",
+      "default": 14
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wave divider"
+    }
+  ]
+}
+{% endschema %}

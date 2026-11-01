@@ -1,0 +1,20 @@
+<div class="mt-seen">
+  <div class="page-width mt-seen__inner">
+    <span class="mt-seen__label">{{ section.settings.label | escape }}</span>
+    {%- if section.settings.tiktok -%}<span class="mt-seen__item">{% render 'mt-icon', icon: 'tiktok' %}TikTok</span>{%- endif -%}
+    {%- if section.settings.instagram -%}<span class="mt-seen__item">{% render 'mt-icon', icon: 'instagram' %}Instagram</span>{%- endif -%}
+    {%- if section.settings.facebook -%}<span class="mt-seen__item">{% render 'mt-icon', icon: 'facebook' %}Facebook</span>{%- endif -%}
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Seen on",
+  "settings": [
+    { "type": "text", "id": "label", "label": "Label", "default": "SEEN ON" },
+    { "type": "checkbox", "id": "tiktok", "label": "TikTok", "default": true },
+    { "type": "checkbox", "id": "instagram", "label": "Instagram", "default": true },
+    { "type": "checkbox", "id": "facebook", "label": "Facebook", "default": true }
+  ],
+  "presets": [ { "name": "Seen on" } ]
+}
+{% endschema %}

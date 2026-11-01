@@ -1,0 +1,61 @@
+{%- liquid
+  assign end_iso = ''
+  if section.settings.end_date != blank
+    assign end_iso = section.settings.end_date | strip | replace: ' ', 'T' | append: ':00' | append: section.settings.utc_offset
+  endif
+-%}
+<div class="mt-salebar">
+  {%- if end_iso != '' -%}
+    <mt-countdown class="mt-countdown" data-end="{{ end_iso }}" hidden>
+      <div class="mt-countdown__label">
+        <span class="mt-countdown__title">{{ section.settings.title | escape }}</span>
+        <span class="mt-countdown__sub">{{ section.settings.subtitle | escape }}</span>
+      </div>
+      <div class="mt-countdown__clock" role="timer" aria-live="off">
+        <div class="mt-countdown__box"><b data-u="d">00</b><i>Days</i></div><span>:</span>
+        <div class="mt-countdown__box"><b data-u="h">00</b><i>Hours</i></div><span>:</span>
+        <div class="mt-countdown__box"><b data-u="m">00</b><i>Mins</i></div><span>:</span>
+        <div class="mt-countdown__box"><b data-u="s">00</b><i>Secs</i></div>
+      </div>
+    </mt-countdown>
+  {%- endif -%}
+  {%- if section.blocks.size > 0 -%}
+    <div class="mt-marquee" aria-label="Store announcements">
+      <div class="mt-marquee__track" style="--mt-marquee-speed: {{ section.settings.speed }}s;">
+        {%- for half in (1..2) -%}
+          <div class="mt-marquee__group" {% if half == 2 %}aria-hidden="true"{% endif %}>
+            {%- for rep in (1..6) -%}
+              {%- for block in section.blocks -%}
+                <span class="mt-marquee__item" {% if half == 1 and rep == 1 %}{{ block.shopify_attributes }}{% endif %}>
+                  {{- block.settings.text | escape -}}
+                </span>
+              {%- endfor -%}
+            {%- endfor -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Sale bar",
+  "class": "mt-salebar-section",
+  "settings": [
+    { "type": "header", "content": "Countdown" },
+    { "type": "paragraph", "content": "Counts down to a real end time, the same for every visitor. When it hits zero, or if the date is blank, the timer hides and the scrolling text stays." },
+    { "type": "text", "id": "title", "label": "Title", "default": "FLASH SALE!" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Sale ends in:" },
+    { "type": "text", "id": "end_date", "label": "Sale end", "info": "Format: YYYY-MM-DD HH:MM (24h). Example: 2026-12-01 23:59" },
+    { "type": "text", "id": "utc_offset", "label": "Your UTC offset", "default": "+08:00", "info": "Perth +08:00, Sydney +10:00 or +11:00, US Eastern -05:00" },
+    { "type": "header", "content": "Scrolling text" },
+    { "type": "range", "id": "speed", "label": "Scroll speed (seconds per loop)", "min": 20, "max": 120, "step": 5, "default": 60 }
+  ],
+  "blocks": [
+    { "type": "message", "name": "Message", "settings": [ { "type": "text", "id": "text", "label": "Text", "default": "FREE SHIPPING!" } ] }
+  ],
+  "max_blocks": 6,
+  "presets": [ { "name": "Sale bar", "blocks": [ { "type": "message" } ] } ]
+}
+{% endschema %}

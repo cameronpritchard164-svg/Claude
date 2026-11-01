@@ -1,0 +1,33 @@
+<div class="mt-stats color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  <div class="page-width">
+    {% render 'mt-heading', accent: '', heading: section.settings.heading, sub: section.settings.sub %}
+    <ul class="mt-stats__grid list-unstyled" role="list">
+      {%- for block in section.blocks -%}
+        <li class="mt-stats__card" {{ block.shopify_attributes }}>
+          <div class="mt-stats__ring" style="--pct: {{ block.settings.percent }};"><span>{{ block.settings.percent }}%</span></div>
+          <p>{{ block.settings.label | escape }}</p>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+{%- style -%}
+  .section-{{ section.id }}-padding { padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px; }
+{%- endstyle -%}
+{% schema %}
+{
+  "name": "Percentage stats",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What Buyers Say:" },
+    { "type": "text", "id": "sub", "label": "Subheading", "default": "Based on post-purchase surveys." },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-4" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 56 }
+  ],
+  "blocks": [ { "type": "stat", "name": "Stat", "settings": [
+    { "type": "range", "id": "percent", "label": "Percent", "min": 0, "max": 100, "step": 1, "default": 94 },
+    { "type": "text", "id": "label", "label": "Label", "default": "Love The Hood" } ] } ],
+  "max_blocks": 6,
+  "presets": [ { "name": "Percentage stats", "blocks": [ { "type": "stat" }, { "type": "stat" }, { "type": "stat" }, { "type": "stat" } ] } ]
+}
+{% endschema %}

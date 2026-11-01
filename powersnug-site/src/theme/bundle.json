@@ -1,0 +1,80 @@
+{
+  "heading": "BUNDLE &amp; SAVE",
+  "noun": "Pillow",
+  "product_name": "PowerSnugs Passenger Pillow",
+  "popular_tier": 2,
+  "best_tier": 3,
+  "tiers": [
+    {
+      "qty": 1,
+      "price": 85.99,
+      "compare": 171.0,
+      "name": "Single",
+      "sub": "You save 50%"
+    },
+    {
+      "qty": 2,
+      "price": 153.99,
+      "compare": 342.0,
+      "name": "Buy 1 Get 1",
+      "sub": "You save 55%",
+      "tag": "Most Popular",
+      "badge": "SAVE $188.01"
+    },
+    {
+      "qty": 3,
+      "price": 205.99,
+      "compare": 513.0,
+      "name": "Buy 2 Get 1",
+      "sub": "You save 60%",
+      "badge": "SAVE $307.01"
+    }
+  ],
+  "addons": [
+    {
+      "key": "L1",
+      "title": "Large size \u00d7 1",
+      "price": 22,
+      "compare": 22
+    },
+    {
+      "key": "L2",
+      "title": "Large size \u00d7 2",
+      "price": 44,
+      "compare": 44
+    },
+    {
+      "key": "L3",
+      "title": "Large size \u00d7 3",
+      "price": 66,
+      "compare": 66
+    },
+    {
+      "key": "protection",
+      "title": "Shipping Protection",
+      "price": 8.99,
+      "compare": 8.99
+    },
+    {
+      "key": "mystery",
+      "title": "Mystery Gift",
+      "price": 18.99,
+      "compare": 18.99
+    },
+    {
+      "key": "priority",
+      "title": "Priority Shipping",
+      "price": 9.99,
+      "compare": 9.99
+    }
+  ],
+  "shipping": [
+    {
+      "key": "free",
+      "label": "Free Shipping",
+      "eta": "Delivers in 2\u20133 weeks \u00b7 tracking emailed",
+      "price": 0
+    }
+  ],
+  "large_extra": 22
+}
