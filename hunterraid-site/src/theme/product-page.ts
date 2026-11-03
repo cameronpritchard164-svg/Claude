@@ -25,7 +25,7 @@ a{color:inherit;text-decoration:none}img{max-width:100%;display:block}
 .hdr nav{display:flex;gap:18px;font-size:.9rem;font-weight:600}
 .hdr .logo img{height:72px;width:auto}@media(max-width:600px){.hdr .logo img{height:44px}}
 .hdr .cart{display:grid;place-items:center;width:44px;height:44px;border-radius:10px;background:#121212;color:#fff}
-.marq{background:#3E2A1A;color:#E8701A;font-weight:700;font-size:.95rem;letter-spacing:.04em;overflow:hidden;white-space:nowrap;padding:14px 0}
+.marq{background:#3E2A1A;color:#fff;font-weight:700;font-size:.95rem;letter-spacing:.04em;overflow:hidden;white-space:nowrap;padding:14px 0}
 .marq div{display:inline-block;animation:marq 28s linear infinite}.marq span{margin:0 56px}
 @keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .wrap{max-width:1300px;margin:0 auto;padding:0 20px}
@@ -90,8 +90,8 @@ export function productPage({ origin, tiers, addons = [], images, reviewImages, 
   const tier = (t, i) => `<label class="tier${i === def ? ' on' : ''}" data-qty="${t.qty}" data-price="${t.price}" data-compare="${t.compare}">${t.tag ? `<span class="tag">${esc(t.tag)}</span>` : ''}<span class="rad"></span><span><span class="t">${esc(t.name)}</span>${t.badge ? `<span class="sv">${esc(t.badge)}</span>` : ''}<br><span class="s">${esc(t.sub || '')}</span></span><span class="p"><b class="tp">${money(t.price)}</b><span>${money(t.compare)}</span></span></label>`
   const body = `
 <div class="cd"><b>SALE ENDS SOON!</b><span><i id="cdd">00</i><small>days</small></span>:<span><i id="cdh">00</i><small>hours</small></span>:<span><i id="cdm">00</i><small>mins</small></span>:<span><i id="cds">00</i><small>secs</small></span></div>
-<header class="hdr"><a class="logo" href="/"><img src="${esc(logo)}" alt="HunterRaid"></a><a class="cart" href="${CHECKOUT_PATH}?key=1:" aria-label="Cart">${ICON.cart}</a></header>
 <div class="marq"><div>${'<span>MADE TO ORDER</span><span>FREE SHIPPING</span><span>3 HUNTING MODES</span><span>24/7 CUSTOMER SUPPORT</span><span>TRACKING ON EVERY ORDER</span>'.repeat(5)}</div></div>
+<header class="hdr"><a class="logo" href="/"><img src="${esc(logo)}" alt="HunterRaid"></a><a class="cart" href="${CHECKOUT_PATH}?key=1:" aria-label="Cart">${ICON.cart}</a></header>
 <main class="wrap">
 <section class="prod">
   <div class="gal"><div class="main"><img id="mainimg" src="${esc(images[0])}" alt="HunterRaid Projector Hunting Game"></div>
