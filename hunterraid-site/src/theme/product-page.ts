@@ -105,7 +105,7 @@ export function productPage({ origin, tiers, addons = [], images, reviewImages, 
     <div class="fg"><div>🦌<span>3 Hunting Modes</span></div><div>🎯<span>2 Controllers Included</span></div><div>📽️<span>Wall Projection</span></div><div>🏆<span>Live Score Tracking</span></div></div>
     <div class="low">BUNDLE &amp; SAVE</div>
     <div class="tiers" id="tiers">${tiers.map(tier).join('')}</div>
-<div class="adb" id="adb"><label class="ad"><input type="checkbox" data-key="priority" data-price="15"><img class="adi" src="/images/ad-priority.png" alt=""><b>Priority Shipping</b><span class="adp">$15.00</span></label><label class="ad"><input type="checkbox" data-key="warranty" data-price="8"><img class="adi" src="/images/ad-warranty.png" alt=""><b>1-Year Warranty</b><span class="adp">$8.00</span></label></div>
+<div class="adb" id="adb"><label class="ad"><input type="checkbox" data-key="protection" data-price="7.99"><img class="adi" src="/images/ad-protection.png" alt=""><b>Shipping Protection</b><span class="adp">$7.99</span></label><label class="ad"><input type="checkbox" data-key="warranty" data-price="7.99"><img class="adi" src="/images/ad-warranty.png" alt=""><b>1-Year Warranty</b><span class="adp">$7.99</span></label></div>
     <div class="saving" id="saving" hidden>→ You're saving ${money(tiers[def].compare - tiers[def].price)} on this order</div>
     <button class="atc" id="atc" type="button">ADD TO CART</button>
     <div class="pay">${PAY}</div>

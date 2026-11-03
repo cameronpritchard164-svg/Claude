@@ -7,41 +7,41 @@
   "tiers": [
     {
       "qty": 1,
-      "price": 119.99,
-      "compare": 160,
+      "price": 109.99,
+      "compare": 150,
       "name": "1 Set \u2014 Starter Pack",
       "sub": "Standard price"
     },
     {
       "qty": 2,
-      "price": 212.99,
-      "compare": 320,
+      "price": 202.99,
+      "compare": 310,
       "name": "2 Sets \u2014 Family Pack",
-      "sub": "You save 33%",
+      "sub": "You save 35%",
       "tag": "Most Popular",
       "badge": "SAVE $107.01"
     },
     {
       "qty": 3,
-      "price": 304.99,
-      "compare": 480,
+      "price": 294.99,
+      "compare": 470,
       "name": "3 Sets \u2014 Ultimate Pack",
-      "sub": "You save 36%",
+      "sub": "You save 37%",
       "badge": "SAVE $175.01"
     }
   ],
   "addons": [
     {
-      "key": "priority",
-      "title": "Priority Shipping",
-      "price": 15.0,
-      "compare": 15.0
+      "key": "protection",
+      "title": "Shipping Protection",
+      "price": 7.99,
+      "compare": 7.99
     },
     {
       "key": "warranty",
       "title": "1-Year Warranty",
-      "price": 8.0,
-      "compare": 8.0
+      "price": 7.99,
+      "compare": 7.99
     }
   ],
   "shipping": [
