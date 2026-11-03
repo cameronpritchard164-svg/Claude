@@ -1,0 +1,345 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "avatars": {
+          "type": "mt_avatars",
+          "settings": {
+            "style": "pill",
+            "pill_align": "center",
+            "pill_title": "41+ orders",
+            "pill_sub": "in the last 24h",
+            "name": "Sarah M.",
+            "count": "479",
+            "suffix": "people purchased",
+            "number_color": "black",
+            "avatar_1_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3DnAHPCngHXSLjc1IqPm5LOJJ4t/hf_20260831_102821_de818833-95f5-41c9-9394-430a8bbf1376.png",
+            "avatar_2_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3DnAHPCngHXSLjc1IqPm5LOJJ4t/hf_20260831_102631_ca6f9553-056d-455c-a5fc-e495102b3491.png",
+            "avatar_3_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3DnAHPCngHXSLjc1IqPm5LOJJ4t/hf_20260831_102637_9f2e1659-97be-41c4-8d24-f38800ca238c.png"
+          }
+        },
+        "badge": {
+          "type": "mt_badge",
+          "settings": {
+            "text": "DON'T MISS OUT | TRENDING!",
+            "alignment": "center"
+          }
+        },
+        "title": {
+          "type": "title"
+        },
+        "stars": {
+          "type": "mt_stars",
+          "settings": {
+            "rating": "",
+            "count": "",
+            "label": "Loved By +412 Husbands...",
+            "brackets": true,
+            "badge": "",
+            "align": "center",
+            "italic": true
+          }
+        },
+        "salebox": {
+          "type": "mt_salebox",
+          "settings": {
+            "emoji": "🎄",
+            "title": "CHRISTMAS SALE",
+            "badge": "50% OFF",
+            "ends_label": "Ends in",
+            "end_date": "",
+            "utc_offset": "+08:00",
+            "text": "Order by December 1 to have it under the tree for Christmas."
+          }
+        },
+        "price": {
+          "type": "price"
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": false
+          }
+        },
+        "payments": {
+          "type": "mt_payments"
+        },
+        "review_slider": {
+          "type": "mt_review_slider",
+          "settings": {
+            "text_1": "“Wore it to the work Christmas party and nobody could talk for a solid minute. The fan stands it up in about a minute and it stayed up all night. Your own legs are her legs so you can actually walk around, dance and get to the eggnog in it.”",
+            "name_1": "- OH, United States",
+            "text_2": "“Four hours on one set of batteries and it never sagged. My hands were free the whole night so I could hold a drink and hand out presents.”",
+            "name_2": "- TN, United States",
+            "text_3": "“Everything was in the box, fan, straps and instructions. Up next to the Christmas tree in about a minute.”",
+            "name_3": "- MI, United States"
+          }
+        },
+        "how": {
+          "type": "mt_info_tab",
+          "settings": {
+            "icon": "gift",
+            "heading": "How Does The Costume Work?",
+            "content": "<p>You step into Mrs. Claus's legs, so your real legs are her legs, and the fan inflates her big festive body around you. Your head comes out of the little husband's Christmas pyjamas and your hands come out of his sleeves, while his stuffed legs dangle in front. It looks like Mrs. Claus is carrying you. You can walk, dance and sit down in it.</p>"
+          }
+        },
+        "ship": {
+          "type": "mt_info_tab",
+          "settings": {
+            "icon": "truck",
+            "heading": "How Long Is Shipping?",
+            "content": "<p>Orders are dispatched in 1 to 3 business days and delivery is 2 to 3 weeks from dispatch (please allow up to 30 days), with tracking emailed the moment it ships. Order by December 1 to have it for Christmas.</p>"
+          }
+        },
+        "fit": {
+          "type": "mt_info_tab",
+          "settings": {
+            "icon": "ruler",
+            "heading": "Will It Fit Me?",
+            "content": "<p>One adult size fits roughly 5'3 to 6'4 (160 to 195 cm) and up to about 300 lb. The waist, ankle and wrist cuffs are elastic with adjustable straps, and the fan keeps it fully inflated whether you are 150 lb or 300 lb.</p>"
+          }
+        },
+        "box": {
+          "type": "mt_info_tab",
+          "settings": {
+            "icon": "checkbox",
+            "heading": "What's In The Box And How Does It Inflate?",
+            "content": "<p>The costume, the battery fan unit with its on/off switch, adjustable straps and the instructions. Load 4 AA batteries (not included), zip in, flick the switch and it stands up in about 60 seconds. One set of batteries runs it for roughly 4 hours.</p>"
+          }
+        },
+        "bundle": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": "{% render 'clausegrab-bundle' %}"
+          }
+        }
+      },
+      "block_order": [
+        "avatars",
+        "badge",
+        "title",
+        "stars",
+        "salebox",
+        "price",
+        "variant_picker",
+        "bundle",
+        "buy_buttons",
+        "payments",
+        "review_slider",
+        "how",
+        "ship",
+        "fit",
+        "box"
+      ],
+      "settings": {
+        "enable_sticky_info": true,
+        "color_scheme": "scheme-1",
+        "media_position": "left",
+        "gallery_layout": "stacked",
+        "media_size": "large",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "image_zoom": "lightbox",
+        "mobile_thumbnails": "show",
+        "hide_variants": true,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Subscribe to our emails",
+            "heading_size": "h2"
+          }
+        },
+        "paragraph": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>Join our list for exclusive offers and first look at new drops.</p>"
+          }
+        },
+        "email_form": {
+          "type": "email_form"
+        }
+      },
+      "block_order": [
+        "heading",
+        "paragraph",
+        "email_form"
+      ],
+      "settings": {
+        "color_scheme": "scheme-4",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "faq": {
+      "type": "collapsible-content",
+      "blocks": {
+        "q1": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Will it arrive in time for Christmas?",
+            "icon": "question_mark",
+            "row_content": "<p>Order by December 1. Orders are dispatched in 1 to 3 business days and delivery is 2 to 3 weeks from dispatch, with tracking emailed the moment it ships.</p>"
+          }
+        },
+        "q2": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Can I actually move around in it?",
+            "icon": "question_mark",
+            "row_content": "<p>Yes. Your real legs are Mrs. Claus's legs, so you can walk, dance, sit down and get to the eggnog. Your hands come out of the husband's sleeves, so you can hold a drink or hand out presents.</p>"
+          }
+        },
+        "q3": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "How long do the batteries last?",
+            "icon": "question_mark",
+            "row_content": "<p>One set of 4 AA batteries (not included) runs the fan for roughly 4 hours. Bring a spare set for a long Christmas party.</p>"
+          }
+        },
+        "q4": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What if it turns up damaged or the fan doesn't work?",
+            "icon": "question_mark",
+            "row_content": "<p>Send us a photo and we'll sort it out. You've got 30 days to return it for a refund, and if the fan or costume is faulty we'll replace it.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4"
+      ],
+      "settings": {
+        "caption": "",
+        "heading": "FAQs",
+        "heading_size": "h1",
+        "heading_alignment": "center",
+        "layout": "none",
+        "color_scheme": "scheme-1",
+        "container_color_scheme": "scheme-1",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 40,
+        "padding_bottom": 48
+      }
+    },
+    "band": {
+      "type": "mt-ticker",
+      "blocks": {},
+      "block_order": [],
+      "settings": {
+        "colour": "accent",
+        "aria_label": "Store promises",
+        "speed": 45,
+        "heading": "",
+        "review_speed": 70,
+        "show_waves": true,
+        "animate": true,
+        "wave_speed": 14
+      }
+    },
+    "reviews": {
+      "type": "mt-reviews",
+      "blocks": {
+        "r1": {
+          "type": "review",
+          "settings": {
+            "title": "\"Wore it for four hours straight\"",
+            "text": "“Wore it to our street Christmas party. Your real hands are free so you can hold a drink and shake hands. Four hours on one set of batteries and it never sagged.”",
+            "name": "Travis M.",
+            "location": "Knoxville, TN",
+            "verified": true,
+            "image": {
+              "src": "/images/review-1.webp",
+              "width": 900,
+              "height": 900,
+              "alt": "Customer wearing the ClauseGrab costume outside a house lit for Christmas"
+            }
+          }
+        },
+        "r2": {
+          "type": "review",
+          "settings": {
+            "title": "\"Everything was in the box, up in a minute\"",
+            "text": "“Costume, fan, straps, instructions. Four batteries in and it stood up next to the tree in about a minute. The little husband in his Christmas pyjamas is way more detailed than I expected for an inflatable.”",
+            "name": "Cody R.",
+            "location": "Grand Rapids, MI",
+            "verified": true,
+            "image": {
+              "src": "/images/review-2.webp",
+              "width": 900,
+              "height": 900,
+              "alt": "ClauseGrab costume packed in its delivery box with the fan"
+            }
+          }
+        },
+        "r3": {
+          "type": "review",
+          "settings": {
+            "title": "\"My actual wife could not breathe\"",
+            "text": "“Walked into Christmas lunch deadpan with Mrs. Claus carrying me and my wife had to hold on to the table to stay standing. The grandkids would not leave me alone all afternoon.”",
+            "name": "Dale H.",
+            "location": "Billings, MT",
+            "verified": true,
+            "image": {
+              "src": "/images/review-3.webp",
+              "width": 900,
+              "height": 900,
+              "alt": "Friends laughing at the ClauseGrab costume at a Christmas party"
+            }
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3"
+      ],
+      "settings": {
+        "heading": "Here Are Some Testimonials...",
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 56
+      }
+    },
+    "wave": {
+      "type": "mt-wave",
+      "settings": {
+        "animate": true,
+        "flip": false,
+        "speed": 14,
+        "colour": "accent"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "band",
+    "reviews",
+    "faq",
+    "wave",
+    "newsletter"
+  ]
+}
