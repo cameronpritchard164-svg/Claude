@@ -5,11 +5,11 @@
 // a name reserved by Whop's runtime).
 import { env } from 'cloudflare:workers'
 
-export const ACCOUNT_ID = env.WHOP_ACCOUNT_ID || 'biz_PENDING'
+export const ACCOUNT_ID = env.WHOP_ACCOUNT_ID || 'biz_K72Bmxt3VfVnsb'
 const ORIGIN = env.WHOP_API_ORIGIN || 'https://api.whop.com'
 
 export const STORES = {
-  // Add HunterRaid stores here once they exist on the HunterRaid Whop business.
+  hunterraid: { key: 'hunterraid', name: 'HunterRaid', host: 'hunterraid.whop.site', color: '#e8701a', products: ['prod_5Cz0kQPOZmvx8'] },
 }
 export const storeOfHost = (h) => Object.values(STORES).find((s) => s.host === h) || null
 export const storeOfProduct = (id) => Object.values(STORES).find((s) => s.products.includes(id)) || null

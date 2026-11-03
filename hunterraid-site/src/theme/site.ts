@@ -69,7 +69,7 @@ const POLICY_PAGES = policyPages({ store: 'HunterRaid', product: 'HunterRaid Pro
 const SHOP_PATHS = ['/', '/collections/all', '/collections', '/products', '/shop']
 
 // Contact and newsletter submissions are written to the site's server logs
-// (`whop apps logs app_O7VK551CGlC45M --query contact_form`).
+// (`whop apps logs app_7JULkAgE3mrhPI --query contact_form`).
 async function handleForm(request, url) {
   const form = await request.formData()
   const type = String(form.get('form_type') || 'contact')

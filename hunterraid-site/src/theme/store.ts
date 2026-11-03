@@ -2,8 +2,8 @@
 // Store data for the theme. The product's title, photos and prices are read
 // live from Whop, so changing them in the Whop dashboard updates the site.
 
-export const WHOP_PRODUCT_ID = 'prod_gywSLIKJ0u5eX'
-export const WHOP_PLAN_ID = 'plan_ICAqCaKTI3cA4'
+export const WHOP_PRODUCT_ID = 'prod_5Cz0kQPOZmvx8'
+export const WHOP_PLAN_ID = 'plan_RHlWfgzY5igZu'
 export const PRODUCT_HANDLE = 'hunterraid'
 // Product photos are served from this site rather than Whop's gallery.
 export const LOCAL_PRODUCT = { title: 'HunterRaid Projector Hunting Game', images: ['/images/hr-1.webp', '/images/hr-2.webp', '/images/hr-3.webp', '/images/hr-4.webp'] }
