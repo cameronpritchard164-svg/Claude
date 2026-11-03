@@ -7,56 +7,41 @@
   "tiers": [
     {
       "qty": 1,
-      "price": 69.99,
-      "compare": 139.98,
-      "name": "Buy 1",
+      "price": 119.99,
+      "compare": 160,
+      "name": "1 Set \u2014 Starter Pack",
       "sub": "Standard price"
     },
     {
       "qty": 2,
-      "price": 125.98,
-      "compare": 279.96,
-      "name": "Buy 2",
-      "sub": "You save $153.98",
+      "price": 212.99,
+      "compare": 320,
+      "name": "2 Sets \u2014 Family Pack",
+      "sub": "You save 33%",
       "tag": "Most Popular",
-      "badge": "SAVE 55%"
+      "badge": "SAVE $107.01"
     },
     {
       "qty": 3,
-      "price": 167.97,
-      "compare": 419.94,
-      "name": "Buy 3",
-      "sub": "You save $251.97",
-      "badge": "SAVE 60%"
-    },
-    {
-      "qty": 4,
-      "price": 195.96,
-      "compare": 559.92,
-      "name": "Buy 4",
-      "sub": "You save $363.96",
-      "tag": "Best Value",
-      "badge": "SAVE 65%"
+      "price": 304.99,
+      "compare": 480,
+      "name": "3 Sets \u2014 Ultimate Pack",
+      "sub": "You save 36%",
+      "badge": "SAVE $175.01"
     }
   ],
   "addons": [
     {
-      "key": "protection",
-      "title": "Shipping Protection",
-      "price": 8.99,
-      "compare": 8.99
-    },
-    {
-      "key": "mystery",
-      "title": "Mystery Gift",
-      "price": 18.99,
-      "compare": 18.99
-    },
-    {
       "key": "priority",
       "title": "Priority Shipping",
-      "price": 9.99,
-      "compare": 9.99
+      "price": 15.0,
+      "compare": 15.0
+    },
+    {
+      "key": "warranty",
+      "title": "1-Year Warranty",
+      "price": 8.0,
+      "compare": 8.0
     }
   ],
   "shipping": [
