@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{ page_title }}{% unless page_title contains shop.name %} – {{ shop.name }}{% endunless %}</title>
+{%- if page_description -%}<meta name="description" content="{{ page_description | escape }}">{%- endif -%}
+<link rel="icon" href="{{ 'favicon.png' | asset_url }}">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+{{ content_for_header }}
+</head>
+<body style="margin:0">
+{{ content_for_layout }}
+</body>
+</html>

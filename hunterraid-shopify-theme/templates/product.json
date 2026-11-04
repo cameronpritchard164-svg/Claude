@@ -1,0 +1,7 @@
+{
+  "layout": "hunterraid",
+  "sections": {
+    "main": { "type": "hunterraid-product", "settings": {} }
+  },
+  "order": ["main"]
+}
