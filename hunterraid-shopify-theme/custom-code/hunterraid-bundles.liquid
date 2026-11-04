@@ -1,0 +1,73 @@
+{%- comment -%}
+  HunterRaid bundles + upsells. Paste into a "Custom Liquid" block on the product page
+  (Customize → product page → Add block → Custom Liquid), above or instead of the Buy buttons.
+  Bundles = the product's first 3 variants. Upsells = the products with these handles; their product image is used as the upsell icon:
+{%- endcomment -%}
+{%- assign hr_protection_handle = 'shipping-protection' -%}
+{%- assign hr_warranty_handle = '1-year-warranty' -%}
+
+{%- assign hr_p = product -%}
+{%- assign hr_ap = all_products[hr_protection_handle] -%}
+{%- assign hr_aw = all_products[hr_warranty_handle] -%}
+<div class="hr-b">
+  <div class="hr-low">BUNDLE &amp; SAVE</div>
+  <div class="hr-tiers">
+    {%- for v in hr_p.variants limit: 3 -%}
+      {%- assign cmp = v.compare_at_price | default: v.price -%}
+      <label class="hr-tier{% if forloop.first %} on{% endif %}" data-variant="{{ v.id }}" data-price="{{ v.price | divided_by: 100.0 }}">
+        {%- if forloop.index == 2 -%}<span class="hr-tag">Most Popular</span>{%- endif -%}
+        <span class="hr-rad"></span>
+        <span><span class="hr-t">{{ v.title }}</span>{%- if cmp > v.price and forloop.index > 1 -%}<span class="hr-sv">SAVE {{ cmp | minus: v.price | money }}</span>{%- endif -%}<br>
+          <span class="hr-s">{%- if forloop.first or cmp <= v.price -%}Standard price{%- else -%}You save {{ cmp | minus: v.price | times: 100 | divided_by: cmp | floor }}%{%- endif -%}</span></span>
+        <span class="hr-p"><b class="hr-tp">{{ v.price | money }}</b>{%- if cmp > v.price -%}<span>{{ cmp | money }}</span>{%- endif -%}</span>
+      </label>
+    {%- endfor -%}
+  </div>
+  <div class="hr-adb" id="hr-adb">
+    {%- if hr_ap -%}<label class="hr-ad"><input type="checkbox" data-variant="{{ hr_ap.selected_or_first_available_variant.id }}" data-price="{{ hr_ap.price | divided_by: 100.0 }}"><img src="{{ hr_ap.featured_image | image_url: width: 200 }}" alt=""><b>Shipping Protection</b><span>{{ hr_ap.price | money }}</span></label>{%- endif -%}
+    {%- if hr_aw -%}<label class="hr-ad"><input type="checkbox" data-variant="{{ hr_aw.selected_or_first_available_variant.id }}" data-price="{{ hr_aw.price | divided_by: 100.0 }}"><img src="{{ hr_aw.featured_image | image_url: width: 200 }}" alt=""><b>1-Year Warranty</b><span>{{ hr_aw.price | money }}</span></label>{%- endif -%}
+  </div>
+  <button type="button" class="hr-atc" id="hr-atc">ADD TO CART</button>
+</div>
+<style>
+.hr-b{font-family:inherit;margin:16px 0}
+.hr-low{display:flex;align-items:center;gap:12px;font-weight:700;font-size:.85rem;letter-spacing:.06em;color:#3E2A1A;margin:0 0 14px}.hr-low:before,.hr-low:after{content:'';flex:1;height:1px;background:#d9bf98}
+.hr-tiers{display:grid;gap:12px}
+.hr-tier{position:relative;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:16px 18px;border:2px solid #d9bf98;background:#faf5ec;border-radius:10px;cursor:pointer;color:#3E2A1A}
+.hr-tier.on{border-color:#E8701A;background:#f6eedf;border-radius:10px 10px 0 0}
+.hr-rad{width:22px;height:22px;border-radius:50%;border:2px solid #d9bf98;background:#fff;display:grid;place-items:center}.hr-tier.on .hr-rad{border-color:#E8701A}.hr-tier.on .hr-rad:after{content:'';width:12px;height:12px;border-radius:50%;background:#E8701A}
+.hr-t{font-weight:700;font-size:1.1rem}.hr-s{font-size:.85rem;color:#5a4632}
+.hr-sv{display:inline-block;margin-left:8px;vertical-align:3px;background:#3E2A1A;color:#fff;border-radius:6px;font-size:.72rem;font-weight:700;padding:3px 8px}
+.hr-tag{position:absolute;right:-6px;top:-14px;transform:rotate(2deg);background:#C8A06A;color:#3E2A1A;font-size:.8rem;font-weight:700;padding:5px 14px;border-radius:4px}
+.hr-p{text-align:right}.hr-p b{display:block;font-size:1.2rem}.hr-p span{color:#8a7a66;text-decoration:line-through;font-size:.9rem}
+.hr-adb{background:#f6e3c4;border:2px solid #E8701A;border-top:0;border-radius:0 0 10px 10px;margin:-14px 0 0;padding:6px 14px}
+.hr-ad{display:flex;align-items:center;gap:12px;color:#3E2A1A;padding:10px 0;border-bottom:1px solid #e2c99f;cursor:pointer}.hr-ad:last-child{border:0}
+.hr-ad input{width:20px;height:20px;accent-color:#E8701A;margin:0}.hr-ad img{width:52px;height:52px;object-fit:contain}.hr-ad b{flex:1}.hr-ad span{font-weight:700}
+.hr-atc{display:block;width:100%;margin-top:16px;border:0;background:#E8701A;color:#fff;font:inherit;font-weight:700;font-size:1.15rem;letter-spacing:.06em;padding:17px;border-radius:8px;cursor:pointer}
+</style>
+<script>
+(() => {
+  const root = document.currentScript.previousElementSibling.previousElementSibling;
+  const fmt = (n) => new Intl.NumberFormat(undefined, { style: 'currency', currency: {{ cart.currency.iso_code | json }} }).format(n);
+  const tiers = [...root.querySelectorAll('.hr-tier')], adb = root.querySelector('#hr-adb');
+  const refresh = () => {
+    const t = root.querySelector('.hr-tier.on');
+    const extra = [...adb.querySelectorAll('input:checked')].reduce((s, x) => s + Number(x.dataset.price), 0);
+    tiers.forEach((x) => { x.querySelector('.hr-tp').textContent = fmt(Number(x.dataset.price) + (x === t ? extra : 0)); });
+    t.after(adb);
+  };
+  tiers.forEach((t) => t.addEventListener('click', () => { tiers.forEach((x) => x.classList.remove('on')); t.classList.add('on'); refresh(); }));
+  adb.querySelectorAll('input').forEach((x) => x.addEventListener('change', refresh));
+  refresh();
+  root.querySelector('#hr-atc').addEventListener('click', async (e) => {
+    const btn = e.currentTarget; btn.disabled = true; btn.textContent = 'ADDING…';
+    const items = [{ id: Number(root.querySelector('.hr-tier.on').dataset.variant), quantity: 1 }]
+      .concat([...adb.querySelectorAll('input:checked')].map((x) => ({ id: Number(x.dataset.variant), quantity: 1 })));
+    try {
+      const r = await fetch({{ routes.cart_add_url | append: '.js' | json }}, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ items }) });
+      if (!r.ok) throw new Error((await r.json()).description || 'Could not add to cart');
+      location.href = '/checkout';
+    } catch (err) { alert(err.message); btn.disabled = false; btn.textContent = 'ADD TO CART'; }
+  });
+})();
+</script>
