@@ -31,7 +31,7 @@ a{color:inherit;text-decoration:none}img{max-width:100%;display:block}
 .wrap{max-width:1300px;margin:0 auto;padding:0 20px}
 .prod{display:grid;grid-template-columns:1fr;gap:28px;padding:28px 0 20px}
 @media(min-width:900px){.prod{grid-template-columns:1.25fr 1fr;gap:48px;padding:44px 0 30px}}
-.prod>*{min-width:0}.gal .main{border-radius:12px;overflow:hidden;background:#f5f5f5}.gal .main img{width:100%;aspect-ratio:1/1;object-fit:cover}
+.prod>*{min-width:0}.gal .main{border-radius:12px;overflow-x:auto;overflow-y:hidden;background:#f5f5f5;display:flex;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}.gal .main::-webkit-scrollbar,.thumbs::-webkit-scrollbar{display:none}.gal .main img{flex:0 0 100%;scroll-snap-align:start}.thumbs{scrollbar-width:none}.gal .main img{width:100%;aspect-ratio:1/1;object-fit:cover}
 .thumbs{display:flex;gap:10px;margin-top:12px;overflow-x:auto}.thumbs button{flex:none;width:92px;height:92px;padding:0;border:2px solid #e5e5e5;border-radius:8px;overflow:hidden;background:#fff;cursor:pointer}.thumbs button.on{border-color:#121212}.thumbs img{width:100%;height:100%;object-fit:cover}
 h1{font-size:2.4rem;line-height:1.1;margin:0 0 8px;font-weight:700}
 .rating{display:flex;align-items:center;gap:8px;font-size:.95rem;margin:0 0 10px}.stars{color:#ffc107;letter-spacing:1px;font-size:1.05rem}
@@ -94,7 +94,7 @@ export function productPage({ origin, tiers, addons = [], images, reviewImages, 
 <header class="hdr"><a class="logo" href="/"><img src="${esc(logo)}" alt="HunterRaid"></a><a class="cart" href="${CHECKOUT_PATH}?key=1:" aria-label="Cart">${ICON.cart}</a></header>
 <main class="wrap">
 <section class="prod">
-  <div class="gal"><div class="main"><img id="mainimg" src="${esc(images[0])}" alt="HunterRaid Projector Hunting Game"></div>
+  <div class="gal"><div class="main">${images.map((src, i) => `<img${i === 0 ? ' id="mainimg"' : ' loading="lazy"'} src="${esc(src)}" alt="HunterRaid Projector Hunting Game">`).join('')}</div>
     <div class="thumbs">${images.map((src, i) => `<button type="button" class="${i === 0 ? 'on' : ''}" data-src="${esc(src)}"><img src="${esc(src)}" alt=""></button>`).join('')}</div></div>
   <div class="info">
     <h1>HunterRaid Projector Hunting Game</h1>
@@ -161,7 +161,10 @@ export function productPage({ origin, tiers, addons = [], images, reviewImages, 
     $('#psave').textContent = 'SAVE ' + Math.round((1 - t.dataset.price / t.dataset.compare) * 100) + '%';
   }));
   $('#atc').addEventListener('click', () => { const ad = ([...document.querySelectorAll('.ad input:checked')].map((x) => x.dataset.key)).join(','); location.href = ${JSON.stringify(CHECKOUT_PATH)} + '?key=' + qty + ':' + ad; });
-  document.querySelectorAll('.thumbs button').forEach((b) => b.addEventListener('click', () => { document.querySelectorAll('.thumbs button').forEach((x) => x.classList.remove('on')); b.classList.add('on'); $('#mainimg').src = b.dataset.src; }));
+  const gm = document.querySelector('.gal .main'), tb = [...document.querySelectorAll('.thumbs button')];
+  const setOn = (i) => tb.forEach((x, k) => x.classList.toggle('on', k === i));
+  tb.forEach((b, i) => b.addEventListener('click', () => { gm.scrollTo({ left: i * gm.clientWidth, behavior: 'smooth' }); setOn(i); }));
+  gm.addEventListener('scroll', () => { const i = Math.round(gm.scrollLeft / gm.clientWidth); setOn(i); tb[i] && tb[i].scrollIntoView({ block: 'nearest', inline: 'nearest' }); }, { passive: true });
   const cardsEl = document.querySelector('.cards'), sd = document.querySelectorAll('#sdots i');
   if (cardsEl) cardsEl.addEventListener('scroll', () => { const c = cardsEl.children[0]; if (!c) return; const i = Math.round(cardsEl.scrollLeft / (c.offsetWidth + 14)); sd.forEach((d, k) => d.classList.toggle('on', k === i)); }, { passive: true });
   const ticks = [['Best family game night ever 🦌', 'Julia M.'], ['The kids are obsessed with Duck Marsh.', 'Chris B.'], ['So easy to set up. 10/10.', 'Amanda K.']];
