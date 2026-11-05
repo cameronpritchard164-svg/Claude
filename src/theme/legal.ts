@@ -248,6 +248,7 @@ const shipping = page('shipping-policy', 'Shipping policy', [
 
 const contactInfo = page('contact-information', 'Contact information', [
   p('<strong>Contact Information</strong>'),
+  p('Email: <a href="mailto:forgerelic@outlook.com">forgerelic@outlook.com</a>'),
   p(`The fastest way to reach us is through the ${contact} section of our website. Click Contact in the menu, fill in the form with your name, your email address and your order number if you have one, and send your message. We aim to respond within 1 to 2 business days.`),
   p(`So we can find your order straight away, please mention that your enquiry is about the ${PRODUCT} in your message, along with your order number.`),
   p('Please include as much detail as you can in one message, including photos if your enquiry is about a damaged or faulty item, so we can help you in the first reply.'),
