@@ -390,7 +390,7 @@ export function checkoutPage({ key, store, product, origin, accent, logo, sale =
   // embedded checkout needs, so those shoppers go straight to Whop's hosted checkout for the same plan.
   (function () {
     var ua = navigator.userAgent || '';
-    if (/Instagram|FBAN|FBAV|FB_IAB|TikTok|musical_ly|Bytedance|Snapchat|Messenger|Twitter|Line\/|Pinterest/i.test(ua)) {
+    if (/Instagram|FBAN|FBAV|FB_IAB|TikTok|musical_ly|Bytedance|Snapchat|Messenger|Twitter|Pinterest|\\bLine\\b/i.test(ua)) {
       try { navigator.sendBeacon('/api/clientlog', JSON.stringify({ what: 'inapp_redirect', ua: ua, key: location.search })); } catch (e) {}
       location.replace(${JSON.stringify(plan.url)});
     }
