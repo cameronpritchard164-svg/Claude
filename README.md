@@ -25,3 +25,15 @@ Deploy asks: Website, name `HunterRaid`, domain `hunterraid.whop.site`.
 | Page text, tabs, FAQ | `theme/templates/product.json` |
 | Prices and add-ons | `src/theme/bundle.json` (re-run setup for new prices) |
 | Photos | `public/images/` |
+
+## Images still to drop in (`public/images/`)
+
+Generated in Higgsfield (see the gallery in the chat) but not yet downloaded into the repo:
+
+| File | Size | Which generation |
+|---|---|---|
+| `logo.png` + `logo.webp` | 2000x667, transparent | brush wordmark (temporary plain wordmark is in place) |
+| `hr-info.webp` | 1536x2048 | infographic |
+| `hr-2.webp` | 1280x1280 | father and son playing |
+| `hr-3.webp` | 1280x1280 | projector on coffee table |
+| `avatar-1/2/3.webp` | 200x200 | three headshots for the pill at the top |
