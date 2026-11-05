@@ -1,0 +1,61 @@
+{
+  "heading": "BUNDLE UP & SAVE MORE!",
+  "noun": "Set",
+  "product_name": "HunterRaid Projector Hunting Game",
+  "popular_tier": 2,
+  "best_tier": 3,
+  "tiers": [
+    {
+      "qty": 1,
+      "price": 109.99,
+      "compare": 159.99,
+      "label": "Starter Pack",
+      "sub": "Start the hunt"
+    },
+    {
+      "qty": 2,
+      "price": 202.99,
+      "compare": 319.98,
+      "label": "Family Pack",
+      "sub": "Hunt together with a friend"
+    },
+    {
+      "qty": 3,
+      "price": 294.99,
+      "compare": 479.97,
+      "label": "Ultimate Pack",
+      "sub": "Just $98.33 each"
+    }
+  ],
+  "addons": [
+    {
+      "key": "protection",
+      "title": "Shipping Protection",
+      "short": "Ship",
+      "price": 4.99,
+      "compare": 7.99,
+      "badge": "",
+      "image": "/images/addon-shipping.webp"
+    },
+    {
+      "key": "warranty",
+      "title": "1 Year Warranty",
+      "short": "Warranty",
+      "price": 14.99,
+      "compare": 24.99,
+      "badge": "",
+      "image": "/images/addon-warranty.webp"
+    }
+  ],
+  "shipping": [
+    {
+      "key": "free",
+      "label": "Free Shipping",
+      "eta": "Delivers in 2\u20133 weeks \u00b7 tracking emailed",
+      "price": 0
+    }
+  ],
+  "plan_noun": "Set",
+  "headline": "Turn any wall into a hunting ground",
+  "description": "Camo projector plus two pump-action toy shotguns. Ducks, deer and more run across your wall; take aim and shoot. Free tracked shipping."
+}

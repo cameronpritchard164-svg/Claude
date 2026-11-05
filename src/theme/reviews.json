@@ -1,0 +1,12 @@
+{
+  "_how_to": "Add one entry per real customer review. stars 1-5. image: customer photo in public/images or empty. verified: true for people who bought from you (including last year). Reviews customers leave on Whop are added automatically.",
+  "_happy_customers_how_to": "Total customers who bought this product from you, from your order records. Shown at the top as Loved By N+ <noun>.",
+  "happy_customers": 0,
+  "loved_by_noun": "Hunters",
+  "_recent_orders_how_to": "Orders from your other store(s) in a 24h window: count + when that window started (ISO). The pill shows N+ orders in the last 24h until 24h after \"at\". Whop orders are counted automatically.",
+  "recent_orders": {
+    "count": 0,
+    "at": ""
+  },
+  "reviews": []
+}
