@@ -85,6 +85,8 @@ async function handleForm(request, url) {
 
 export async function handleRequest(request: Request): Promise<Response> {
   const url = new URL(request.url)
+  // Some clients (in-app browsers behind proxies) reach the worker as http; Whop needs https return URLs.
+  if (url.protocol === 'http:' && url.hostname !== 'localhost' && url.hostname !== '127.0.0.1') url.protocol = 'https:'
   const path = url.pathname.replace(/\/+$/, '') || '/'
   if (request.method === 'POST' && path === '/contact') return handleForm(request, url)
   if (path === '/api/address') return addressSuggest(url)
