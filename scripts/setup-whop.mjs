@@ -41,7 +41,7 @@ for (const tier of bundle.tiers) {
     const plan = whop([
       'variants', 'create',
       '--product_id', product.id,
-      '--plan_type', 'one_time',
+      '--billing_type', 'one_time',
       '--release_method', 'buy_now',
       '--currency', 'usd',
       '--initial_price', String(price),

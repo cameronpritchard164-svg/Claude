@@ -3,9 +3,9 @@
 // live from Whop, so changing them in the Whop dashboard updates the site.
 
 // Filled in by scripts/setup-whop.mjs.
-export const WHOP_ACCOUNT_ID = 'biz_SETUP_NEEDED'
-export const WHOP_PRODUCT_ID = 'prod_SETUP_NEEDED'
-export const WHOP_PLAN_ID = 'plan_SETUP_NEEDED'
+export const WHOP_ACCOUNT_ID = 'biz_nmHWwLuj8yEOBs'
+export const WHOP_PRODUCT_ID = 'prod_WlKtSdOXyRvs7'
+export const WHOP_PLAN_ID = 'plan_Oh5JVIxs0ZMzj'
 export const PRODUCT_HANDLE = 'hunterraid'
 // Title and photos shown on the site (photos are served from public/images).
 export const LOCAL_PRODUCT = { title: 'HunterRaid Projector Hunting Game', images: ['/images/hr-1.webp', '/images/hr-info.webp', '/images/hr-2.webp', '/images/hr-3.webp'] }

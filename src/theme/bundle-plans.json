@@ -1,1 +1,50 @@
-{}
+{
+  "1:": {
+    "id": "plan_Oh5JVIxs0ZMzj",
+    "url": "https://whop.com/checkout/plan_Oh5JVIxs0ZMzj"
+  },
+  "1:protection": {
+    "id": "plan_OkzVBj7PSUc3K",
+    "url": "https://whop.com/checkout/plan_OkzVBj7PSUc3K"
+  },
+  "1:warranty": {
+    "id": "plan_huiiFvLQ0UwyB",
+    "url": "https://whop.com/checkout/plan_huiiFvLQ0UwyB"
+  },
+  "1:protection,warranty": {
+    "id": "plan_XKn6kAWPeMVxG",
+    "url": "https://whop.com/checkout/plan_XKn6kAWPeMVxG"
+  },
+  "2:": {
+    "id": "plan_W9rO5HE54AzSd",
+    "url": "https://whop.com/checkout/plan_W9rO5HE54AzSd"
+  },
+  "2:protection": {
+    "id": "plan_y9TIb1aQUegkE",
+    "url": "https://whop.com/checkout/plan_y9TIb1aQUegkE"
+  },
+  "2:warranty": {
+    "id": "plan_n5BQjJ59wHi3l",
+    "url": "https://whop.com/checkout/plan_n5BQjJ59wHi3l"
+  },
+  "2:protection,warranty": {
+    "id": "plan_YvXvNxbOZWFEO",
+    "url": "https://whop.com/checkout/plan_YvXvNxbOZWFEO"
+  },
+  "3:": {
+    "id": "plan_S88pdlLfOXlXu",
+    "url": "https://whop.com/checkout/plan_S88pdlLfOXlXu"
+  },
+  "3:protection": {
+    "id": "plan_Lihi458YW8Qwh",
+    "url": "https://whop.com/checkout/plan_Lihi458YW8Qwh"
+  },
+  "3:warranty": {
+    "id": "plan_m5JQgv4JOJ9vf",
+    "url": "https://whop.com/checkout/plan_m5JQgv4JOJ9vf"
+  },
+  "3:protection,warranty": {
+    "id": "plan_OaPxm4e4fhRZx",
+    "url": "https://whop.com/checkout/plan_OaPxm4e4fhRZx"
+  }
+}
