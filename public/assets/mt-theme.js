@@ -3,7 +3,10 @@
   if (!customElements.get('mt-countdown')) {
     customElements.define('mt-countdown', class extends HTMLElement {
       connectedCallback() {
-        this.end = Date.parse(this.dataset.end);
+        const raw = (this.dataset.end || '').trim();
+        const rel = raw.match(/^\+\s*(\d+)\s*([dhm])$/i);
+        // "+24h", "+2d" or "+90m": a fresh countdown for every visit, starting when the page opens.
+        this.end = rel ? Date.now() + Number(rel[1]) * { d: 864e5, h: 36e5, m: 6e4 }[rel[2].toLowerCase()] : Date.parse(raw);
         if (isNaN(this.end)) return;
         this.units = {};
         this.querySelectorAll('[data-u]').forEach((el) => (this.units[el.dataset.u] = el));
