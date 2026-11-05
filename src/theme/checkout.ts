@@ -254,7 +254,8 @@ const FORM_JS = String.raw`
         metadata: meta,
         onComplete: (r) => { if (r && r.result === 'payment') location.href = RETURN + '&payment=' + encodeURIComponent(r.paymentId) + '&status=succeeded'; },
       });
-      const opts = { onReady: () => { $('loading')?.remove(); $('paybox').classList.add('ready'); setTimeout(() => { ready = true; }, 800); } };
+      const report = (what, info) => { try { navigator.sendBeacon('/api/clientlog', JSON.stringify({ what, info, key: location.search, plan: PLAN, ua: navigator.userAgent, at: new Date().toISOString() })); } catch (e) {} };
+      const opts = { onReady: () => { $('loading')?.remove(); $('paybox').classList.add('ready'); setTimeout(() => { ready = true; }, 800); }, onError: (e) => { console.error('whop checkout error', e); report('checkout_error', e); } };
       if (d) {
         const billing = { name: d.name, email: d.email, address: d.address };
         if (d.phone) billing.phone = d.phone;

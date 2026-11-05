@@ -88,6 +88,10 @@ export async function handleRequest(request: Request): Promise<Response> {
   const path = url.pathname.replace(/\/+$/, '') || '/'
   if (request.method === 'POST' && path === '/contact') return handleForm(request, url)
   if (path === '/api/address') return addressSuggest(url)
+  if (request.method === 'POST' && path === '/api/clientlog') {
+    console.log(JSON.stringify({ event: 'client_log', body: (await request.text()).slice(0, 4000), country: request.headers.get('cf-ipcountry') || '' }))
+    return new Response('ok')
+  }
 
   const [data, social] = await Promise.all([loadWhopData(), loadSocialProof()])
   const store = buildStore(data, url.origin)
