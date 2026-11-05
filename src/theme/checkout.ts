@@ -386,14 +386,21 @@ export function checkoutPage({ key, store, product, origin, accent, logo, sale =
 </div>
 </div>
 <script>
-  // In-app browsers (Instagram, Facebook, TikTok, Snapchat, Messenger, X, LINE, Pinterest) block the storage the
-  // embedded checkout needs, so those shoppers go straight to Whop's hosted checkout for the same plan.
+  // Diagnostics: anything the embedded checkout reports as an error is sent to the app logs.
   (function () {
-    var ua = navigator.userAgent || '';
-    if (/Instagram|FBAN|FBAV|FB_IAB|TikTok|musical_ly|Bytedance|Snapchat|Messenger|Twitter|Pinterest|\\bLine\\b/i.test(ua)) {
-      try { navigator.sendBeacon('/api/clientlog', JSON.stringify({ what: 'inapp_redirect', ua: ua, key: location.search })); } catch (e) {}
-      location.replace(${JSON.stringify(plan.url)});
-    }
+    var send = function (what, info) { try { navigator.sendBeacon('/api/clientlog', JSON.stringify({ what: what, info: info, key: location.search, ua: navigator.userAgent, at: new Date().toISOString() })); } catch (e) {} };
+    window.addEventListener('error', function (e) { send('window_error', { message: e.message, file: e.filename, line: e.lineno }); });
+    window.addEventListener('unhandledrejection', function (e) { send('unhandled_rejection', { reason: String(e.reason && (e.reason.message || e.reason)).slice(0, 500) }); });
+    window.addEventListener('message', function (e) {
+      if (!/whop\.com$/.test((e.origin || '').replace(/^https?:\/\//, '').replace(/:.*/, ''))) return;
+      var s; try { s = typeof e.data === 'string' ? e.data : JSON.stringify(e.data); } catch (err) { return; }
+      if (s && /error|fail|unavailable|blocked/i.test(s)) send('embed_message', s.slice(0, 1500));
+    });
+    var probe = {};
+    try { localStorage.setItem('__t', '1'); localStorage.removeItem('__t'); probe.localStorage = true; } catch (e) { probe.localStorage = false; }
+    try { probe.cookies = navigator.cookieEnabled; } catch (e) {}
+    try { probe.sa = typeof document.hasStorageAccess === 'function'; } catch (e) {}
+    send('page_open', probe);
   })();
 </script>
 <script src="https://cdn.whop.com/elements/amber/elements.js" data-whop-elements></script>
