@@ -334,8 +334,8 @@
   },
   "order": [
     "main",
-    "reviews",
     "faq",
+    "reviews",
     "wave",
     "newsletter"
   ]
