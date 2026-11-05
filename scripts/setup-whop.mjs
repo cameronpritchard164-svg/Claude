@@ -21,12 +21,12 @@ console.log('Creating product…')
 const product = whop([
   'products', 'create',
   '--title', bundle.product_name,
-  '--route', `${SLUG}-product`,
+  '--route', `${SLUG}-game`,
   '--headline', bundle.headline || bundle.product_name,
   '--description', bundle.description || bundle.product_name,
   '--collect_shipping_address',
   '--visibility', 'quick_link',
-  '--idempotency-key', `${SLUG}-product-1`,
+  '--idempotency-key', `${SLUG}-product-3`,
 ])
 const account = product.account?.id
 console.log('  product', product.id, 'account', account)
@@ -53,7 +53,7 @@ for (const tier of bundle.tiers) {
       '--title', title,
       '--description', [`${tier.qty} x ${bundle.product_name}`, ...addons.map((a) => a.title)].join(' + '),
       '--metadata', JSON.stringify({ bundle_key: key, quantity: tier.qty, addons: addons.map((a) => a.key).join(',') }),
-      '--idempotency-key', `${SLUG}-bundle-${key.replace(/[:,]/g, '-')}`,
+      '--idempotency-key', `${SLUG}-v2-bundle-${key.replace(/[:,]/g, '-')}`,
     ])
     if (compare > price) whop(['variants', 'update', plan.id, '--strike_through_initial_price', String(compare)])
     plans[key] = { id: plan.id, url: plan.purchase_url || `https://whop.com/checkout/${plan.id}` }
