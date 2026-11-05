@@ -2,7 +2,7 @@
   "current": "Master Funnel",
   "presets": {
     "Master Funnel": {
-      "logo_width": 180,
+      "logo_width": 90,
       "customer_account_menu": "customer-account-main-menu",
       "color_schemes": {
         "scheme-1": {
@@ -210,9 +210,9 @@
       "mt_tab_x": true,
       "logo": {
         "src": "/images/logo.webp",
-        "width": 188,
-        "height": 63,
-        "aspect_ratio": 2.998500749625187,
+        "width": 600,
+        "height": 600,
+        "aspect_ratio": 1.0,
         "alt": "HunterRaid"
       },
       "favicon": {
