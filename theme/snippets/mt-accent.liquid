@@ -74,7 +74,7 @@
     --payment-terms-background-color: {{ slab }};
   }
   .mt-preorder__heading, .mt-preorder__text p { color: rgb({{ slab_fg }}); }
-  {%- if settings.mt_salebar_colour == 'secondary' -%}.mt-salebar { background: {{ mt_b }}; color: {{ b_fg_hex }}; }{%- endif -%}
+  {%- if settings.mt_salebar_colour == 'secondary' -%}.mt-salebar { background: {{ mt_b }} !important; color: {{ b_fg_hex }} !important; }{%- endif -%}
   {%- if settings.mt_serif -%}body, .button, .product__title h1, .mt-h, h1, h2, h3, .accordion__title, .mt-salebar, .mt-band { font-family: Georgia, 'Times New Roman', Times, serif; }{%- endif -%}
   {%- if settings.mt_center_buybox -%}.product__title, .product__title h1 { text-align: center; }{%- endif -%}
 {%- endstyle -%}

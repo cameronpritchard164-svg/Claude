@@ -3,29 +3,6 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "avatars": {
-          "type": "mt_avatars",
-          "settings": {
-            "style": "pill",
-            "pill_align": "center",
-            "pill_title": "Just Launched",
-            "pill_sub": "limited first run",
-            "name": "",
-            "count": "",
-            "suffix": "",
-            "number_color": "black",
-            "avatar_1_url": "/images/avatar-1.webp",
-            "avatar_2_url": "/images/avatar-2.webp",
-            "avatar_3_url": "/images/avatar-3.webp"
-          }
-        },
-        "badge": {
-          "type": "mt_badge",
-          "settings": {
-            "text": "DON'T MISS OUT | TRENDING!",
-            "alignment": "center"
-          }
-        },
         "title": {
           "type": "title"
         },
@@ -34,25 +11,13 @@
           "settings": {
             "rating": "",
             "count": "",
-            "label": "Loved By +[number] Hunters...",
+            "label": "Reviews",
             "brackets": true,
             "badge": "",
-            "align": "center",
-            "italic": true
+            "align": "left",
+            "italic": false
           },
           "disabled": true
-        },
-        "salebox": {
-          "type": "mt_salebox",
-          "settings": {
-            "emoji": "🎯",
-            "title": "LAUNCH SALE",
-            "badge": "30% OFF",
-            "ends_label": "Ends in",
-            "end_date": "",
-            "utc_offset": "+08:00",
-            "text": "Made to order. Every HunterRaid set is checked by hand before it ships with tracking. Limited run."
-          }
         },
         "price": {
           "type": "price"
@@ -86,36 +51,20 @@
           },
           "disabled": true
         },
-        "how": {
-          "type": "mt_info_tab",
-          "settings": {
-            "icon": "gift",
-            "heading": "How Does It Work?",
-            "content": "<p>Plug in the camo projector, point it at any wall or ceiling and press start. Ducks, deer, boar and more run across the wall while you take aim with the pump-action shotgun. Hit the target and the game scores it, counts it, and sends the next one.</p>"
-          }
-        },
         "ship": {
           "type": "mt_info_tab",
           "settings": {
             "icon": "truck",
-            "heading": "How Long Is Shipping?",
-            "content": "<p>Orders are dispatched in 1 to 3 business days and delivery is 2 to 3 weeks from dispatch (please allow up to 30 days), with tracking emailed the moment it ships.</p>"
-          }
-        },
-        "fit": {
-          "type": "mt_info_tab",
-          "settings": {
-            "icon": "ruler",
-            "heading": "Who Is It For?",
-            "content": "<p>Ages 6 and up. The shotguns are toy blasters with infrared sensors, no projectiles, so it's safe to play indoors. Two guns come in every set so kids, parents and grandparents can play head to head.</p>"
+            "heading": "Shipping & Delivery",
+            "content": "<p>Every HunterRaid set is made to order, so it is produced after you buy. Delivery times vary with production and shipping, so we don't promise a fixed date. You'll get a tracking link by email as soon as your order ships.</p>"
           }
         },
         "box": {
           "type": "mt_info_tab",
           "settings": {
             "icon": "checkbox",
-            "heading": "What's In The Box?",
-            "content": "<p>One camo projector, two pump-action toy shotguns, power cable and quick-start guide. Batteries for the shotguns not included.</p>"
+            "heading": "What's in the Box",
+            "content": "<p>1 HunterRaid projector, 2 shotgun-style controllers and everything you need to start playing. Buy 2 or more and you get that many full sets.</p>"
           }
         },
         "bundle": {
@@ -123,30 +72,73 @@
           "settings": {
             "custom_liquid": "{% render 'clausegrab-bundle' %}"
           }
+        },
+        "features": {
+          "type": "mt_bullets",
+          "settings": {
+            "align": "left",
+            "layout": "grid",
+            "text_1": "3 Hunting Modes",
+            "emoji_1": "🦌",
+            "icon_1": "none",
+            "preset_1": "",
+            "text_2": "2 Controllers Included",
+            "emoji_2": "🎯",
+            "icon_2": "none",
+            "preset_2": "",
+            "text_3": "Wall Projection",
+            "emoji_3": "📽️",
+            "icon_3": "none",
+            "preset_3": "",
+            "text_4": "Live Score Tracking",
+            "emoji_4": "🏆",
+            "icon_4": "none",
+            "preset_4": ""
+          }
+        },
+        "warranty": {
+          "type": "mt_info_tab",
+          "settings": {
+            "icon": "shield",
+            "heading": "1-Year Warranty",
+            "content": "<p>Add the 1-Year Warranty at checkout and if your projector or controllers stop working within a year, we'll repair or replace them. Contact us through the <a href=\"/pages/contact\">Contact</a> page with your order number.</p>"
+          }
+        },
+        "trust": {
+          "type": "mt_trust",
+          "settings": {
+            "style": "big",
+            "icon_1": "heart",
+            "label_1": "Satisfaction Guarantee",
+            "icon_2": "return",
+            "label_2": "Free Returns",
+            "icon_3": "truck",
+            "label_3": "Free Shipping",
+            "icon_4": "shield",
+            "label_4": ""
+          }
         }
       },
       "block_order": [
-        "avatars",
-        "badge",
         "title",
         "stars",
-        "salebox",
         "price",
+        "features",
         "variant_picker",
         "bundle",
         "buy_buttons",
         "payments",
-        "review_slider",
-        "how",
+        "box",
         "ship",
-        "fit",
-        "box"
+        "warranty",
+        "trust",
+        "review_slider"
       ],
       "settings": {
         "enable_sticky_info": true,
         "color_scheme": "scheme-1",
         "media_position": "left",
-        "gallery_layout": "stacked",
+        "gallery_layout": "thumbnail",
         "media_size": "large",
         "constrain_to_viewport": true,
         "media_fit": "contain",
@@ -171,7 +163,7 @@
         "paragraph": {
           "type": "paragraph",
           "settings": {
-            "text": "<p>Join our list for exclusive offers and first look at new drops.</p>"
+            "text": "<p>Be first to hear about new hunting modes and deals.</p>"
           }
         },
         "email_form": {
@@ -196,33 +188,41 @@
         "q1": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "Does it work on any wall?",
+            "heading": "How does HunterRaid work?",
             "icon": "question_mark",
-            "row_content": "<p>Yes. It projects onto any flat, light-coloured surface: a wall, ceiling, garage door or a bedsheet. Dim the lights for the biggest, brightest picture.</p>"
+            "row_content": "<p>Point the projector at a wall, pick a game mode and the hunt appears on your wall. Aim the controllers at the targets and pull the trigger to score points.</p>"
           }
         },
         "q2": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "How many people can play?",
+            "heading": "What game modes are there?",
             "icon": "question_mark",
-            "row_content": "<p>Each set includes two shotguns, so two players can hunt at once. Grab the Family Pack or Ultimate Pack for four or six guns and run a tournament.</p>"
+            "row_content": "<p>Three hunting modes: Buck Challenge, Turkey Woods and Duck Marsh. Each one tracks your score live on the wall.</p>"
           }
         },
         "q3": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "Is it safe for kids?",
+            "heading": "How many people can play?",
             "icon": "question_mark",
-            "row_content": "<p>The shotguns fire infrared light only. There are no pellets, darts or projectiles. Recommended for ages 6 and up with adult supervision for younger players.</p>"
+            "row_content": "<p>Two controllers come in every set, so two players can go head to head. Grab a second set for even bigger game nights.</p>"
           }
         },
         "q4": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "What if it turns up damaged?",
+            "heading": "Who is it for?",
             "icon": "question_mark",
-            "row_content": "<p>Email us a photo within 48 hours of delivery and we'll sort it out with a replacement or a refund. Add the 1 Year Warranty at checkout to be covered for a full 12 months against faults and defects.</p>"
+            "row_content": "<p>Kids, teens and adults. It's built for family game nights, parties and anyone who loves hunting games.</p>"
+          }
+        },
+        "q5": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "How long does shipping take?",
+            "icon": "question_mark",
+            "row_content": "<p>Every HunterRaid set is made to order, so it is produced after you buy. Delivery times vary with production and shipping, so we don't promise a fixed date. Once your order ships, you'll receive a tracking link by email. 🦌</p>"
           }
         }
       },
@@ -230,11 +230,12 @@
         "q1",
         "q2",
         "q3",
-        "q4"
+        "q4",
+        "q5"
       ],
       "settings": {
         "caption": "",
-        "heading": "FAQs",
+        "heading": "Your Questions, Answered 🦌",
         "heading_size": "h1",
         "heading_alignment": "center",
         "layout": "none",
@@ -305,7 +306,7 @@
         "r3"
       ],
       "settings": {
-        "heading": "Here Are Some Testimonials...",
+        "heading": "Customer Reviews",
         "color_scheme": "scheme-1",
         "padding_top": 48,
         "padding_bottom": 56
@@ -333,10 +334,8 @@
   },
   "order": [
     "main",
-    "band",
     "reviews",
     "faq",
-    "preorder",
     "wave",
     "newsletter"
   ]

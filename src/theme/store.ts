@@ -221,8 +221,9 @@ export function buildStore(data, origin) {
         handle: 'main-menu',
         levels: 1,
         links: [
-          { title: 'Shop', url, handle: 'shop', links: [], levels: 0, current: false, child_active: false, child_current: false, type: 'product_link' },
-          { title: 'Contact Us', url: '/pages/contact', handle: 'contact-us', links: [], levels: 0, current: false, child_active: false, child_current: false, type: 'page_link' },
+          { title: 'Home', url, handle: 'home', links: [], levels: 0, current: false, child_active: false, child_current: false, type: 'product_link' },
+          { title: 'Catalog', url, handle: 'catalog', links: [], levels: 0, current: false, child_active: false, child_current: false, type: 'product_link' },
+          { title: 'Contact', url: '/pages/contact', handle: 'contact', links: [], levels: 0, current: false, child_active: false, child_current: false, type: 'page_link' },
         ],
       },
       footer: { title: 'Footer', handle: 'footer', levels: 1, links: [] },
