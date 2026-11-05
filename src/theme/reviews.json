@@ -8,5 +8,44 @@
     "count": 0,
     "at": ""
   },
-  "reviews": []
+  "reviews": [
+    {
+      "name": "Sarah C.",
+      "location": "",
+      "stars": 5,
+      "title": "",
+      "text": "Game night is never the same. My son and his dad set it up in the garage and were yelling at the wall for two hours 😂 Duck Marsh is so addictive!",
+      "image": "",
+      "verified": true
+    },
+    {
+      "name": "Lisa M.",
+      "location": "",
+      "stars": 5,
+      "title": "",
+      "text": "Bought this for my husband who loves hunting and he hasn't put it down. Setup took two minutes, just point it at the wall and go. He's obsessed with the Buck Challenge 🦌",
+      "image": "",
+      "verified": true
+    },
+    {
+      "name": "Mark S.",
+      "location": "",
+      "stars": 5,
+      "title": "",
+      "text": "My daughter plays it in her room every day. Turkey Woods is her favourite and the two controllers mean we can play together. Best gift I bought this year 🦃",
+      "image": "",
+      "verified": true
+    },
+    {
+      "name": "Amanda K.",
+      "location": "",
+      "stars": 5,
+      "title": "",
+      "text": "So easy to set up. 10/10.",
+      "image": "",
+      "verified": true
+    }
+  ],
+  "stars_label": "860+ Reviews",
+  "_stars_label_how_to": "Text shown next to the stars under the title, e.g. 860+ Reviews. Leave empty to use the Loved By line."
 }

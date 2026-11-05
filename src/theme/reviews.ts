@@ -72,7 +72,7 @@ export async function loadSocialProof() {
   const ro = manual.recent_orders || {}
   const roAt = Date.parse(ro.at || '')
   const otherOrders = !isNaN(roAt) && Date.now() - roAt < 24 * 3600_000 ? Math.max(0, Number(ro.count) || 0) : 0
-  cached = { reviews, average, orders24h: orders24h + otherOrders, happyCustomers, noun: manual.loved_by_noun || 'Customers' }
+  cached = { reviews, average, orders24h: orders24h + otherOrders, happyCustomers, noun: manual.loved_by_noun || 'Customers', starsLabel: String(manual.stars_label || '').trim() }
   cachedAt = Date.now()
   return cached
 }
@@ -87,7 +87,7 @@ export function applySocialProof(tpl, social) {
   const t = JSON.parse(JSON.stringify(tpl))
   const B = t.sections?.main?.blocks
   if (!B) return t
-  const { reviews, orders24h, happyCustomers, noun } = social
+  const { reviews, orders24h, happyCustomers, noun, starsLabel } = social
 
   if (orders24h >= ORDERS_PILL_MIN && B.avatars) {
     const shown = orders24h >= 100 ? 100 : Math.floor(orders24h / 5) * 5
@@ -96,7 +96,7 @@ export function applySocialProof(tpl, social) {
 
   // Stars line: your real customer total if you've set one, otherwise reviews with 4+ stars.
   const loved = reviews.filter((r) => r.stars >= 4).length
-  const lovedLabel = happyCustomers > loved ? `Loved By ${happyCustomers}+ ${noun}...` : loved > 0 ? `Loved By ${loved} ${noun}...` : ''
+  const lovedLabel = starsLabel || (happyCustomers > loved ? `Loved By ${happyCustomers}+ ${noun}...` : loved > 0 ? `Loved By ${loved} ${noun}...` : '')
   if (B.stars && lovedLabel) {
     delete B.stars.disabled
     B.stars.settings = { ...B.stars.settings, rating: '', count: '', brackets: true, label: lovedLabel }
