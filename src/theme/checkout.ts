@@ -15,6 +15,8 @@ export const CHECKOUT_PATH = '/checkout'
 
 // Parses "2:guarantee,protection" into the tier and add-ons it names.
 export function parseKey(key) {
+  // Temporary $1 test order (remove with the test plan once checkout is verified).
+  if (String(key) === 'test') return { tier: { qty: 1, price: 1, compare: 0 }, addons: [], key: 'test', plan: { id: 'plan_aIDTO5aWjNXky', url: 'https://whop.com/checkout/plan_aIDTO5aWjNXky' } }
   const [q, a] = String(key || '1:').split(':')
   const qty = Math.max(1, Math.min(4, Number(q) || 1))
   const tier = bundle.tiers.find((t) => t.qty === qty) || bundle.tiers[0]
