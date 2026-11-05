@@ -385,6 +385,17 @@ export function checkoutPage({ key, store, product, origin, accent, logo, sale =
   <p class="links"><a href="/pages/refund-policy">Refund policy</a><a href="/pages/shipping">Shipping</a><a href="/pages/contact">Contact</a></p>
 </div>
 </div>
+<script>
+  // In-app browsers (Instagram, Facebook, TikTok, Snapchat, Messenger, X, LINE, Pinterest) block the storage the
+  // embedded checkout needs, so those shoppers go straight to Whop's hosted checkout for the same plan.
+  (function () {
+    var ua = navigator.userAgent || '';
+    if (/Instagram|FBAN|FBAV|FB_IAB|TikTok|musical_ly|Bytedance|Snapchat|Messenger|Twitter|Line\/|Pinterest/i.test(ua)) {
+      try { navigator.sendBeacon('/api/clientlog', JSON.stringify({ what: 'inapp_redirect', ua: ua, key: location.search })); } catch (e) {}
+      location.replace(${JSON.stringify(plan.url)});
+    }
+  })();
+</script>
 <script src="https://cdn.whop.com/elements/amber/elements.js" data-whop-elements></script>
 <script>window.__countries = ${JSON.stringify(countries)};</script>
 <script type="module">
